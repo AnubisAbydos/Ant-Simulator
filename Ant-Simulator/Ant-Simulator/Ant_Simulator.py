@@ -23,6 +23,14 @@ class TreeNode (pygame.sprite.Sprite):
     def update(self):
         pass
 
+# Enemy contains sprite for any enemy that could attack the ants
+class Enemy (pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+
+    def update(self):
+        pass
+
 # Ant Trail contains logic and drawing for foraging ant trail
 class AntTrail (object):
     def __init__(self):
