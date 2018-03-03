@@ -2,7 +2,8 @@ import pygame
 import random
 
 # Global Variables
-
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
 
 
 # Classes
@@ -41,9 +42,17 @@ class PopoutBox (object):
     def __init__(self):
         pass
 
+# UI contains the User Interface elements and updates status bars
+class UI (object):
+    def __init__(self):
+        pass
+
 # Game contains all information for an instance of a game
 class Game (object):
-    def __init__(self):
+    def __init__(self, screen):
+        self.screen = screen
+        drawMapTiles()
+        drawUI()
         pass
 
     def processEvents(self):
@@ -62,10 +71,16 @@ class Game (object):
     def draw(self):
         pass
 
+    def drawMapTiles(self):
+        # Celluar Automata
+        pass
+
+
 # Main calls game sets screen and runs game loop
 def main():
     pygame.init()
-    game = Game()
+    screen
+    game = Game(screen)
     done = False
     while not done:
         game.processEvents()
