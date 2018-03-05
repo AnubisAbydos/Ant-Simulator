@@ -1,10 +1,7 @@
 import pygame
 import random
-
-# Global Variables
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-
+import Constants as const
+import GroundTiles as tiles
 
 # Classes
 # Hive Class contains sprite for ant hive
@@ -51,7 +48,6 @@ class UI (object):
 class Game (object):
     def __init__(self, screen):
         self.screen = screen
-        drawMapTiles()
         drawUI()
         pass
 
@@ -70,11 +66,6 @@ class Game (object):
 
     def draw(self):
         pass
-
-    def drawMapTiles(self):
-        # Celluar Automata
-        pass
-
 
 # Main calls game sets screen and runs game loop
 def main():
