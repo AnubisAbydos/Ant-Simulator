@@ -21,3 +21,7 @@ deathLimit = 3
 birthLimit = 4
 steps = 4
 #GroundTile CONSTS
+
+#UI CONSTS
+
+#UI CONSTS
