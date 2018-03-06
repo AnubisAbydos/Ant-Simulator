@@ -2,7 +2,7 @@
 import pygame
 import random
 import Constants as const
-import GroundTiles as tiles
+import GroundTiles as ground
 
 # Classes
 # Hive Class contains sprite for ant hive
@@ -49,7 +49,8 @@ class UI (object):
 class Game (object):
     def __init__(self, screen):
         self.screen = screen
-        drawUI()
+        self.groundTiles = ground.groundTiles(screen)
+        self.groundTiles.draw()
         pass
 
     def processEvents(self):
@@ -71,15 +72,17 @@ class Game (object):
 # Main calls game sets screen and runs game loop
 def main():
     pygame.init()
-    screen
+    screen = pygame.display.set_mode((const.WIDTH, const.HEIGHT))
     game = Game(screen)
     done = False
     while not done:
-        game.processEvents()
+        done = game.processEvents()
 
         game.update()
 
         game.draw()
+
+        pygame.display.flip()
 
     pygame.quit()
 
