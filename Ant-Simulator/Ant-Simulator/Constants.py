@@ -14,7 +14,7 @@ GRIDCOLUMNS = HEIGHT / PIXELSIZE
 
 #GroundTile CONSTS
 #used during array construction to determine cells starting state
-startAlivePercentage = 38
+startAlivePercentage = 50
 
 #variables used during simulation step to change cell states
 deathLimit = 3
