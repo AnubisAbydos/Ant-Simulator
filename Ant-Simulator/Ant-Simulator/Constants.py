@@ -5,22 +5,30 @@ BLACK = (0, 0, 0)
 #COLORS
 
 #SCREEN AND MAP SIZES
-WIDTH = 800
+WIDTH = 1100
 HEIGHT = 800
 PIXELSIZE = 10
-GRIDROWS = WIDTH / PIXELSIZE
+GRIDROWS = (WIDTH - 300) / PIXELSIZE
 GRIDCOLUMNS = HEIGHT / PIXELSIZE
 #SCREEN AND MAP SIZES
 
 #GroundTile CONSTS
 #used during array construction to determine cells starting state
-startAlivePercentage = 50
+STARTALIVEPERCENTAGE = 50
 
 #variables used during simulation step to change cell states
-deathLimit = 3
-birthLimit = 4
-steps = 4
+DEATHLIMIT = 3
+BIRTHLIMIT = 4
+STEPS = 4
+
+#tile pictures
+GRASS = "grass.jpg"
+SAND = "sand.jpg"
 #GroundTile CONSTS
+
+#TreeNode CONSTS
+TREEBASESIZE = 20
+#TreeNode CONSTS
 
 #UI CONSTS
 

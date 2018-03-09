@@ -3,19 +3,13 @@ import pygame
 import random
 import Constants as const
 import GroundTiles as ground
+import TreeNode as tree
+import UI as UserIf
 
 # Classes
 # Hive Class contains sprite for ant hive
 class Hive (pygame.sprite.Sprite):
 
-    def __init__(self):
-        super().__init__()
-
-    def update(self):
-        pass
-
-# Tree Node contains sprite build for Trees on map
-class TreeNode (pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
 
@@ -40,18 +34,18 @@ class PopoutBox (object):
     def __init__(self):
         pass
 
-# UI contains the User Interface elements and updates status bars
-class UI (object):
-    def __init__(self):
-        pass
-
 # Game contains all information for an instance of a game
 class Game (object):
     def __init__(self, screen):
         self.screen = screen
         self.groundTiles = ground.groundTiles(screen)
+        self.treeNodesList = []
+        self.trees = tree.TreeNodesList(screen)
+        self.UI = UserIf.UI(screen)
+        self.UI.draw()
         self.groundTiles.draw()
-        pass
+        self.trees.draw()
+        
 
     def processEvents(self):
         self.handleMouseClicks()

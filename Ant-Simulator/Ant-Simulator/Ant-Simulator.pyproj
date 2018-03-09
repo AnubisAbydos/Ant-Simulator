@@ -37,8 +37,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="basic_ui_test.png" />
     <Content Include="grass.jpg" />
     <Content Include="sand.JPG" />
+    <Content Include="tree.png" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

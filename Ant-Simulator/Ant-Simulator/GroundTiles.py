@@ -12,9 +12,9 @@ class cell(object):
         self.oldIsAlive = isAlive
         self.newIsAlive = isAlive
         if isAlive == True:
-            self.image = pygame.image.load("grass.jpg")
+            self.image = pygame.image.load(const.GRASS)
         else:
-            self.image = pygame.image.load("sand.jpg")
+            self.image = pygame.image.load(const.SAND)
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
@@ -22,9 +22,9 @@ class cell(object):
     def changeState(self, newState):
         self.newIsAlive = newState
         if newState == True:
-            self.image = pygame.image.load("grass.jpg")
+            self.image = pygame.image.load(const.GRASS)
         else:
-            self.image = pygame.image.load("sand.jpg")
+            self.image = pygame.image.load(const.SAND)
 
 class groundTiles(object):
     def __init__(self, screen):
@@ -33,13 +33,13 @@ class groundTiles(object):
         #Construct cell array Giving random starting state
         for column in xrange(const.GRIDROWS):
             for row in xrange(const.GRIDCOLUMNS):
-                if(randint(0, 100) < const.startAlivePercentage):
+                if(randint(0, 100) < const.STARTALIVEPERCENTAGE):
                     self.cells[row][column] = cell(row, column, True)
                 else:
                     self.cells[row][column] = cell(row, column, False)
 
         #run simulation step specified number of times
-        for i in range(0, const.steps):
+        for i in range(0, const.STEPS):
             self.doSimulationStep()
 
     #function to count and return number of living neighbors
@@ -56,6 +56,7 @@ class groundTiles(object):
                     count = count + 1
                 elif (self.cells[neighbourX][neighbourY].oldIsAlive):
                     count = count + 1
+
         return count
 
     #loops through every cell in grid calls countAliveNeighbors and then updates state
@@ -64,12 +65,12 @@ class groundTiles(object):
             for y in xrange(const.GRIDCOLUMNS - 1):
                 neighborsAlive = self.countAliveNeighbors(x, y)
                 if(self.cells[x][y].oldIsAlive):
-                    if(neighborsAlive < const.deathLimit):
+                    if(neighborsAlive < const.DEATHLIMIT):
                         self.cells[x][y].changeState(False)
                     else:
                         self.cells[x][y].changeState(True)
                 else:
-                    if(neighborsAlive > const.birthLimit):
+                    if(neighborsAlive > const.BIRTHLIMIT):
                         self.cells[x][y].changeState(True)
                     else:
                         self.cells[x][y].changeState(False)
