@@ -28,6 +28,7 @@ SAND = "sand.jpg"
 
 #TreeNode CONSTS
 TREEBASESIZE = 20
+NUMBEROFTREES = 50
 #TreeNode CONSTS
 
 #UI CONSTS
