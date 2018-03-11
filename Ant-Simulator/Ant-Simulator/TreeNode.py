@@ -22,11 +22,16 @@ class TreeNode (object):
 
 class TreeNodesList (object):
     def __init__ (self, screen):
-        self.newTree = TreeNode()
+        self.newTree = None
         self.list = []
         self.screen = screen
-        for i in xrange(30):
-            self.list.append(self.createNewTree())
+        for i in xrange(const.NUMBEROFTREES):
+            #A bug was present previous to the while loop that was adding NoneType objects to the list.
+            #The while loop removes this bug.
+            while self.newTree == None:
+                self.newTree = self.createNewTree()
+            self.list.append(self.newTree)
+            self.newTree = None
 
     def createNewTree(self):
         isCollide = False
@@ -35,7 +40,7 @@ class TreeNodesList (object):
             isCollide = tree.collide(self.newTree.rect)
             if isCollide == True:
                 self.createNewTree()
-        if isCollide == False:
+        if (isCollide == False):
             return self.newTree
     
     def draw(self):
