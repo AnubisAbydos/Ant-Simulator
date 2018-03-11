@@ -42,9 +42,7 @@ class Game (object):
         self.treeNodesList = []
         self.trees = tree.TreeNodesList(screen)
         self.UI = UserIf.UI(screen)
-        self.UI.draw()
-        self.groundTiles.draw()
-        self.trees.draw()
+
         
 
     def processEvents(self):
@@ -61,7 +59,9 @@ class Game (object):
         pass
 
     def draw(self):
-        pass
+        self.UI.draw()
+        self.groundTiles.draw()
+        self.trees.draw()
 
 # Main calls game sets screen and runs game loop
 def main():
@@ -69,15 +69,23 @@ def main():
     screen = pygame.display.set_mode((const.WIDTH, const.HEIGHT))
     game = Game(screen)
     done = False
+    clock = pygame.time.Clock()
+    frameRate = 60
+    frameCount = 0
+    # Loop Start
     while not done:
+        totalSeconds = frameCount // frameRate
         done = game.processEvents()
 
         game.update()
 
         game.draw()
-
+        print(totalSeconds)
+        frameCount += 1
+        clock.tick(frameRate)
         pygame.display.flip()
 
+    #Loop End
     pygame.quit()
 
 # Call main to start game
