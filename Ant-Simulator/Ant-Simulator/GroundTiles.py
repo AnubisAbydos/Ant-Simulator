@@ -12,9 +12,9 @@ class cell(object):
         self.oldIsAlive = isAlive
         self.newIsAlive = isAlive
         if isAlive == True:
-            self.image = pygame.image.load(const.GRASS)
+            self.image = pygame.image.load(const.GRASS).convert()
         else:
-            self.image = pygame.image.load(const.SAND)
+            self.image = pygame.image.load(const.SAND).convert()
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
@@ -22,9 +22,9 @@ class cell(object):
     def changeState(self, newState):
         self.newIsAlive = newState
         if newState == True:
-            self.image = pygame.image.load(const.GRASS)
+            self.image = pygame.image.load(const.GRASS).convert()
         else:
-            self.image = pygame.image.load(const.SAND)
+            self.image = pygame.image.load(const.SAND).convert()
 
 class groundTiles(object):
     def __init__(self, screen):

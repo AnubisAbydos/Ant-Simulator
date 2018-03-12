@@ -42,9 +42,10 @@ class Game (object):
         self.treeNodesList = []
         self.trees = tree.TreeNodesList(screen)
         self.UI = UserIf.UI(screen)
-
+        self.UI.draw()
+        self.groundTiles.draw()
+        self.trees.draw()
         
-
     def processEvents(self):
         self.handleMouseClicks()
         for event in pygame.event.get():
@@ -59,9 +60,7 @@ class Game (object):
         pass
 
     def draw(self):
-        self.UI.draw()
-        self.groundTiles.draw()
-        self.trees.draw()
+        pass
 
 # Main calls game sets screen and runs game loop
 def main():
