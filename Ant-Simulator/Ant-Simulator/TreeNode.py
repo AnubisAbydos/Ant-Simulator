@@ -8,7 +8,7 @@ class TreeNode (object):
         self.image = pygame.image.load("tree.png").convert()
         self.rect = pygame.Rect(random.randint(40,700), random.randint(40,700), const.PIXELSIZE * 4, const.PIXELSIZE * 4)
         self.treeQuality = random.randint(0,3)
-        self.leafQuantity = random.randint(50000, 75000)
+        self.leafQuantity = random.randint(const.MINLEAVES, const.MAXLEAVES)
 
     def update(self):
         pass
