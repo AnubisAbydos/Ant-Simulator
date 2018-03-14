@@ -28,7 +28,7 @@ class PopoutBox (object):
 class Game (object):
     def __init__(self, screen):
         self.screen = screen
-        self.groundTiles = ground.groundTiles(screen)
+        #self.groundTiles = ground.groundTiles(screen)
         self.treeNodesList = []
         self.trees = tree.TreeNodesList(screen)
         self.UI = UserIf.UI(screen)
@@ -45,11 +45,11 @@ class Game (object):
         pass
 
     def update(self):
-        print("UPDATE")
+        self.trees.update()
 
     def draw(self):
         self.UI.draw()
-        self.groundTiles.draw()
+        #self.groundTiles.draw()
         self.trees.draw()
 
 # Main calls game sets screen and runs game loop
