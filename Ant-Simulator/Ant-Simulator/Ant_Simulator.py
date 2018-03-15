@@ -28,11 +28,13 @@ class PopoutBox (object):
 class Game (object):
     def __init__(self, screen):
         self.screen = screen
-        #self.groundTiles = ground.groundTiles(screen)
+        self.UI = UserIf.UI(screen)
+        self.UI.loadingScreen()
+        pygame.display.flip()
+        self.groundTiles = ground.groundTiles(screen)
         self.treeNodesList = []
         self.trees = tree.TreeNodesList(screen)
-        self.UI = UserIf.UI(screen)
-
+        self.UI.startScreen()
         
     def processEvents(self):
         self.handleMouseClicks()
@@ -48,8 +50,8 @@ class Game (object):
         self.trees.update()
 
     def draw(self):
-        self.UI.draw()
-        #self.groundTiles.draw()
+        self.groundTiles.draw()
+        self.UI.draw()        
         self.trees.draw()
 
 # Main calls game sets screen and runs game loop

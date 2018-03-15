@@ -5,10 +5,10 @@ import Constants as const
 # Tree Node contains sprite build for Trees on map
 class TreeNode (object):
     def __init__(self):
-        self.rect = pygame.Rect(random.randint(40,700), random.randint(40,700), const.TREEBASESIZE, const.TREEBASESIZE)
+        self.rect = pygame.Rect(random.randrange(60,700,20), random.randrange(60,700,20), const.TREEBASESIZE, const.TREEBASESIZE)
         self.treeQuality = random.randint(0,3)
         self.leafQuantity = random.randint(const.MINLEAVES, const.MAXLEAVES)
-        self.animationState = random.randint(0,2)
+        self.animationState = random.randint(0,3)
         self.image = None
         self.setStateImage()
 
@@ -17,7 +17,7 @@ class TreeNode (object):
             self.treeQuality += 1
             self.treeQuality = self.treeQuality % 4
         self.animationState += 1
-        self.animationState = self.animationState % 3
+        self.animationState = self.animationState % 4
         self.setStateImage()
 
     def draw(self, screen):
@@ -31,32 +31,32 @@ class TreeNode (object):
     def setStateImage(self):
         if self.treeQuality == 0:
             if self.animationState == 0:
-                self.image = pygame.image.load(const.BLACK_S1).convert()
-            if self.animationState == 1:
-                self.image = pygame.image.load(const.BLACK_S2).convert()
+                self.image = pygame.image.load(const.BLACK_S1).convert_alpha()
+            if self.animationState == 1 or self.animationState == 3:
+                self.image = pygame.image.load(const.BLACK_S2).convert_alpha()
             if self.animationState == 2:
-                self.image = pygame.image.load(const.BLACK_S3).convert()
+                self.image = pygame.image.load(const.BLACK_S3).convert_alpha()
         elif self.treeQuality == 1:
             if self.animationState == 0:
-                self.image = pygame.image.load(const.ORANGE_S1).convert()
-            if self.animationState == 1:
-                self.image = pygame.image.load(const.ORANGE_S2).convert()
+                self.image = pygame.image.load(const.ORANGE_S1).convert_alpha()
+            if self.animationState == 1 or self.animationState == 3:
+                self.image = pygame.image.load(const.ORANGE_S2).convert_alpha()
             if self.animationState == 2:
-                self.image = pygame.image.load(const.ORANGE_S3).convert()
+                self.image = pygame.image.load(const.ORANGE_S3).convert_alpha()
         elif self.treeQuality == 2:
             if self.animationState == 0:
-                self.image = pygame.image.load(const.YELLOW_S1).convert()
-            if self.animationState == 1:
-                self.image = pygame.image.load(const.YELLOW_S2).convert()
+                self.image = pygame.image.load(const.YELLOW_S1).convert_alpha()
+            if self.animationState == 1 or self.animationState == 3:
+                self.image = pygame.image.load(const.YELLOW_S2).convert_alpha()
             if self.animationState == 2:
-                self.image = pygame.image.load(const.YELLOW_S3).convert()
+                self.image = pygame.image.load(const.YELLOW_S3).convert_alpha()
         elif self.treeQuality == 3:
             if self.animationState == 0:
-                self.image = pygame.image.load(const.GREEN_S1).convert()
-            if self.animationState == 1:
-                self.image = pygame.image.load(const.GREEN_S2).convert()
+                self.image = pygame.image.load(const.GREEN_S1).convert_alpha()
+            if self.animationState == 1 or self.animationState == 3:
+                self.image = pygame.image.load(const.GREEN_S2).convert_alpha()
             if self.animationState == 2:
-                self.image = pygame.image.load(const.GREEN_S3).convert()
+                self.image = pygame.image.load(const.GREEN_S3).convert_alpha()
 
 class TreeNodesList (object):
     def __init__ (self, screen):
