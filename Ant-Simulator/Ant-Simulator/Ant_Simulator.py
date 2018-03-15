@@ -1,10 +1,8 @@
-#REFERENCE WEBSITE http://programarcadegames.com/?chapter=example_code
 import pygame
-import random
 import Constants as const
 import GroundTiles as ground
 import TreeNode as tree
-import UI as UserIf
+import UI as ui
 
 # Enemy contains sprite for any enemy that could attack the ants
 class Enemy (pygame.sprite.Sprite):
@@ -28,12 +26,12 @@ class PopoutBox (object):
 class Game (object):
     def __init__(self, screen):
         self.screen = screen
-        self.UI = UserIf.UI(screen)
+        self.UI = ui.UI(screen)
+        #Calls UI loadingScreen to display loading screen while the game finishes __init__
         self.UI.loadingScreen()
-        pygame.display.flip()
         self.groundTiles = ground.groundTiles(screen)
-        self.treeNodesList = []
         self.trees = tree.TreeNodesList(screen)
+        #calls Start Screen loop after all assests are loaded
         self.UI.startScreen()
         
     def processEvents(self):

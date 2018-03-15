@@ -1,3 +1,5 @@
+import pygame
+
 # Global Variables
 #COLORS
 WHITE = (255, 255, 255)
@@ -14,18 +16,15 @@ HEIGHT = 800
 PIXELSIZE = 20
 GRIDROWS = (WIDTH - 300) / PIXELSIZE
 GRIDCOLUMNS = HEIGHT / PIXELSIZE
-LOADINGSCREEN = "loading_screen.png"
 #SCREENS AND MAP SIZES END
 
 #GroundTile CONSTS START
 #used during array construction to determine cells starting state
 STARTALIVEPERCENTAGE = 50
-
 #variables used during simulation step to change cell states
 DEATHLIMIT = 3
 BIRTHLIMIT = 4
 STEPS = 4
-
 #GroundTile pictures
 GRASS = "grass.png"
 SAND = "dirt.png"
@@ -53,5 +52,28 @@ GREEN_S3 = "tree_green_s3.png"
 #TreeNode CONSTS END
 
 #UI CONSTS START
+#START MENU BUTTON RECTS
+STARTBUTTONRECT = pygame.Rect(460,515, 165,50)
+TUTORIALBUTTONRECT = pygame.Rect(460,575, 165,50)
+EXITBUTTONRECT = pygame.Rect(460,635, 165,50)
 
+#UI SCREEN PNGs
+LOADINGSCREEN = "loading_screen.png"
+STARTSCREEN = "start_screen.png"
+STARTSCREENSTARTHIGH = "start_screen.png"
+STARTSCREENTUTORIALHIGH = "start_screen.png"
+STARTSCREENEXITHIGH = "start_screen.png"
+
+#IN-GAME UI PNG ELEMENTS
+UITEMPLATE = "basic_ui_test.png"
+HIVEL1 = "hive_1.png"
+HIVEL2 = "hive_2.png"
+HIVEL3 = "hive_3.png"
+HIVEL4 = "hive_4.png"
+HIVEL5 = "hive_5.png"
+HIVEL6 = "hive_6.png"
+HIVEL7 = "hive_7.png"
+HIVEL8 = "hive_8.png"
+HIVEL9 = "hive_9.png"
+HIVEL10 = "hive_10.png"
 #UI CONSTS END
