@@ -6,16 +6,6 @@ import GroundTiles as ground
 import TreeNode as tree
 import UI as UserIf
 
-# Classes
-# Hive Class contains sprite for ant hive
-class Hive (pygame.sprite.Sprite):
-
-    def __init__(self):
-        super().__init__()
-
-    def update(self):
-        pass
-
 # Enemy contains sprite for any enemy that could attack the ants
 class Enemy (pygame.sprite.Sprite):
     def __init__(self):
@@ -38,13 +28,13 @@ class PopoutBox (object):
 class Game (object):
     def __init__(self, screen):
         self.screen = screen
+        self.UI = UserIf.UI(screen)
+        self.UI.loadingScreen()
+        pygame.display.flip()
         self.groundTiles = ground.groundTiles(screen)
         self.treeNodesList = []
         self.trees = tree.TreeNodesList(screen)
-        self.UI = UserIf.UI(screen)
-        self.UI.draw()
-        self.groundTiles.draw()
-        self.trees.draw()
+        self.UI.startScreen()
         
     def processEvents(self):
         self.handleMouseClicks()
@@ -57,10 +47,12 @@ class Game (object):
         pass
 
     def update(self):
-        pass
+        self.trees.update()
 
     def draw(self):
-        pass
+        self.groundTiles.draw()
+        self.UI.draw()        
+        self.trees.draw()
 
 # Main calls game sets screen and runs game loop
 def main():
@@ -71,15 +63,17 @@ def main():
     clock = pygame.time.Clock()
     frameRate = 60
     frameCount = 0
+    nextUpdateCount = 1
     # Loop Start
     while not done:
         totalSeconds = frameCount // frameRate
         done = game.processEvents()
 
-        game.update()
+        if (totalSeconds == nextUpdateCount):
+            game.update()
+            nextUpdateCount += const.TIMEBETWEENUPDATE
 
         game.draw()
-        print(totalSeconds)
         frameCount += 1
         clock.tick(frameRate)
         pygame.display.flip()

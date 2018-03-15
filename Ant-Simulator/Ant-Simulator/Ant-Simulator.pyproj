@@ -41,6 +41,18 @@
     <Content Include="grass.jpg" />
     <Content Include="sand.JPG" />
     <Content Include="tree.png" />
+    <Content Include="tree_black_s1.png" />
+    <Content Include="tree_black_s2.png" />
+    <Content Include="tree_black_s3.png" />
+    <Content Include="tree_green_s1.png" />
+    <Content Include="tree_green_s2.png" />
+    <Content Include="tree_green_s3.png" />
+    <Content Include="tree_orange_s1.png" />
+    <Content Include="tree_orange_s2.png" />
+    <Content Include="tree_orange_s3.png" />
+    <Content Include="tree_yellow_s1.png" />
+    <Content Include="tree_yellow_s2.png" />
+    <Content Include="tree_yellow_s3.png" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

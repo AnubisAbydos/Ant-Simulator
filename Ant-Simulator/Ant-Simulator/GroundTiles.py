@@ -29,6 +29,7 @@ class cell(object):
 class groundTiles(object):
     def __init__(self, screen):
         self.screen = screen
+        self.background = pygame.Surface((800, 800))
         self.cells = [[0 for x in range(const.GRIDROWS)] for y in range(const.GRIDCOLUMNS)]
         #Construct cell array Giving random starting state
         for column in xrange(const.GRIDROWS):
@@ -41,6 +42,7 @@ class groundTiles(object):
         #run simulation step specified number of times
         for i in range(0, const.STEPS):
             self.doSimulationStep()
+        self.drawToSurface()
 
     #function to count and return number of living neighbors
     def countAliveNeighbors(self, x, y):
@@ -78,10 +80,14 @@ class groundTiles(object):
         for x in xrange(const.GRIDROWS):
             for y in xrange(const.GRIDCOLUMNS):
                 self.cells[x][y].oldIsAlive = self.cells[x][y].newIsAlive
-
-    def draw(self):
+    
+    def drawToSurface(self):
         for x in xrange(const.GRIDROWS):
             for y in xrange(const.GRIDCOLUMNS):
-                self.cells[x][y].draw(self.screen)
+                self.cells[x][y].draw(self.background)
+        del self.cells
+
+    def draw(self):
+        self.screen.blit(self.background, pygame.Rect((0,0),(800,800)))
 
 
