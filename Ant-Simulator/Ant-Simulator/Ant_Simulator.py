@@ -35,6 +35,7 @@ class Game (object):
         self.treeNodesList = []
         self.trees = tree.TreeNodesList(screen)
         self.UI.startScreen()
+       
         
     def processEvents(self):
         self.handleMouseClicks()

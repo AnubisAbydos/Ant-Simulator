@@ -11,7 +11,7 @@ class UI (object):
         self.hiveImage = pygame.image.load("hive_10.png").convert_alpha()
         self.hiveRect = pygame.Rect(700,700,100,100)
         self.loadImage = pygame.image.load(const.LOADINGSCREEN).convert()
-        self.startImage = pygame.image.load("start_screen.png").convert()
+        #self.startImage = pygame.image.load("start_screen.png").convert()
 
     def update(self):
         pass
@@ -27,7 +27,7 @@ class UI (object):
         #TODO add while loop to take in commands
         pygame.mixer.music.load("start_menu_tune.wav")
         pygame.mixer.music.play()
-        self.screen.blit(self.startImage, self.rect)
+        #self.screen.blit(self.startImage, self.rect)
         pygame.display.flip()
         time.sleep(10)
         pygame.mixer.music.stop()

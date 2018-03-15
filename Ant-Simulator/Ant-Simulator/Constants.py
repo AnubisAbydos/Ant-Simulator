@@ -31,6 +31,13 @@ GRASS = "grass.png"
 SAND = "dirt.png"
 #GroundTile CONSTS END
 
+#AntEater CONSTS START
+ANTEATERSIZE = 35
+NUMBEROFENEMYS = 5
+#ant eater placeholder image
+ENEMY1 = "enemy1.png"
+#AntEater CONSTS end
+
 #TreeNode CONSTS START
 TREEBASESIZE = 40
 NUMBEROFTREES = 30
