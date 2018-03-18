@@ -124,9 +124,6 @@ while not done:
     # Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
  
-﻿
-
-
 #Main enemy class object
 class AntEater(pygame.sprite.Sprite):
 
@@ -139,7 +136,8 @@ class AntEater(pygame.sprite.Sprite):
         screen.blit(self.image, self.rect)
     
     def setStateImage(self):
-        
+        pass
+
 class AntEaterList (object):
     def __init__ (self, screen):
         self.newEater = None

@@ -66,10 +66,10 @@ EXITBUTTONRECT = pygame.Rect(460,635, 165,50)
 
 #UI SCREEN PNGs
 LOADINGSCREEN = "loading_screen.png"
-STARTSCREEN = "start_screen.png"
-STARTSCREENSTARTHIGH = "start_screen.png"
-STARTSCREENTUTORIALHIGH = "start_screen.png"
-STARTSCREENEXITHIGH = "start_screen.png"
+STARTSCREEN = "start_screen_not_high.png"
+STARTSCREENSTARTHIGH = "start_screen_start_high.png"
+STARTSCREENTUTORIALHIGH = "start_screen_tutorial_high.png"
+STARTSCREENEXITHIGH = "start_screen_exit_high.png"
 
 #IN-GAME UI PNG ELEMENTS
 UITEMPLATE = "basic_ui_test.png"

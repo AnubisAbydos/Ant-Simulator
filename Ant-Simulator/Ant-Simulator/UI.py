@@ -15,12 +15,7 @@ class UI (object):
         self.hiveImage = pygame.image.load(const.HIVEL10).convert_alpha()
         #TODO Update Hive PNGs to be full screen right corner at 0,0 then remove hiveRect
         self.hiveRect = pygame.Rect(700,700,100,100)
-
         self.loadImage = pygame.image.load(const.LOADINGSCREEN).convert()
-        #self.startImage = pygame.image.load("start_screen.png").convert()
-
-        
-
 
     def update(self):
         pass
@@ -43,15 +38,8 @@ class UI (object):
         startImageExitHigh = pygame.image.load(const.STARTSCREENEXITHIGH).convert()
         done = False
         pygame.mixer.music.load("start_menu_tune.wav")
-        pygame.mixer.music.play()
-
-        #self.screen.blit(self.startImage, self.rect)
-        pygame.display.flip()
-        time.sleep(10)
-        pygame.mixer.music.stop()
-
+        pygame.mixer.music.play(-1)
         #Main Menu Loop takes in mouse clicks for the buttons
-        #TODO Animate cursor over button
         while not done:            
             #Get Cursor Pos every frame
             pos = pygame.mouse.get_pos()
