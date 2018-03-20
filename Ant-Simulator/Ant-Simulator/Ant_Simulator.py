@@ -3,6 +3,7 @@ import Constants as const
 import GroundTiles as ground
 import TreeNode as tree
 import UI as ui
+#import AntTrail as trail
 
 # Enemy contains sprite for any enemy that could attack the ants
 class Enemy (pygame.sprite.Sprite):
@@ -10,11 +11,6 @@ class Enemy (pygame.sprite.Sprite):
         super().__init__()
 
     def update(self):
-        pass
-
-# Ant Trail contains logic and drawing for foraging ant trail
-class AntTrail (object):
-    def __init__(self):
         pass
 
 # Popout Box contains logic and drawing for pop out informational boxes
@@ -31,6 +27,7 @@ class Game (object):
         self.UI.loadingScreen()
         self.groundTiles = ground.groundTiles(screen)
         self.trees = tree.TreeNodesList(screen)
+        #self.antTrail = trail.antTrail(screen, self.trees.list)
         #calls Start Screen loop after all assests are loaded
         self.UI.startScreen()
        

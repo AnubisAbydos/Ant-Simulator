@@ -25,6 +25,9 @@
     <Compile Include="AntEater.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AntTrail.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Ant_Simulator.py" />
     <Compile Include="Constants.py">
       <SubType>Code</SubType>

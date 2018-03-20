@@ -15,7 +15,6 @@ class UI (object):
         self.hiveImage = pygame.image.load(const.HIVEL10).convert_alpha()
         #TODO Update Hive PNGs to be full screen right corner at 0,0 then remove hiveRect
         self.hiveRect = pygame.Rect(700,700,100,100)
-        self.loadImage = pygame.image.load(const.LOADINGSCREEN).convert()
 
     def update(self):
         pass
