@@ -32,9 +32,9 @@ class DrawnTile(object):
         self.animationState = state
 
     ### Cycles animation to add dynamic quality
-    def update(self, treeReached):
+    def update(self):
         self.animationState += 1
-        self.animationState = self.animationState & 3
+        self.animationState = self.animationState % 3
         # Update new image state
         self.updateAnimation()
 
@@ -165,10 +165,10 @@ class AntTrail(object):
         self.noDrawList = []
         state = 0
         for cell in self.finalPathList:
+            self.noDrawList.append(DrawnTile(cell.coords[0], cell.coords[1], state))
             # State is rotated for each cell to provide a moving trail effect
             state += 1
             state = state % 3
-            self.noDrawList.append(DrawnTile(cell.coords[0], cell.coords[1], state))
         self.buildingTrail = True
         self.finalPathList = []
 
@@ -184,16 +184,16 @@ class AntTrail(object):
                 self.treeReached = True
             # Call update on both lists to maintain animation cycles
             for tile in self.noDrawList:
-                tile.update(self.treeReached)
+                tile.update()
             for tile in self.drawingList:
-                tile.update(self.treeReached)
+                tile.update()
         # If trail is Cancelled set not treeReached and remove everything from drawingList to clear screen
         else:
             self.treeReached = False
             if self.drawingList:
                 self.drawingList.pop()
             for tile in self.drawingList:
-                tile.update(self.treeReached)
+                tile.update()
 
     def draw(self):
         # Draw everything in drawingList

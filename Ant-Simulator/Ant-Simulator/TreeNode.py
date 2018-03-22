@@ -56,7 +56,7 @@ class TreeNode (object):
             self.treeQuality += 1
             self.treeQuality = self.treeQuality % 4
             if self.leafQuantity <= 0:
-                self.leafQuantity += const.MINLEAVES
+                self.leafQuantity += randint(const.MINLEAVES, const.MAXLEAVES)
         self.animationState += 1
         self.animationState = self.animationState % 4
         self.setStateImage()
@@ -76,6 +76,9 @@ class TreeNode (object):
 
     def getTreeQuality(self):
         return self.treeQuality
+
+    def getLeafQuantity(self):
+        return self.leafQuantity
 
 ''' CLASS TREENODESLIST 
 Used to build the list of Trees for use by Game.

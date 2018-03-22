@@ -24,13 +24,12 @@ class Game (object):
         self.isTrailSelected = False
         self.trailTree = None
 
-        # Variables used for state of game
-        self.antWorkerCount = 10
-        self.antHarvesterCount = 10
-        self.antSoldierCount = 0
-        self.hiveLeafCount = 0
-        self.hiveFungusCount = 100
-        self.hiveLevel = 1
+        # Button Statues
+        self.workerButtonPressed = False
+        self.gatherButtonPressed = False
+        self.soldierButtonPressed = False
+        self.princessButtonPressed = False
+        self.upgradeHiveButtonPressed = False
 
         # Font for display
 
@@ -54,28 +53,57 @@ class Game (object):
         # Has the user clicked Start Trail?
         if self.isTrailSelected:
             self.trailTree = self.trees.checkForCollision(pos)
+            self.isTrailSelected = False
             # Has a Tree been selected?
             if self.trailTree != None:
-                self.trailTree.isBeingHarvested = True
                 self.antTrail.findPath(self.trailTree.rect.center)
-                self.isTrailSelected = False
-
+                
         # Has user clicked Start Trail?
         if const.STARTTRAILRECT.collidepoint(pos):
             self.isTrailSelected = not self.isTrailSelected
-
         # Has user clicked End Trail?
         if const.ENDTRAILRECT.collidepoint(pos):
             if self.trailTree != None:
                 self.trailTree.isBeingHarvested = False
             self.antTrail.buildingTrail = False
+        # Has user clicked Spawn Worker?
+        if const.SPAWNWORKERSBUTTONRECT.collidepoint(pos):
+            self.workerButtonPressed = True
+        # Has user clicked Spawn Gatherer?
+        if const.SPAWNGATHERBUTTONRECT.collidepoint(pos):
+            self.gatherButtonPressed = True
+        # Has user clicked Spawn Soldier?
+        if const.SPAWNSOLDIERBUTTONRECT.collidepoint(pos):
+            self.soldierButtonPressed = True
+        # Has user clicked Spawn Princess?
+        if const.SPAWNPRINCESSBUTTONRECT.collidepoint(pos):
+            self.princessButtonPressed = True
+        # Has user clicked Upgrade Hive?
+        if const.UPGRADEHIVEBUTTONRECT.collidepoint(pos):
+            self.upgradeHiveButtonPressed = True
 
     # One Second Update Calls
     def update1Second(self):
-        self.updateFungusGrowth()
-        self.trees.update(self.antHarvesterCount)
-        if self.antTrail.treeReached:
-            self.hiveLeafCount += self.antHarvesterCount * self.trailTree.getTreeQuality()
+        # If there is a tree get its quality
+        if self.antTrail.treeReached and self.trailTree != None:
+            treeQuality = self.trailTree.getTreeQuality()
+            leafQuantity = self.trailTree.getLeafQuantity()
+            self.trailTree.isBeingHarvested = True
+        else:
+            treeQuality = 0
+            leafQuantity = -1
+        self.trees.update(self.UI.getHarvesterCount())        
+        # Pass Game State variables to UI for updating
+        self.UI.update(self.antTrail.treeReached, leafQuantity > 0, treeQuality,
+                       self.workerButtonPressed, self.gatherButtonPressed, self.soldierButtonPressed,
+                       self.princessButtonPressed, self.upgradeHiveButtonPressed)
+        # Reset Button Statues
+        self.workerButtonPressed = False
+        self.gatherButtonPressed = False
+        self.soldierButtonPressed = False
+        self.princessButtonPressed = False
+        self.upgradeHiveButtonPressed = False
+
 
     # Twenty frame/tick Update Calls
     def update20Tick(self):
@@ -84,17 +112,9 @@ class Game (object):
     # Draw Calls
     def draw(self):
         self.groundTiles.draw()
-        self.UI.draw()        
         self.trees.draw()
         self.antTrail.draw()
-
-        #TODO REMOVE THIS
-        #DEBUG CODE IN DRAW
-        print(self.hiveLeafCount, self.hiveFungusCount)
-
-    ### Update hive fungus based on hive level
-    def updateFungusGrowth(self):
-        self.hiveFungusCount += (self.hiveLevel * 10)
+        self.UI.draw() 
 
 ### Main calls game sets screen and runs game loop
 def main():
