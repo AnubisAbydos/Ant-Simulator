@@ -2,7 +2,9 @@ import pygame
 import Constants as const
 from random import *
 
-#Class for holding the cell's shape and state and image
+''' CLASS CELL
+Holds the cell's rect, image and state information for Celluar Automata generation
+'''
 class cell(object):
     def __init__(self, row, column, isAlive):
         self.rect = pygame.Rect(row * const.PIXELSIZE, column * const.PIXELSIZE, const.PIXELSIZE, const.PIXELSIZE)
@@ -13,11 +15,11 @@ class cell(object):
         else:
             self.image = pygame.image.load(const.SAND).convert()
 
-    #blits the cell to the given surface called screen
+    ### Blits the cell to the given surface called screen
     def draw(self, screen):
         screen.blit(self.image, self.rect)
     
-    #Assigns new image and state to cell (For use by simulation step)
+    ### Assigns new image and state to cell (For use by simulation step)
     def changeState(self, newState):
         self.newIsAlive = newState
         if newState == True:
@@ -25,16 +27,18 @@ class cell(object):
         else:
             self.image = pygame.image.load(const.SAND).convert()
 
-#groundTiles Builds a background tile surface from the Celluar Automata Algorithm to blit to the screen
+''' CLASS GROUNDTILES
+Builds a background tile surface from the Celluar Automata Algorithm to blit to the screen
+'''
 class groundTiles(object):
     def __init__(self, screen):
-        #This is the game window stored for use by draw function
+        # This is the game window stored for use by draw function
         self.screen = screen
-        #Surface created to hold background tiles
+        # Surface created to hold background tiles
         self.background = pygame.Surface((800, 800))
-        #2D array for use by Celluar Automata
+        # 2D array for use by Celluar Automata
         self.cells = [[0 for x in range(const.GRIDROWS)] for y in range(const.GRIDCOLUMNS)]
-        #Construct cell array Giving random starting state
+        # Construct cell array Giving random starting state
         for column in xrange(const.GRIDROWS):
             for row in xrange(const.GRIDCOLUMNS):
                 if(randint(0, 100) < const.STARTALIVEPERCENTAGE):
@@ -42,17 +46,17 @@ class groundTiles(object):
                 else:
                     self.cells[row][column] = cell(row, column, False)
 
-        #run simulation step specified number of times
+        ### Run simulation step specified number of times
         for i in range(0, const.STEPS):
             self.doSimulationStep()
 
-        #After Simulation is complete blit all Background tile cells to the background surface
+        # After Simulation is complete blit all Background tile cells to the background surface
         self.drawToSurface()
 
-    #Function to count and return number of a cell's living neighbors (Used by doSimulationStep)
+    ### Function to count and return number of a cell's living neighbors (Used by doSimulationStep)
     def countAliveNeighbors(self, x, y):
         count = 0
-        #loop to each neighbor including corners
+        # Loop to each neighbor including corners
         for i in range(-1, 2):
             for j in range(-1, 2):
                 neighbourX = x + i
@@ -66,7 +70,7 @@ class groundTiles(object):
 
         return count
 
-    #loops through every cell in grid calls countAliveNeighbors and then updates state
+    ### Loops through every cell in grid calls countAliveNeighbors and then updates state
     def doSimulationStep(self):
         for x in xrange(const.GRIDROWS - 1):
             for y in xrange(const.GRIDCOLUMNS - 1):
@@ -81,19 +85,19 @@ class groundTiles(object):
                         self.cells[x][y].changeState(True)
                     else:
                         self.cells[x][y].changeState(False)
-        #resets old state after all new states have been set (to prepare for next simulation)
+        # Resets old state after all new states have been set (to prepare for next simulation)
         for x in xrange(const.GRIDROWS):
             for y in xrange(const.GRIDCOLUMNS):
                 self.cells[x][y].oldIsAlive = self.cells[x][y].newIsAlive
     
-    #Blit all cells to the Background surface (last call of groundTiles __init__)
+    ### Blit all cells to the Background surface (last call of groundTiles __init__)
     def drawToSurface(self):
         for x in xrange(const.GRIDROWS):
             for y in xrange(const.GRIDCOLUMNS):
                 self.cells[x][y].draw(self.background)
         del self.cells
 
-    #Blits Background surface to game window
+    ### Blits Background surface to game window
     def draw(self):
         self.screen.blit(self.background, pygame.Rect((0,0),(800,800)))
 

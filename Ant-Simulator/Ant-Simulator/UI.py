@@ -1,12 +1,12 @@
 import pygame
-import time
 import Constants as const
 
-#sys is used to exit python when exit button is clicked
+# Sys is used to exit python when exit button is clicked
 import sys
 
-
-# UI contains the User Interface elements and updates status bars
+''' CLASS UI
+Contains the User Interface elements and updates status bars
+'''
 class UI (object):
     def __init__(self, screen):
         self.screen = screen
@@ -23,13 +23,13 @@ class UI (object):
         self.screen.blit(self.image, self.rect)
         self.screen.blit(self.hiveImage, self.hiveRect)
 
-    #Loading Screen is blit and flipped to display while game assests load
+    ### Loading Screen is blit and flipped to display while game assests load
     def loadingScreen(self):
         loadImage = pygame.image.load(const.LOADINGSCREEN).convert()
         self.screen.blit(loadImage, self.rect)
         pygame.display.flip()
 
-    #startScreen controls the while loop for the entire Start Screen
+    ### StartScreen controls the while loop for the entire Start Screen
     def startScreen(self):
         startImage = pygame.image.load(const.STARTSCREEN).convert()
         startImageStartHigh = pygame.image.load(const.STARTSCREENSTARTHIGH).convert()
@@ -38,11 +38,11 @@ class UI (object):
         done = False
         pygame.mixer.music.load("start_menu_tune.wav")
         pygame.mixer.music.play(-1)
-        #Main Menu Loop takes in mouse clicks for the buttons
+        # Main Menu Loop takes in mouse clicks for the buttons
         while not done:            
-            #Get Cursor Pos every frame
+            # Get Cursor Pos every frame
             pos = pygame.mouse.get_pos()
-            #If cursor overlaps a button load correct Highlighted Image
+            # If cursor overlaps a button load correct Highlighted Image
             if const.STARTBUTTONRECT.collidepoint(pos):
                 self.screen.blit(startImageStartHigh, self.rect)
             elif const.TUTORIALBUTTONRECT.collidepoint(pos):
@@ -51,9 +51,9 @@ class UI (object):
                 self.screen.blit(startImageExitHigh, self.rect)
             else:
                 self.screen.blit(startImage, self.rect)
-            #Flip Display
+            # Flip Display
             pygame.display.flip()
-            #Get event from pygame
+            # Get event from pygame
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     done = True
@@ -72,6 +72,6 @@ class UI (object):
                         pygame.quit()
                         sys.exit()
 
-    #TODO Build tutorial loop with pictures
+    # TODO Build tutorial loop with pictures
     def startTutorial(self):
         pass

@@ -35,6 +35,9 @@
     <Compile Include="GroundTiles.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PopoutBox.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TreeNode.py">
       <SubType>Code</SubType>
     </Compile>
