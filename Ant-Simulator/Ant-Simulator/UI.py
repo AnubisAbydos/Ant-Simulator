@@ -186,6 +186,7 @@ class UI (object):
                 self.screen.blit(startImage, self.rect)
             # Flip Display
             pygame.display.flip()
+            buttonClick = pygame.mixer.Sound("grass1.ogg")
             # Get event from pygame
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -198,8 +199,9 @@ class UI (object):
                         done = True
                         pygame.mixer.music.stop()
                     elif const.TUTORIALBUTTONRECT.collidepoint(pos):
-                        done = True
-                        self.startTutorial()
+                        buttonClick.play()
+                        #done = True
+                        #self.startTutorial()
                     elif const.EXITBUTTONRECT.collidepoint(pos):
                         done = True
                         pygame.quit()
