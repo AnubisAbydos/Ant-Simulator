@@ -79,6 +79,7 @@ class AntTrail(object):
         self.drawingList = []
         self.noDrawList = []
         self.buildingTrail = False
+        self.trailActive = False
 
     ### Creates grid for use in A* algorithm Created on program start
     def createGrid(self):
@@ -174,8 +175,9 @@ class AntTrail(object):
 
     ### Updates Ant Trail Path
     def update(self):
-        # Update only if currently buidling path
+        # Update only if currently building path
         if self.buildingTrail:
+            self.trailActive = True
             # If cells still left in noDrawList add them to drawingList
             if self.noDrawList:
                 self.drawingList.append(self.noDrawList.pop(0))
@@ -194,6 +196,8 @@ class AntTrail(object):
                 self.drawingList.pop()
             for tile in self.drawingList:
                 tile.update()
+            if not self.drawingList:
+                self.trailActive = False
 
     def draw(self):
         # Draw everything in drawingList

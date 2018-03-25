@@ -12,8 +12,8 @@ class UI (object):
         self.screen = screen
         self.rect = pygame.Rect(0, 0, const.WIDTH, const.HEIGHT)
         self.image = pygame.image.load(const.UITEMPLATE).convert_alpha()
-        # TODO Update Hive PNGs to be full screen right corner at 0,0 then remove hiveRect
         self.hiveRect = pygame.Rect(700,700,100,100)
+
         # Variables used for state of game
         self.antWorkerCount = 10
         self.antGatherCount = 10
@@ -33,30 +33,68 @@ class UI (object):
         self.spawnPrincessBarImg = pygame.image.load(const.SPAWNPRINCESSBARFULL).convert_alpha()
         self.upgradeHiveStatus = -1
         self.hiveImage = pygame.image.load(const.HIVEL1).convert_alpha()
+        self.hiveSideImg = pygame.image.load(const.HIVESIDE1).convert_alpha()
+        self.upgradeHiveTime = 120
+        self.spawnWorkerTile = pygame.image.load(const.SPAWNWORKERTILE).convert_alpha()
+        self.spawnGatherTile = pygame.image.load(const.SPAWNGATHERTILE).convert_alpha()
+        self.spawnSoldierTile = pygame.image.load(const.SPAWNSOLDIERTILE).convert_alpha()
+        self.spawnPrincessTile = pygame.image.load(const.SPAWNPRINCESSTILE).convert_alpha()
+        self.highlightedButtonImg = pygame.image.load(const.BLANKIMG).convert_alpha()
+        # Font
+        self.topBarTextFont = pygame.font.Font("pixelplay.ttf", 23)
+        self.bottomRightTextFont = pygame.font.Font("pixelplay.ttf", 21)
 
     ### Takes in all state variables from Game to determine updates
-    def update(self, treeReached, treeFull, treeQuality, workerButton,
-              gatherButton, soldierButton, princessButton, upgradeHiveButton):
+    def update(self, treeReached, treeFull, treeQuality):
         self.hiveFungusCount += (self.hiveLevel * 10)
         if treeReached and treeFull:
             self.hiveLeafCount += self.antGatherCount * treeQuality
-        self.spawnWorker(workerButton)
-        self.spawnGather(gatherButton)
-        self.spawnSoldier(soldierButton)
-        self.spawnPrincess(princessButton)
-        self.upgradeHive(upgradeHiveButton)
+        self.spawnWorker(False)
+        self.spawnGather(False)
+        self.spawnSoldier(False)
+        self.spawnPrincess(False)
+        self.upgradeHive(False)
+
+    def processMousePos(self, pos):
+        if const.STARTTRAILRECT.collidepoint(pos):
+            self.highlightedButtonImg = pygame.image.load(const.SETDESTBUTTONHIGH).convert_alpha()
+        elif const.ENDTRAILRECT.collidepoint(pos):
+            self.highlightedButtonImg = pygame.image.load(const.BACKTOHIVEBUTTONHIGH).convert_alpha()
+        elif const.SPAWNWORKERSBUTTONRECT.collidepoint(pos):
+            self.highlightedButtonImg = pygame.image.load(const.WORKERBUTTONHIGH).convert_alpha()
+        elif const.SPAWNGATHERBUTTONRECT.collidepoint(pos):
+            self.highlightedButtonImg = pygame.image.load(const.GATHERBUTTONHIGH).convert_alpha()
+        elif const.SPAWNSOLDIERBUTTONRECT.collidepoint(pos):
+            self.highlightedButtonImg = pygame.image.load(const.SOLDIERBUTTONHIGH).convert_alpha()
+        elif const.SPAWNPRINCESSBUTTONRECT.collidepoint(pos):
+            self.highlightedButtonImg = pygame.image.load(const.PRINCESSBUTTONHIGH).convert_alpha()
+        elif const.UPGRADEHIVEBUTTONRECT.collidepoint(pos):
+            self.highlightedButtonImg = pygame.image.load(const.UPGRADEHIVEHIGH).convert_alpha()
+        else:
+            self.highlightedButtonImg = pygame.image.load(const.BLANKIMG).convert_alpha()
 
     def draw(self):
         self.screen.blit(self.image, self.rect)
         self.screen.blit(self.hiveImage, self.hiveRect)
+        self.screen.blit(self.hiveSideImg, self.rect)
+        self.screen.blit(self.highlightedButtonImg, self.rect)
+        if(self.hiveFungusCount > const.SPAWNWORKERCOST):
+            self.screen.blit(self.spawnWorkerTile, self.rect)
+        if(self.hiveFungusCount > const.SPAWNGATHERCOST):
+            self.screen.blit(self.spawnGatherTile, self.rect)
+        if(self.hiveFungusCount > const.SPAWNSOLDIERCOST):
+            self.screen.blit(self.spawnSoldierTile, self.rect)
+        if(self.hiveFungusCount > const.SPANWPRINCESSCOST):
+            self.screen.blit(self.spawnPrincessTile, self.rect)
         self.screen.blit(self.spawnWorkerBarImg, self.rect)
         self.screen.blit(self.spawnGatherBarImg, self.rect)
         self.screen.blit(self.spawnSoldierBarImg, self.rect)
         self.screen.blit(self.spawnPrincessBarImg, self.rect)
-        
-        #TODO REMOVE THIS
-        #DEBUG CODE
-        print(self.hiveLeafCount, self.hiveFungusCount, self.antGatherCount, self.antSoldierCount, self.antWorkerCount)
+        self.screen.blit(self.topBarTextFont.render(str(self.antWorkerCount), True, const.WHITE), const.WORKERTEXTBOX)
+        self.screen.blit(self.topBarTextFont.render(str(self.antGatherCount), True, const.WHITE), const.GATHERTEXTBOX)
+        self.screen.blit(self.topBarTextFont.render(str(self.antSoldierCount), True, const.WHITE), const.SOLDIERTEXTBOX)
+        self.screen.blit(self.topBarTextFont.render(str('{:06d}'.format(self.hiveFungusCount)), True, const.WHITE), const.FUNGUSTEXTBOX)
+        self.screen.blit(self.topBarTextFont.render(str('{:06d}'.format(self.hiveLeafCount)), True, const.WHITE), const.LEAFTEXTBOX)
 
     def getHarvesterCount(self):
         return self.antGatherCount
@@ -65,89 +103,89 @@ class UI (object):
         if workerButton and self.spawnWorkerStatus == -1 and self.hiveFungusCount > const.SPAWNWORKERCOST:
             self.spawnWorkerStatus = const.SPAWNWORKERTIME
             self.hiveFungusCount -= const.SPAWNWORKERCOST
-            self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBAREMPTY)
+            self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBAREMPTY).convert_alpha()
         elif self.spawnWorkerStatus != -1 and self.spawnWorkerStatus != 0:
             self.spawnWorkerStatus -= 1
-            percentComplete = abs((self.spawnWorkerStatus / const.SPAWNWORKERTIME) - 1)
+            percentComplete = abs((float(self.spawnWorkerStatus) / float(const.SPAWNWORKERTIME)) - 1)
             if percentComplete < .25:
                 pass
             elif percentComplete >= .25 and percentComplete < .50:
-                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBAR1Q)
+                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBAR1Q).convert_alpha()
             elif percentComplete >= .50 and percentComplete < .75:
-                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBARHALF)
+                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBARHALF).convert_alpha()
             elif percentComplete >= .75 and percentComplete < .99:
-                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBAR3Q)
+                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBAR3Q).convert_alpha()
             else:
-                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBARFULL)
+                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBARFULL).convert_alpha()
         elif self.spawnWorkerStatus == 0:
             self.spawnWorkerStatus = -1
-            self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBARFULL)
+            self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBARFULL).convert_alpha()
             self.antWorkerCount += self.spawnCount
 
     def spawnGather(self, gatherButton):
         if gatherButton and self.spawnGatherStatus == -1 and self.hiveFungusCount > const.SPAWNGATHERCOST:
             self.spawnGatherStatus = const.SPAWNGATHERTIME
             self.hiveFungusCount -= const.SPAWNGATHERCOST
-            self.spawnGatherBarImg = pygame.image.load(const.SPAWNGATHERBAREMPTY)
+            self.spawnGatherBarImg = pygame.image.load(const.SPAWNGATHERBAREMPTY).convert_alpha()
         elif self.spawnGatherStatus != -1 and self.spawnGatherStatus != 0:
             self.spawnGatherStatus -= 1
-            percentComplete = abs((self.spawnGatherStatus / const.SPAWNGATHERTIME) - 1)
+            percentComplete = abs((float(self.spawnGatherStatus) / float(const.SPAWNGATHERTIME)) - 1)
             if percentComplete < .25:
                 pass
             elif percentComplete >= .25 and percentComplete < .50:
-                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNGATHERBAR1Q)
+                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNGATHERBAR1Q).convert_alpha()
             elif percentComplete >= .50 and percentComplete < .75:
-                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNGATHERBARHALF)
+                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNGATHERBARHALF).convert_alpha()
             elif percentComplete >= .75 and percentComplete < .99:
-                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNGATHERBAR3Q)
+                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNGATHERBAR3Q).convert_alpha()
             else:
-                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNGATHERBARFULL)
+                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNGATHERBARFULL).convert_alpha()
         elif self.spawnGatherStatus == 0:
             self.spawnGatherStatus = -1
-            self.spawnGatherBarImg = pygame.image.load(const.SPAWNGATHERBARFULL)
+            self.spawnGatherBarImg = pygame.image.load(const.SPAWNGATHERBARFULL).convert_alpha()
             self.antGatherCount += self.spawnCount
 
     def spawnSoldier(self, soldierButton):
         if soldierButton and self.spawnSoldierStatus == -1 and self.hiveFungusCount > const.SPAWNSOLDIERCOST:
             self.spawnSoldierStatus = const.SPAWNSOLDIERTIME
             self.hiveFungusCount -= const.SPAWNSOLDIERCOST
-            self.spawnSoldierBarImg = pygame.image.load(const.SPAWNSOLDIERBAREMPTY)
+            self.spawnSoldierBarImg = pygame.image.load(const.SPAWNSOLDIERBAREMPTY).convert_alpha()
         elif self.spawnSoldierStatus != -1 and self.spawnSoldierStatus != 0:
             self.spawnSoldierStatus -= 1
-            percentComplete = abs((self.spawnSoldierStatus / const.SPAWNSOLDIERTIME) - 1)
+            percentComplete = abs((float(self.spawnSoldierStatus) / float(const.SPAWNSOLDIERTIME)) - 1)
             if percentComplete < .25:
                 pass
             elif percentComplete >= .25 and percentComplete < .50:
-                self.spawnSoldierBarImg = pygame.image.load(const.SPAWNSOLDIERBAR1Q)
+                self.spawnSoldierBarImg = pygame.image.load(const.SPAWNSOLDIERBAR1Q).convert_alpha()
             elif percentComplete >= .50 and percentComplete < .75:
-                self.spawnSoldierBarImg = pygame.image.load(const.SPAWNSOLDIERBARHALF)
+                self.spawnSoldierBarImg = pygame.image.load(const.SPAWNSOLDIERBARHALF).convert_alpha()
             elif percentComplete >= .75 and percentComplete < .99:
-                self.spawnSoldierBarImg = pygame.image.load(const.SPAWNSOLDIERBAR3Q)
+                self.spawnSoldierBarImg = pygame.image.load(const.SPAWNSOLDIERBAR3Q).convert_alpha()
             else:
-                self.spawnSoldierBarImg = pygame.image.load(const.SPAWNSOLDIERBARFULL)
+                self.spawnSoldierBarImg = pygame.image.load(const.SPAWNSOLDIERBARFULL).convert_alpha()
         elif self.spawnSoldierStatus == 0:
             self.spawnSoldierStatus = -1
-            self.spawnSoldierBarImg = pygame.image.load(const.SPAWNSOLDIERBARFULL)
+            self.spawnSoldierBarImg = pygame.image.load(const.SPAWNSOLDIERBARFULL).convert_alpha()
             self.antSoldierCount += self.spawnCount
 
     def spawnPrincess(self, princessButton):
         if princessButton and self.spawnPrincessStatus == -1 and self.hiveFungusCount > const.SPANWPRINCESSCOST:
             self.spawnPrincessStatus = const.SPAWNPRINCESSTIME
             self.hiveFungusCount -= const.SPANWPRINCESSCOST
-            self.spawnPrincessBarImg = pygame.image.load(const.SPAWNPRINCESSBAREMPTY)
+            self.spawnPrincessBarImg = pygame.image.load(const.SPAWNPRINCESSBAREMPTY).convert_alpha()
         elif self.spawnPrincessStatus != -1 and self.spawnPrincessStatus != 0:
             self.spawnPrincessStatus -= 1
-            percentComplete = abs((self.spawnPrincessStatus / const.SPAWNPRINCESSTIME) - 1)
+            percentComplete = abs((float(self.spawnPrincessStatus) / float(const.SPAWNPRINCESSTIME)) - 1)
             if percentComplete < .25:
                 pass
             elif percentComplete >= .25 and percentComplete < .50:
-                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNPRINCESSBAR1Q)
+                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNPRINCESSBAR1Q).convert_alpha()
             elif percentComplete >= .50 and percentComplete < .75:
-                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNPRINCESSBARHALF)
+                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNPRINCESSBARHALF).convert_alpha()
             elif percentComplete >= .75 and percentComplete < .99:
-                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNPRINCESSBAR3Q)
+                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNPRINCESSBAR3Q).convert_alpha()
             else:
-                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNPRINCESSBARFULL)
+                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNPRINCESSBARFULL).convert_alpha()
         elif self.spawnWorkerStatus == 0:
             # TODO Add win game code
             pass

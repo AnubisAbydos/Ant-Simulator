@@ -36,8 +36,8 @@ ENEMY1 = "enemy1.png"
 # TREENODE CONSTS START
 TREEBASESIZE = 40
 NUMBEROFTREES = 30
-MINLEAVES = 100
-MAXLEAVES = 200
+MINLEAVES = 1000
+MAXLEAVES = 2000
 PERCENTTOCHANGESTATE = 3
 # Tree Images
 BLACK_S1 = "tree_black_s1.png"
@@ -77,7 +77,7 @@ STARTSCREENTUTORIALHIGH = "start_screen_tutorial_high.png"
 STARTSCREENEXITHIGH = "start_screen_exit_high.png"
 
 # IN-GAME UI PNG ELEMENTS
-UITEMPLATE = "basic_ui_test.png"
+UITEMPLATE = "default_ui.png"
 HIVEL1 = "hive_1.png"
 HIVEL2 = "hive_2.png"
 HIVEL3 = "hive_3.png"
@@ -88,26 +88,48 @@ HIVEL7 = "hive_7.png"
 HIVEL8 = "hive_8.png"
 HIVEL9 = "hive_9.png"
 HIVEL10 = "hive_10.png"
-SPAWNWORKERBARFULL = "basic_ui_test.png"
-SPAWNWORKERBAR3Q = "basic_ui_test.png"
-SPAWNWORKERBARHALF = "basic_ui_test.png"
-SPAWNWORKERBAR1Q = "basic_ui_test.png"
-SPAWNWORKERBAREMPTY = "basic_ui_test.png"
-SPAWNGATHERBARFULL = "basic_ui_test.png"
-SPAWNGATHERBAR3Q = "basic_ui_test.png"
-SPAWNGATHERBARHALF = "basic_ui_test.png"
-SPAWNGATHERBAR1Q = "basic_ui_test.png"
-SPAWNGATHERBAREMPTY = "basic_ui_test.png"
-SPAWNSOLDIERBARFULL = "basic_ui_test.png"
-SPAWNSOLDIERBAR3Q = "basic_ui_test.png"
-SPAWNSOLDIERBARHALF = "basic_ui_test.png"
-SPAWNSOLDIERBAR1Q = "basic_ui_test.png"
-SPAWNSOLDIERBAREMPTY = "basic_ui_test.png"
-SPAWNPRINCESSBARFULL = "basic_ui_test.png"
-SPAWNPRINCESSBAR3Q = "basic_ui_test.png"
-SPAWNPRINCESSBARHALF = "basic_ui_test.png"
-SPAWNPRINCESSBAR1Q = "basic_ui_test.png"
-SPAWNPRINCESSBAREMPTY = "basic_ui_test.png"
+HIVESIDE1 = "hive_side_1.png"
+HIVESIDE2 = "hive_side_2.png"
+HIVESIDE3 = "hive_side_3.png"
+HIVESIDE4 = "hive_side_4.png"
+HIVESIDE5 = "hive_side_5.png"
+HIVESIDE6 = "hive_side_6.png"
+HIVESIDE7 = "hive_side_7.png"
+HIVESIDE8 = "hive_side_8.png"
+HIVESIDE9 = "hive_side_9.png"
+HIVESIDE10 = "hive_side_10.png"
+SPAWNWORKERBARFULL = "worker_progress_full.png"
+SPAWNWORKERBAR3Q = "worker_progress_3q.png"
+SPAWNWORKERBARHALF = "worker_progress_half.png"
+SPAWNWORKERBAR1Q = "worker_progress_1q.png"
+SPAWNWORKERBAREMPTY = "worker_progress_empty.png"
+SPAWNGATHERBARFULL = "gather_progress_full.png"
+SPAWNGATHERBAR3Q = "gather_progress_3q.png"
+SPAWNGATHERBARHALF = "gather_progress_half.png"
+SPAWNGATHERBAR1Q = "gather_progress_1q.png"
+SPAWNGATHERBAREMPTY = "gather_progress_empty.png"
+SPAWNSOLDIERBARFULL = "soldier_progress_full.png"
+SPAWNSOLDIERBAR3Q = "soldier_progress_3q.png"
+SPAWNSOLDIERBARHALF = "soldier_progress_half.png"
+SPAWNSOLDIERBAR1Q = "soldier_progress_1q.png"
+SPAWNSOLDIERBAREMPTY = "soldier_progress_empty.png"
+SPAWNPRINCESSBARFULL = "princess_progress_full.png"
+SPAWNPRINCESSBAR3Q = "princess_progress_3q.png"
+SPAWNPRINCESSBARHALF = "princess_progress_half.png"
+SPAWNPRINCESSBAR1Q = "princess_progress_1q.png"
+SPAWNPRINCESSBAREMPTY = "princess_progress_empty.png"
+SPAWNWORKERTILE = "spawn_worker_tile.png"
+SPAWNGATHERTILE = "spawn_gather_tile.png"
+SPAWNSOLDIERTILE = "spawn_soldier_tile.png"
+SPAWNPRINCESSTILE = "spawn_princess_tile.png"
+SETDESTBUTTONHIGH = "set_destination_button_high.png"
+BACKTOHIVEBUTTONHIGH = "back_to_hive_button_high.png"
+WORKERBUTTONHIGH = "worker_button_high.png"
+GATHERBUTTONHIGH = "gather_button_high.png"
+SOLDIERBUTTONHIGH = "soldier_button_high.png"
+PRINCESSBUTTONHIGH = "princess_button_high.png"
+UPGRADEHIVEHIGH = "upgrade_hive_button_high.png"
+BLANKIMG = "blank_img.png"
 
 # SPAWNING COSTS AND TIMES
 SPAWNWORKERTIME = 10
@@ -118,11 +140,17 @@ SPAWNSOLDIERTIME = 15
 SPAWNSOLDIERCOST = 1000
 SPAWNPRINCESSTIME = 60
 SPANWPRINCESSCOST = 100000
+
+# TEXT RENDER BOXES
+WORKERTEXTBOX = pygame.Rect(415,13, 65,24)
+GATHERTEXTBOX = pygame.Rect(560,13, 65,24)
+SOLDIERTEXTBOX = pygame.Rect(710,13, 65,24)
+FUNGUSTEXTBOX = pygame.Rect(865,755, 60,20)
+LEAFTEXTBOX = pygame.Rect(975,755, 60,20)
 # UI CONSTS END
 
 # ANTTRAIL CONSTS START
 ANIMATIONPICONE = "trail_one.png"
 ANIMATIONPICTWO = "trail_two.png"
 ANIMATIONPICTHREE = "trail_three.png"
-ANIMATIONPICFOUR = "trail_four.png"
 # ANTTRAIL CONSTS END
