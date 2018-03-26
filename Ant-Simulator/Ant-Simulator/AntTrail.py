@@ -20,6 +20,9 @@ class PriorityQueue(object):
     def get(self):
         return heapq.heappop(self.elements)[1]
 
+    def empty(self):
+        return len(self.elements) == 0
+
 
 ''' CLASS DRAWNTILE
 Designed for drawing the ant trail after the path has been found.
@@ -32,11 +35,13 @@ class DrawnTile(object):
         self.animationState = state
 
     ### Cycles animation to add dynamic quality
-    def update(self):
-        self.animationState += 1
-        self.animationState = self.animationState % 3
-        # Update new image state
-        self.updateAnimation()
+    def update(self, treeReached):
+        # Don't update animation while trail moving towards tree (only while at tree and returning)
+        if treeReached:
+            self.animationState += 1
+            self.animationState = self.animationState % 3
+            # Update new image state
+            self.updateAnimation()
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
@@ -95,7 +100,7 @@ class AntTrail(object):
                 self.grid[col][row] = Tile(x, y, isBlocked)
 
     ### A* pathfinding algorthim takes in the target from game as designated by selected tree
-    def findPath(self, target):
+    def findPath(self, target, attempt):
         # If path drawing underway dont start new path
         if self.drawingList:
             pass
@@ -122,7 +127,7 @@ class AntTrail(object):
                         del openList
                         del closedList
                         break
-                    # If it isnt a tree and hasnt been looked at ie closed list add it to open
+                    # If it isnt a tree and hasnt been looked at ie:closed list, add it to open
                     if not neighbor.isBlocked and neighbor not in closedList:
                             self.updateCell(neighbor, lowestFTile)
                             openList.put(neighbor, neighbor.f)
@@ -186,16 +191,16 @@ class AntTrail(object):
                 self.treeReached = True
             # Call update on both lists to maintain animation cycles
             for tile in self.noDrawList:
-                tile.update()
+                tile.update(self.treeReached)
             for tile in self.drawingList:
-                tile.update()
+                tile.update(self.treeReached)
         # If trail is Cancelled set not treeReached and remove everything from drawingList to clear screen
         else:
             self.treeReached = False
             if self.drawingList:
                 self.drawingList.pop()
             for tile in self.drawingList:
-                tile.update()
+                tile.update(True)
             if not self.drawingList:
                 self.trailActive = False
 

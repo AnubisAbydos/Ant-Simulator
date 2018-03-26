@@ -36,8 +36,8 @@ ENEMY1 = "enemy1.png"
 # TREENODE CONSTS START
 TREEBASESIZE = 40
 NUMBEROFTREES = 30
-MINLEAVES = 1000
-MAXLEAVES = 2000
+MINLEAVES = 500
+MAXLEAVES = 1000
 PERCENTTOCHANGESTATE = 3
 # Tree Images
 BLACK_S1 = "tree_black_s1.png"
@@ -98,6 +98,7 @@ HIVESIDE7 = "hive_side_7.png"
 HIVESIDE8 = "hive_side_8.png"
 HIVESIDE9 = "hive_side_9.png"
 HIVESIDE10 = "hive_side_10.png"
+HIVESIDECONSTRUCTION = "blank_img.png"
 SPAWNWORKERBARFULL = "worker_progress_full.png"
 SPAWNWORKERBAR3Q = "worker_progress_3q.png"
 SPAWNWORKERBARHALF = "worker_progress_half.png"
@@ -147,6 +148,7 @@ GATHERTEXTBOX = pygame.Rect(560,13, 65,24)
 SOLDIERTEXTBOX = pygame.Rect(710,13, 65,24)
 FUNGUSTEXTBOX = pygame.Rect(865,755, 60,20)
 LEAFTEXTBOX = pygame.Rect(975,755, 60,20)
+HIVEUPGRADETIMEBOX = pygame.Rect(985,500, 60,20)
 # UI CONSTS END
 
 # ANTTRAIL CONSTS START

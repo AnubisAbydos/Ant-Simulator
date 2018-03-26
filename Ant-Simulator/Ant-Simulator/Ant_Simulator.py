@@ -48,7 +48,7 @@ class Game (object):
             self.isTrailSelected = False
             # Has a Tree been selected?
             if self.trailTree != None:
-                self.antTrail.findPath(self.trailTree.rect.center)
+                self.antTrail.findPath(self.trailTree.rect.center, 1)
                 
         # Has user clicked Start Trail?
         elif const.STARTTRAILRECT.collidepoint(pos):
