@@ -18,11 +18,11 @@ class UI (object):
         self.antWorkerCount = 10
         self.antGatherCount = 10
         self.antSoldierCount = 0
-        self.hiveLeafCount = 0
+        self.hiveLeafCount = 100000
         self.hiveFungusCount = 100
         self.hiveLevel = 1
         self.spawnCount = 10
-        self.hiveUpgradeTime = 120
+        self.hiveUpgradeTime = 10
         self.hiveUpgradeCost = 1000
         # Variables used for spawn buttons
         self.spawnWorkerStatus = -1
@@ -199,6 +199,8 @@ class UI (object):
     def upgradeHive(self, upgradeHiveButton):
         if upgradeHiveButton and self.upgradeHiveStatus == -1 and self.hiveLeafCount > self.hiveUpgradeCost and self.hiveLevel != 10:
             self.upgradeHiveStatus = self.hiveUpgradeTime - self.antWorkerCount
+            if self.upgradeHiveStatus < 10:
+                self.upgradeHiveStatus = 10
             self.hiveLeafCount -= self.hiveUpgradeCost
             self.hiveSideImg = pygame.image.load(const.HIVESIDECONSTRUCTION).convert_alpha()
             self.hiveUpgrading = True
@@ -207,10 +209,11 @@ class UI (object):
         elif self.upgradeHiveStatus == 0 and not upgradeHiveButton:
             self.upgradeHiveStatus = -1
             self.hiveLevel += 1
-            self.upgradeHiveCost += 1000
-            self.upgradeHiveTime += 120
+            self.hiveUpgradeCost += 1000
+            self.hiveUpgradeTime += 120
             self.spawnCount += 10
-            self.setHiveImg()
+            self.hiveUpgrading = False
+            self.setHiveImgs()
 
     def setHiveImgs(self):
         if self.hiveLevel == 2:

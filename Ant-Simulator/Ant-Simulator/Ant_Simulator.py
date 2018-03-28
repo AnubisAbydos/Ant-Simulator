@@ -130,7 +130,7 @@ def main():
     done = False
     # Start the clock
     clock = pygame.time.Clock()
-    frameRate = 60
+    frameRate = 30
     frameCount = 0
     nextSecondUpdate = 1
     nextTickUpdate = 10
@@ -156,7 +156,7 @@ def main():
         # Increment Frames/Ticks
         frameCount += 1
         #Reset frames and seconds every 60 frames to avoid numbers becoming too large
-        if (frameCount == 61):
+        if (frameCount == 31):
             frameCount = 1
             nextTickUpdate = 10
             totalSeconds = 0
