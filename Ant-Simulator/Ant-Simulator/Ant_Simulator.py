@@ -4,6 +4,7 @@ import GroundTiles as ground
 import TreeNode as tree
 import UI as ui
 import AntTrail as trail
+import PopoutBox as popout
 import sys
 
 
@@ -20,6 +21,7 @@ class Game (object):
         self.groundTiles = ground.groundTiles(screen)
         self.trees = tree.TreeNodesList(screen)
         self.antTrail = trail.AntTrail(screen, self.trees.list)
+        self.popoutLoader = popout.PopoutBox(screen)
 
         # Variables set up for use in the AntTrail and Leaf Collection Logic
         self.isTrailSelected = False
@@ -42,7 +44,7 @@ class Game (object):
 
     ### Handle locations for mouseclicks
     def handleMouseClicks(self, pos):
-        # Has the user clicked Start Trail?
+        # Has the user clicked a Tree?
         if self.isTrailSelected and self.trailTree == None and not self.antTrail.trailActive:
             self.trailTree = self.trees.checkForCollision(pos)
             self.isTrailSelected = False
@@ -80,6 +82,38 @@ class Game (object):
         elif const.UPGRADEHIVEBUTTONRECT.collidepoint(pos):
             self.UI.upgradeHive(True)
             self.isTrailSelected = False
+        # Has user clicked Pause?
+        elif const.PAUSEGAMEBUTTONRECT.collidepoint(pos):
+            self.isTrailSelected = False
+            self.UI.pauseGame()
+        # Has user clicked Worker Question Mark?
+        elif const.WORKERQUESTIONMARK.collidepoint(pos):
+            self.isTrailSelected = False
+            self.popoutLoader.runGivenPopout(const.WORKERPOPOUT)
+        # Has user clicked Gather Question Mark?
+        elif const.GATHERQUESTIONMARK.collidepoint(pos):
+            self.isTrailSelected = False
+            self.popoutLoader.runGivenPopout(const.GATHERPOPOUT)
+        # Has user clicked Soldier Question Mark?
+        elif const.SOLDIERQUESTIONMARK.collidepoint(pos):
+            self.isTrailSelected = False
+            self.popoutLoader.runGivenPopout(const.SOLDIERPOPOUT)
+        # Has user clicked Princess Question Mark?
+        elif const.PRINCESSQUESTIONMARK.collidepoint(pos):
+            self.isTrailSelected = False
+            self.popoutLoader.runGivenPopout(const.PRINCESSPOPOUT)
+        # Has user clicked Hive Question Mark?
+        elif const.HIVEQUESTIONMARK.collidepoint(pos):
+            self.isTrailSelected = False
+            self.popoutLoader.runGivenPopout(const.HIVEPOPOUT)
+        # Has user clicked Leaf Question Mark?
+        elif const.LEAFQUESTIONMARK.collidepoint(pos):
+            self.isTrailSelected = False
+            self.popoutLoader.runGivenPopout(const.LEAFFUNGUSPOPOUT)
+        # Has user clicked Fungus Question Mark?
+        elif const.FUNGUSQUESTIONMARK.collidepoint(pos):
+            self.isTrailSelected = False
+            self.popoutLoader.runGivenPopout(const.LEAFFUNGUSPOPOUT)
         else:
             self.isTrailSelected = False
 
@@ -93,7 +127,7 @@ class Game (object):
         else:
             treeQuality = 0
             leafQuantity = -1
-        self.trees.update(self.UI.getHarvesterCount())        
+        self.trees.update(self.UI.antGatherCount)        
         # Pass Game State variables to UI for updating
         self.UI.update(self.antTrail.treeReached, leafQuantity > 0, treeQuality)
         # Reset Button Statues
@@ -130,7 +164,7 @@ def main():
     done = False
     # Start the clock
     clock = pygame.time.Clock()
-    frameRate = 60
+    frameRate = 30
     frameCount = 0
     nextSecondUpdate = 1
     nextTickUpdate = 10
@@ -156,7 +190,7 @@ def main():
         # Increment Frames/Ticks
         frameCount += 1
         #Reset frames and seconds every 60 frames to avoid numbers becoming too large
-        if (frameCount == 61):
+        if (frameCount == 31):
             frameCount = 1
             nextTickUpdate = 10
             totalSeconds = 0
