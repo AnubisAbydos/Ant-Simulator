@@ -26,8 +26,9 @@ GRASS = "grass.png"
 SAND = "dirt.png"
 # GROUNDTILES CONSTS END
 
-# AntEater CONSTS START
-ANTEATERSIZE = 35
+# Enemies CONSTS START
+BADBUG1 = 20
+BB1IMAGE = "badBug1.png"
 NUMBEROFENEMYS = 5
 # Ant eater placeholder image
 ENEMY1 = "enemy1.png"

@@ -287,6 +287,7 @@ class UI (object):
                     elif const.TUTORIALBUTTONRECT.collidepoint(pos):
                         buttonClick.play()
                         #done = True
+                        #TODO add totorial classes
                         #self.startTutorial()
                     elif const.EXITBUTTONRECT.collidepoint(pos):
                         done = True
