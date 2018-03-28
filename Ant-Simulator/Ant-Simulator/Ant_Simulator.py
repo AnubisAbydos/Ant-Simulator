@@ -5,6 +5,7 @@ import TreeNode as tree
 import UI as ui
 import AntTrail as trail
 import PopoutBox as popout
+import Enemy as enemy
 import sys
 
 
@@ -22,6 +23,7 @@ class Game (object):
         self.trees = tree.TreeNodesList(screen)
         self.antTrail = trail.AntTrail(screen, self.trees.list)
         self.popoutLoader = popout.PopoutBox(screen)
+        #self.enemy = enemy.Enemy(screen)
 
         # Variables set up for use in the AntTrail and Leaf Collection Logic
         self.isTrailSelected = False
@@ -141,6 +143,8 @@ class Game (object):
     ### Twenty frame/tick Update Calls
     def update10Tick(self):
         self.antTrail.update()
+        #self.enemy.update()
+        
 
     ### Draw Calls
     def draw(self):
@@ -148,6 +152,7 @@ class Game (object):
         self.trees.draw()
         self.antTrail.draw()
         self.UI.draw()
+        #self.enemy.draw()
         if self.isTrailSelected:
             pygame.mouse.set_cursor((8,8),(0,0),(0,0,0,0,0,0,0,0),(0,0,0,0,0,0,0,0))
             self.screen.blit(self.mouseCursor, pygame.mouse.get_pos())
@@ -196,6 +201,7 @@ def main():
             totalSeconds = 0
         # Throttle frame rate
         clock.tick(frameRate)
+        print(clock.get_fps())
         # Flip to user
         pygame.display.flip()
 

@@ -316,15 +316,12 @@ class UI (object):
                         done = True
                         pygame.mixer.music.stop()
                     elif const.TUTORIALBUTTONRECT.collidepoint(pos):
-<<<<<<< HEAD
                         buttonClick.play()
                         #done = True
                         #TODO add totorial classes
                         #self.startTutorial()
-=======
                         done = True
                         self.startTutorial()
->>>>>>> 4ce6a9afaca1575f0cf423209eaf40b5a73c0538
                     elif const.EXITBUTTONRECT.collidepoint(pos):
                         done = True
                         pygame.quit()
