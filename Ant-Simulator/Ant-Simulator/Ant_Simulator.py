@@ -5,7 +5,7 @@ import TreeNode as tree
 import UI as ui
 import AntTrail as trail
 import PopoutBox as popout
-import Enemy as enemy
+#import Enemy as enemy
 import sys
 
 
@@ -201,7 +201,6 @@ def main():
             totalSeconds = 0
         # Throttle frame rate
         clock.tick(frameRate)
-        print(clock.get_fps())
         # Flip to user
         pygame.display.flip()
 
