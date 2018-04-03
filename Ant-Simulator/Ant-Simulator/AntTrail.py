@@ -85,6 +85,8 @@ class AntTrail(object):
         self.noDrawList = []
         self.buildingTrail = False
         self.trailActive = False
+        self.soundPlayed = False
+        self.treeReachedSound = pygame.mixer.Sound("tree_reach_sound.wav")
 
     ### Creates grid for use in A* algorithm Created on program start
     def createGrid(self):
@@ -202,6 +204,9 @@ class AntTrail(object):
             # If all cells are in drawingList tree has been reached
             else:
                 self.treeReached = True
+                if not self.soundPlayed:
+                    self.treeReachedSound.play()
+                    self.soundPlayed = True
             # Call update on both lists to maintain animation cycles
             for tile in self.noDrawList:
                 tile.update(self.treeReached)
@@ -210,6 +215,7 @@ class AntTrail(object):
         # If trail is Cancelled set not treeReached and remove everything from drawingList to clear screen
         else:
             self.treeReached = False
+            self.soundPlayed = False
             if self.drawingList:
                 self.drawingList.pop()
             for tile in self.drawingList:

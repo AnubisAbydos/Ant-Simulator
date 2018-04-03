@@ -44,6 +44,10 @@ class UI (object):
         self.spawnPrincessTile = pygame.image.load(const.SPAWNPRINCESSTILE).convert_alpha()
         # Font
         self.textFont = pygame.font.Font("pixelplay.ttf", 23)
+        self.costTextFont = pygame.font.Font("pixelplay.ttf", 10)
+        # Sounds
+        self.spawnSound = pygame.mixer.Sound("spawn_sound.wav")
+        self.hiveUpgradeSound = pygame.mixer.Sound("hive_upgrade_sound.wav")
         # Highlighted button variables
         self.blittingButtonHigh = False
         self.setDestButtonHigh = pygame.image.load(const.SETDESTBUTTONHIGH).convert_alpha()
@@ -159,6 +163,12 @@ class UI (object):
         self.screen.blit(self.textFont.render(str(self.antSoldierCount), True, const.WHITE), const.SOLDIERTEXTBOX)
         self.screen.blit(self.textFont.render(str('{:06d}'.format(self.hiveFungusCount)), True, const.WHITE), const.FUNGUSTEXTBOX)
         self.screen.blit(self.textFont.render(str('{:06d}'.format(self.hiveLeafCount)), True, const.WHITE), const.LEAFTEXTBOX)
+        self.screen.blit(self.costTextFont.render(str(const.SPAWNWORKERCOST), True, const.BLACK), const.WORKERFUNGUSCOSTBOX)
+        self.screen.blit(self.costTextFont.render(str(const.SPAWNGATHERCOST), True, const.BLACK), const.GATHERFUNGUSCOSTBOX)
+        self.screen.blit(self.costTextFont.render(str(const.SPAWNSOLDIERCOST), True, const.BLACK), const.SOLDIERFUNGUSCOSTBOX)
+        self.screen.blit(self.costTextFont.render(str(const.SPANWPRINCESSCOST), True, const.BLACK), const.PRINCESSFUNGUSCOSTBOX)
+        if self.hiveLevel !=  10:
+            self.screen.blit(self.costTextFont.render("Upgrade Cost --- " + str(self.hiveUpgradeCost), True, const.BLACK), const.UPGRADEHIVELEAFCOSTBOX)
         # If the hive is being upgraded display the timer til completion
         if self.hiveUpgrading:
             time = self.upgradeHiveStatus
@@ -189,6 +199,7 @@ class UI (object):
                 self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBARFULL).convert_alpha()
         # If timer complete and this is not a button call complete action and reset timer
         elif self.spawnWorkerStatus == 0 and not workerButton:
+            self.spawnSound.play()
             self.spawnWorkerStatus = -1
             self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBARFULL).convert_alpha()
             self.antWorkerCount += self.spawnCount
@@ -216,6 +227,7 @@ class UI (object):
                 self.spawnGatherBarImg = pygame.image.load(const.SPAWNGATHERBARFULL).convert_alpha()
         # If timer complete and this is not a button call complete action and reset timer
         elif self.spawnGatherStatus == 0 and not gatherButton:
+            self.spawnSound.play()
             self.spawnGatherStatus = -1
             self.spawnGatherBarImg = pygame.image.load(const.SPAWNGATHERBARFULL).convert_alpha()
             self.antGatherCount += self.spawnCount
@@ -243,6 +255,7 @@ class UI (object):
                 self.spawnSoldierBarImg = pygame.image.load(const.SPAWNSOLDIERBARFULL).convert_alpha()
         # If timer complete and this is not a button call complete action and reset timer
         elif self.spawnSoldierStatus == 0 and not soldierButton:
+            self.spawnSound.play()
             self.spawnSoldierStatus = -1
             self.spawnSoldierBarImg = pygame.image.load(const.SPAWNSOLDIERBARFULL).convert_alpha()
             self.antSoldierCount += self.spawnCount
@@ -287,6 +300,7 @@ class UI (object):
             self.upgradeHiveStatus -= 1
         # If timer complete and this is not a button call complete action and reset timer
         elif self.upgradeHiveStatus == 0 and not upgradeHiveButton:
+            self.hiveUpgradeSound.play()
             self.upgradeHiveStatus = -1
             self.hiveLevel += 1
             self.hiveUpgradeCost += 1000
@@ -339,7 +353,6 @@ class UI (object):
         startImageTutorialHigh = pygame.image.load(const.STARTSCREENTUTORIALHIGH).convert()
         startImageExitHigh = pygame.image.load(const.STARTSCREENEXITHIGH).convert()
         done = False
-        pygame.mixer.music.load("start_menu_tune.wav")
         pygame.mixer.music.play(-1)
         # Main Menu Loop takes in mouse clicks for the buttons
         while not done:            
@@ -366,12 +379,7 @@ class UI (object):
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if const.STARTBUTTONRECT.collidepoint(pos):
                         done = True
-                        pygame.mixer.music.stop()
                     elif const.TUTORIALBUTTONRECT.collidepoint(pos):
-                        buttonClick.play()
-                        #done = True
-                        #TODO add totorial classes
-                        #self.startTutorial()
                         done = True
                         self.startTutorial()
                     elif const.EXITBUTTONRECT.collidepoint(pos):

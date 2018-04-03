@@ -25,6 +25,9 @@ class Game (object):
         self.popoutLoader = popout.PopoutBox(screen)
         #self.enemy = enemy.Enemy(screen)
 
+        # Background Music
+        pygame.mixer.music.load("background_music.mp3")
+
         # Variables set up for use in the AntTrail and Leaf Collection Logic
         self.isTrailSelected = False
         self.trailTree = None
@@ -32,6 +35,7 @@ class Game (object):
 
         # Calls Start Screen loop after all assests are loaded
         self.UI.startScreen()
+        pygame.mixer.music.set_volume(.3)
        
     ### Processes User Events
     def processEvents(self):
@@ -87,35 +91,51 @@ class Game (object):
         # Has user clicked Pause?
         elif const.PAUSEGAMEBUTTONRECT.collidepoint(pos):
             self.isTrailSelected = False
+            pygame.mixer.music.pause()
             self.UI.pauseGame()
+            pygame.mixer.music.unpause()
         # Has user clicked Worker Question Mark?
         elif const.WORKERQUESTIONMARK.collidepoint(pos):
             self.isTrailSelected = False
+            pygame.mixer.music.pause()
             self.popoutLoader.runGivenPopout(const.WORKERPOPOUT)
+            pygame.mixer.music.unpause()
         # Has user clicked Gather Question Mark?
         elif const.GATHERQUESTIONMARK.collidepoint(pos):
             self.isTrailSelected = False
+            pygame.mixer.music.pause()
             self.popoutLoader.runGivenPopout(const.GATHERPOPOUT)
+            pygame.mixer.music.unpause()
         # Has user clicked Soldier Question Mark?
         elif const.SOLDIERQUESTIONMARK.collidepoint(pos):
             self.isTrailSelected = False
+            pygame.mixer.music.pause()
             self.popoutLoader.runGivenPopout(const.SOLDIERPOPOUT)
+            pygame.mixer.music.unpause()
         # Has user clicked Princess Question Mark?
         elif const.PRINCESSQUESTIONMARK.collidepoint(pos):
             self.isTrailSelected = False
+            pygame.mixer.music.pause()
             self.popoutLoader.runGivenPopout(const.PRINCESSPOPOUT)
+            pygame.mixer.music.unpause()
         # Has user clicked Hive Question Mark?
         elif const.HIVEQUESTIONMARK.collidepoint(pos):
             self.isTrailSelected = False
+            pygame.mixer.music.pause()
             self.popoutLoader.runGivenPopout(const.HIVEPOPOUT)
+            pygame.mixer.music.unpause()
         # Has user clicked Leaf Question Mark?
         elif const.LEAFQUESTIONMARK.collidepoint(pos):
             self.isTrailSelected = False
+            pygame.mixer.music.pause()
             self.popoutLoader.runGivenPopout(const.LEAFFUNGUSPOPOUT)
+            pygame.mixer.music.unpause()
         # Has user clicked Fungus Question Mark?
         elif const.FUNGUSQUESTIONMARK.collidepoint(pos):
             self.isTrailSelected = False
+            pygame.mixer.music.pause()
             self.popoutLoader.runGivenPopout(const.LEAFFUNGUSPOPOUT)
+            pygame.mixer.music.unpause()
         else:
             self.isTrailSelected = False
 

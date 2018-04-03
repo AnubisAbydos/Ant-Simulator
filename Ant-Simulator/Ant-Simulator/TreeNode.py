@@ -87,7 +87,7 @@ class TreeNodesList (object):
     def __init__ (self, screen):
         self.screen = screen
         self.newTree = None
-        self.list = []        
+        self.list = []
         # Add X number of trees to list ensuring that overlapping does not occur
         for i in xrange(const.NUMBEROFTREES):
             # A bug was present previous to the while loop that was adding NoneType objects to the list.
