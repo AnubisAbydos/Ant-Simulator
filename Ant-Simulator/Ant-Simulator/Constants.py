@@ -29,9 +29,9 @@ SAND = "dirt.png"
 # Enemies CONSTS START
 BADBUG1 = 20
 BBDOWN = "badBug1.png"
-BBRIGHT = "badBug1R.png"
-BBUP = "badBug1U.png"
-BBLEFT = "badBug1L.png"
+BBRIGHT = "badBugR.png"
+BBUP = "badBugU.png"
+BBLEFT = "badBugL.png"
 NUMBEROFENEMYS = 5
 MOVEPERCENT = 50
 # Ant eater placeholder image

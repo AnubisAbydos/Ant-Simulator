@@ -1,45 +1,82 @@
 import pygame, sys
 from random import *
 import Constants as const
-import GroundTiles as ground
 
 ''' CLASS Enemy
 Contains all information, variables and functions for an instance of a Bad Bug
 '''
 class Enemy(object):
-    def __init__(self, screen):
+    def __init__(self, screen, grid, x, y):
         self.screen = screen
-        self.rect = pygame.Rect(200, 200, const.BADBUG1, const.BADBUG1)
-        self.animationState = randint(0,4)
+        self.grid = grid
+        self.rect = pygame.Rect(400, 400, const.BADBUG1, const.BADBUG1)
+        self.faceDirection = randint(0,3)
         self.isAlive = True
         self.strength = randint(1,6)
+        self.image = pygame.image.load(const.BBUP).convert_alpha()
+        self.directionTimer = randint(4,8) 
+        self.enemyType = randint(0, 4)
+        self.moveTimer = 0
+        self.setStateImage()
 
-        #self.image = pygame.image.load(const.BBDOWN).convert_alpha()
+        #timmer to direction move
+
+    #TODO add random skin selector if statement
+
+    def resetImage(self):
+        self.image = pygame.image.load(const.BBUP).convert_alpha()
+        #if self.enemyType == 0:
+
         #right now there is only one type of bad bug.
     def setStateImage(self):
-        if self.animationState == 0:
-            self.image = pygame.image.load(const.BBDOWN).convert_alpha()
-        elif self.animationState == 1 or self.animationState == 4:
-            self.image = pygame.image.load(const.BBLEFT).convert_alpha()
-        elif self.animationState == 2:
-            self.image = pygame.image.load(const.BBUP).convert_alpha()
-        elif self.animationState == 3:
-            self.image = pygame.image.load(const.BBRIGHT).convert_alpha()
+        self.resetImage()
+        if self.faceDirection == 0:
+            pass
+        elif self.faceDirection == 1:
+            self.image = pygame.transform.rotate(self.image, 90)
+        elif self.faceDirection == 2:
+            self.image = pygame.transform.rotate(self.image, 180)
+        elif self.faceDirection == 3:
+            self.image = pygame.transform.rotate(self.image, 270)
 
     ### Updates movement (on Random percent) and Animation state 
     def update(self):
-        #Working on movement amount.
-        if (randint(1,100) < const.MOVEPERCENT):
-            if self.animationState == 0:
-                self.moveDirection = -20
-        self.animationState += randint(4,6)
-        self.animationState = self.animationState % 4
-        self.setStateImage()
+        self.moveTimer += 1
+
+        if self.moveTimer == self.directionTimer:
+            if randint(0,100) < 50:
+                self.faceDirection += 1
+            else: 
+                self.faceDirection -= 1
+                if self.faceDirection == -1:
+                    self.faceDirection = 3
+            self.faceDirection = self.faceDirection % 3
+            self.setStateImage()
         
+            self.moveTimer = 0
+            self.directionTimer = randint(4,8)
+        #chance to move
+        elif (randint(1,100) < const.MOVEPERCENT):
+            if self.faceDirection == 0:
+                if self.checkCollide(self.rect.x, self.rect.y -20):
+                    self.rect.move_ip(0, -20)
+            elif self.faceDirection == 1:
+                if self.checkCollide(self.rect.x + 20, self.rect.y):
+                    self.rect.move_ip(20, 0)
+            elif self.faceDirection == 2:
+                if self.checkCollide(self.rect.x, self.rect.y +20):
+                    self.rect.move_ip(0, 20)
+            elif self.faceDirection == 3:
+                if self.checkCollide(self.rect.x -20, self.rect.y):
+                    self.rect.move_ip(-20, 0)
+    
+    #TODO check for offscreen     
+    def checkCollide(self, x, y):
+        return not self.grid[x/20][y/20].isBlocked
 
     ### Blits bug to Game Window
-    def draw(self, screen):
-        screen.blit(self.image, self.rect)
+    def draw(self):
+        self.screen.blit(self.image, self.rect)
 
     ### Checks for collision given another Rect (in this case another bug)
     def collide(self, givenRect):
@@ -54,7 +91,7 @@ class Enemy(object):
 ''' CLASS BUGNODESLIST 
 Used to build the list of enemies for use by Game.
 '''
-class BugNodesList (object):
+class EnemyList (object):
     def __init__ (self, screen):
         self.screen = screen
         self.newBaddie = None
@@ -71,6 +108,7 @@ class BugNodesList (object):
             self.newBaddie = None
 
     ### RECURSIVE FUNCTION calls until a valid Bad Bug (not overlapping any others) is returned
+        #TODO set random location spawning (x 0 - 800) (y 60 - 800)
     def createNewBaddie(self):
         isCollide = False
         # Calls Enemy __init__ to automatically create a bad bug
@@ -95,6 +133,7 @@ class BugNodesList (object):
             baddie.draw(self.screen)
 
     ### Calls each bad bug's update function
-    def update(self, harvesterNumber):
+    def update(self):
         for baddie in self.list:
-            baddie.update(harvesterNumber)
+            baddie.update()
+            #TODO if baddie is not alive then del object

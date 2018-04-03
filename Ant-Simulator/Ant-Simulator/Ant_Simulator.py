@@ -23,7 +23,8 @@ class Game (object):
         self.trees = tree.TreeNodesList(screen)
         self.antTrail = trail.AntTrail(screen, self.trees.list)
         self.popoutLoader = popout.PopoutBox(screen)
-        self.enemy = enemy.Enemy(screen)
+        #TODO change this to enemy list   V
+        self.enemy = enemy.Enemy(screen, self.antTrail.grid, 200, 200)
 
         # Background Music
         pygame.mixer.music.load("background_music.mp3")
@@ -163,7 +164,7 @@ class Game (object):
     ### Twenty frame/tick Update Calls
     def update10Tick(self):
         self.antTrail.update()
-        #self.enemy.update()
+        self.enemy.update()
         
 
     ### Draw Calls
@@ -221,6 +222,7 @@ def main():
             totalSeconds = 0
         # Throttle frame rate
         clock.tick(frameRate)
+        print(clock.get_fps())
         # Flip to user
         pygame.display.flip()
 
