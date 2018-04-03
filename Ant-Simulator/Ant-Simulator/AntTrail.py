@@ -85,6 +85,8 @@ class AntTrail(object):
         self.noDrawList = []
         self.buildingTrail = False
         self.trailActive = False
+        self.soundPlayed = False
+        self.treeReachedSound = pygame.mixer.Sound("tree_reach_sound.wav")
 
     ### Creates grid for use in A* algorithm Created on program start
     def createGrid(self):
@@ -112,6 +114,7 @@ class AntTrail(object):
             openList.put(start, 0)
             closedList = set()
             done = False
+            added = 0
             while not done:
                 # Get highest priority from open List
                 lowestFTile = openList.get()
@@ -129,8 +132,20 @@ class AntTrail(object):
                         break
                     # If it isnt a tree and hasnt been looked at ie:closed list, add it to open
                     if not neighbor.isBlocked and neighbor not in closedList:
+                            added += 1
                             self.updateCell(neighbor, lowestFTile)
                             openList.put(neighbor, neighbor.f)
+                # If path isnt found within 1000 tile checks re-run with new target on same tree
+                if added > 1000:
+                    done = True
+                    if attempt == 1:
+                        x = target[0] - 20
+                        y = target[1]
+                        self.findPath((x, y), 2)
+                    if attempt == 2:
+                        x = target[0]
+                        y = target[1] - 20
+                        self.findPath((x, y), 3)
 
     ### Returns a list of a given cells neighbors taken from the grid
     def getNeighbors(self, currentCell):
@@ -189,6 +204,9 @@ class AntTrail(object):
             # If all cells are in drawingList tree has been reached
             else:
                 self.treeReached = True
+                if not self.soundPlayed:
+                    self.treeReachedSound.play()
+                    self.soundPlayed = True
             # Call update on both lists to maintain animation cycles
             for tile in self.noDrawList:
                 tile.update(self.treeReached)
@@ -197,6 +215,7 @@ class AntTrail(object):
         # If trail is Cancelled set not treeReached and remove everything from drawingList to clear screen
         else:
             self.treeReached = False
+            self.soundPlayed = False
             if self.drawingList:
                 self.drawingList.pop()
             for tile in self.drawingList:

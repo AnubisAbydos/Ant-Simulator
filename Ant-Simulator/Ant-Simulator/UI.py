@@ -16,7 +16,7 @@ class UI (object):
         self.hiveRect = pygame.Rect(700,700,100,100)
 
         # Variables used for state of game
-        self.antWorkerCount = 10
+        self.antWorkerCount = 10000
         self.antGatherCount = 10
         self.antSoldierCount = 0
         self.hiveLeafCount = 100000
@@ -42,9 +42,30 @@ class UI (object):
         self.spawnGatherTile = pygame.image.load(const.SPAWNGATHERTILE).convert_alpha()
         self.spawnSoldierTile = pygame.image.load(const.SPAWNSOLDIERTILE).convert_alpha()
         self.spawnPrincessTile = pygame.image.load(const.SPAWNPRINCESSTILE).convert_alpha()
-        self.highlightedButtonImg = pygame.image.load(const.BLANKIMG).convert_alpha()
         # Font
         self.textFont = pygame.font.Font("pixelplay.ttf", 23)
+        self.costTextFont = pygame.font.Font("pixelplay.ttf", 10)
+        # Sounds
+        self.spawnSound = pygame.mixer.Sound("spawn_sound.wav")
+        self.hiveUpgradeSound = pygame.mixer.Sound("hive_upgrade_sound.wav")
+        # Highlighted button variables
+        self.blittingButtonHigh = False
+        self.setDestButtonHigh = pygame.image.load(const.SETDESTBUTTONHIGH).convert_alpha()
+        self.setDestButtonHighBlitting = False
+        self.backToHiveButtonHigh = pygame.image.load(const.BACKTOHIVEBUTTONHIGH).convert_alpha()
+        self.backToHiveButtonHighBlitting = False
+        self.workerButtonHigh = pygame.image.load(const.WORKERBUTTONHIGH).convert_alpha()
+        self.workerButtonHighBlitting = False
+        self.gatherButtonHigh = pygame.image.load(const.GATHERBUTTONHIGH).convert_alpha()
+        self.gatherButtonHighBlitting = False
+        self.soldierButtonHigh = pygame.image.load(const.SOLDIERBUTTONHIGH).convert_alpha()
+        self.soldierButtonHighBlitting = False
+        self.princessButtonHigh = pygame.image.load(const.PRINCESSBUTTONHIGH).convert_alpha()
+        self.princessButtonHighBlitting = False
+        self.upgradeHiveButton = pygame.image.load(const.UPGRADEHIVEHIGH).convert_alpha()
+        self.upgradeHiveButtonBlitting = False
+        self.pauseButtonHigh = pygame.image.load(const.PAUSEHIGH).convert_alpha()
+        self.pauseButtonHighBlitting = False
 
     ### Takes in all state variables from Game to determine updates
     def update(self, treeReached, treeFull, treeQuality):
@@ -58,27 +79,45 @@ class UI (object):
         self.spawnPrincess(False)
         self.upgradeHive(False)
 
-    ### Process mouse pos passed from Game loads correct highlighted button image based on pos
+    ### Process mouse pos passed from Game set blitting correct highlighted button image based on pos
     def processMousePos(self, pos):
         if const.STARTTRAILRECT.collidepoint(pos):
-            self.highlightedButtonImg = pygame.image.load(const.SETDESTBUTTONHIGH).convert_alpha()
+            self.blittingButtonHigh = True
+            self.setDestButtonHighBlitting = True
+            self.backToHiveButtonHighBlitting = False
         elif const.ENDTRAILRECT.collidepoint(pos):
-            self.highlightedButtonImg = pygame.image.load(const.BACKTOHIVEBUTTONHIGH).convert_alpha()
+            self.blittingButtonHigh = True
+            self.backToHiveButtonHighBlitting = True
+            self.setDestButtonHighBlitting = False
         elif const.SPAWNWORKERSBUTTONRECT.collidepoint(pos):
-            self.highlightedButtonImg = pygame.image.load(const.WORKERBUTTONHIGH).convert_alpha()
+            self.blittingButtonHigh = True
+            self.workerButtonHighBlitting = True
         elif const.SPAWNGATHERBUTTONRECT.collidepoint(pos):
-            self.highlightedButtonImg = pygame.image.load(const.GATHERBUTTONHIGH).convert_alpha()
+            self.blittingButtonHigh = True
+            self.gatherButtonHighBlitting = True
         elif const.SPAWNSOLDIERBUTTONRECT.collidepoint(pos):
-            self.highlightedButtonImg = pygame.image.load(const.SOLDIERBUTTONHIGH).convert_alpha()
+            self.blittingButtonHigh = True
+            self.soldierButtonHighBlitting = True
         elif const.SPAWNPRINCESSBUTTONRECT.collidepoint(pos):
-            self.highlightedButtonImg = pygame.image.load(const.PRINCESSBUTTONHIGH).convert_alpha()
+            self.blittingButtonHigh = True
+            self.princessButtonHighBlitting = True
         elif const.UPGRADEHIVEBUTTONRECT.collidepoint(pos):
-            self.highlightedButtonImg = pygame.image.load(const.UPGRADEHIVEHIGH).convert_alpha()
+            self.blittingButtonHigh = True
+            self.upgradeHiveButtonBlitting = True
         elif const.PAUSEGAMEBUTTONRECT.collidepoint(pos):
-            self.highlightedButtonImg = pygame.image.load(const.PAUSEHIGH).convert_alpha()
-        # If pos is not over button load BLANK
+            self.blittingButtonHigh = True
+            self.pauseButtonHighBlitting = True
+        # If pos is not over button reset bools
         else:
-            self.highlightedButtonImg = pygame.image.load(const.BLANKIMG).convert_alpha()
+            self.blittingButtonHigh = False
+            self.setDestButtonHighBlitting = False
+            self.backToHiveButtonHighBlitting = False
+            self.workerButtonHighBlitting = False
+            self.gatherButtonHighBlitting = False
+            self.soldierButtonHighBlitting = False
+            self.princessButtonHighBlitting = False
+            self.upgradeHiveButtonBlitting = False
+            self.pauseButtonHighBlitting = False
 
     ### Handles all drawing required by the UI
     def draw(self):
@@ -100,13 +139,36 @@ class UI (object):
         self.screen.blit(self.spawnSoldierBarImg, self.rect)
         self.screen.blit(self.spawnPrincessBarImg, self.rect)
         self.screen.blit(self.questionMarkOverlay, self.rect)
-        self.screen.blit(self.highlightedButtonImg, self.rect)
+        # Highlighted button blitting 
+        if self.blittingButtonHigh:
+            if self.setDestButtonHighBlitting:
+                self.screen.blit(self.setDestButtonHigh, self.rect)
+            elif self.backToHiveButtonHighBlitting:
+                self.screen.blit(self.backToHiveButtonHigh, self.rect)
+            elif self.workerButtonHighBlitting:
+                self.screen.blit(self.workerButtonHigh, self.rect)
+            elif self.gatherButtonHighBlitting:
+                self.screen.blit(self.gatherButtonHigh, self.rect)
+            elif self.soldierButtonHighBlitting:
+                self.screen.blit(self.soldierButtonHigh, self.rect)
+            elif self.princessButtonHighBlitting:
+                self.screen.blit(self.princessButtonHigh, self.rect)
+            elif self.upgradeHiveButtonBlitting:
+                self.screen.blit(self.upgradeHiveButton, self.rect)
+            elif self.pauseButtonHighBlitting:
+                self.screen.blit(self.pauseButtonHigh, self.rect)
         # Number Text Rendering
         self.screen.blit(self.textFont.render(str(self.antWorkerCount), True, const.WHITE), const.WORKERTEXTBOX)
         self.screen.blit(self.textFont.render(str(self.antGatherCount), True, const.WHITE), const.GATHERTEXTBOX)
         self.screen.blit(self.textFont.render(str(self.antSoldierCount), True, const.WHITE), const.SOLDIERTEXTBOX)
         self.screen.blit(self.textFont.render(str('{:06d}'.format(self.hiveFungusCount)), True, const.WHITE), const.FUNGUSTEXTBOX)
         self.screen.blit(self.textFont.render(str('{:06d}'.format(self.hiveLeafCount)), True, const.WHITE), const.LEAFTEXTBOX)
+        self.screen.blit(self.costTextFont.render(str(const.SPAWNWORKERCOST), True, const.BLACK), const.WORKERFUNGUSCOSTBOX)
+        self.screen.blit(self.costTextFont.render(str(const.SPAWNGATHERCOST), True, const.BLACK), const.GATHERFUNGUSCOSTBOX)
+        self.screen.blit(self.costTextFont.render(str(const.SPAWNSOLDIERCOST), True, const.BLACK), const.SOLDIERFUNGUSCOSTBOX)
+        self.screen.blit(self.costTextFont.render(str(const.SPANWPRINCESSCOST), True, const.BLACK), const.PRINCESSFUNGUSCOSTBOX)
+        if self.hiveLevel !=  10:
+            self.screen.blit(self.costTextFont.render("Upgrade Cost --- " + str(self.hiveUpgradeCost), True, const.BLACK), const.UPGRADEHIVELEAFCOSTBOX)
         # If the hive is being upgraded display the timer til completion
         if self.hiveUpgrading:
             time = self.upgradeHiveStatus
@@ -137,6 +199,7 @@ class UI (object):
                 self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBARFULL).convert_alpha()
         # If timer complete and this is not a button call complete action and reset timer
         elif self.spawnWorkerStatus == 0 and not workerButton:
+            self.spawnSound.play()
             self.spawnWorkerStatus = -1
             self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBARFULL).convert_alpha()
             self.antWorkerCount += self.spawnCount
@@ -164,6 +227,7 @@ class UI (object):
                 self.spawnGatherBarImg = pygame.image.load(const.SPAWNGATHERBARFULL).convert_alpha()
         # If timer complete and this is not a button call complete action and reset timer
         elif self.spawnGatherStatus == 0 and not gatherButton:
+            self.spawnSound.play()
             self.spawnGatherStatus = -1
             self.spawnGatherBarImg = pygame.image.load(const.SPAWNGATHERBARFULL).convert_alpha()
             self.antGatherCount += self.spawnCount
@@ -191,6 +255,7 @@ class UI (object):
                 self.spawnSoldierBarImg = pygame.image.load(const.SPAWNSOLDIERBARFULL).convert_alpha()
         # If timer complete and this is not a button call complete action and reset timer
         elif self.spawnSoldierStatus == 0 and not soldierButton:
+            self.spawnSound.play()
             self.spawnSoldierStatus = -1
             self.spawnSoldierBarImg = pygame.image.load(const.SPAWNSOLDIERBARFULL).convert_alpha()
             self.antSoldierCount += self.spawnCount
@@ -235,6 +300,7 @@ class UI (object):
             self.upgradeHiveStatus -= 1
         # If timer complete and this is not a button call complete action and reset timer
         elif self.upgradeHiveStatus == 0 and not upgradeHiveButton:
+            self.hiveUpgradeSound.play()
             self.upgradeHiveStatus = -1
             self.hiveLevel += 1
             self.hiveUpgradeCost += 1000
@@ -287,7 +353,6 @@ class UI (object):
         startImageTutorialHigh = pygame.image.load(const.STARTSCREENTUTORIALHIGH).convert()
         startImageExitHigh = pygame.image.load(const.STARTSCREENEXITHIGH).convert()
         done = False
-        pygame.mixer.music.load("start_menu_tune.wav")
         pygame.mixer.music.play(-1)
         # Main Menu Loop takes in mouse clicks for the buttons
         while not done:            
@@ -314,12 +379,7 @@ class UI (object):
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if const.STARTBUTTONRECT.collidepoint(pos):
                         done = True
-                        pygame.mixer.music.stop()
                     elif const.TUTORIALBUTTONRECT.collidepoint(pos):
-                        buttonClick.play()
-                        #done = True
-                        #TODO add totorial classes
-                        #self.startTutorial()
                         done = True
                         self.startTutorial()
                     elif const.EXITBUTTONRECT.collidepoint(pos):
