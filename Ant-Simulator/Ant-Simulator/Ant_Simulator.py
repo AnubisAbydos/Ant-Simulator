@@ -5,7 +5,7 @@ import TreeNode as tree
 import UI as ui
 import AntTrail as trail
 import PopoutBox as popout
-#import Enemy as enemy
+import Enemy as enemy
 import sys
 
 
