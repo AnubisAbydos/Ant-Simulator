@@ -47,6 +47,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="armadillo.png" />
+    <Content Include="badBug1.png" />
+    <Content Include="badBugL.png" />
+    <Content Include="badBugR.png" />
+    <Content Include="badBugU.png" />
     <Content Include="basic_ui_test.png" />
     <Content Include="enemy1.png" />
     <Content Include="grass.jpg" />

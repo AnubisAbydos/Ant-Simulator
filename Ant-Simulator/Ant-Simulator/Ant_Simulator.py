@@ -23,7 +23,7 @@ class Game (object):
         self.trees = tree.TreeNodesList(screen)
         self.antTrail = trail.AntTrail(screen, self.trees.list)
         self.popoutLoader = popout.PopoutBox(screen)
-        #self.enemy = enemy.Enemy(screen)
+        self.enemy = enemy.Enemy(screen)
 
         # Variables set up for use in the AntTrail and Leaf Collection Logic
         self.isTrailSelected = False
@@ -152,7 +152,7 @@ class Game (object):
         self.trees.draw()
         self.antTrail.draw()
         self.UI.draw()
-        #self.enemy.draw()
+        self.enemy.draw()
         if self.isTrailSelected:
             pygame.mouse.set_cursor((8,8),(0,0),(0,0,0,0,0,0,0,0),(0,0,0,0,0,0,0,0))
             self.screen.blit(self.mouseCursor, pygame.mouse.get_pos())
