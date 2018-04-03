@@ -5,7 +5,7 @@ import TreeNode as tree
 import UI as ui
 import AntTrail as trail
 import PopoutBox as popout
-#import Enemy as enemy
+import Enemy as enemy
 import sys
 
 
@@ -23,7 +23,7 @@ class Game (object):
         self.trees = tree.TreeNodesList(screen)
         self.antTrail = trail.AntTrail(screen, self.trees.list)
         self.popoutLoader = popout.PopoutBox(screen)
-        #self.enemy = enemy.Enemy(screen)
+        self.enemy = enemy.Enemy(screen)
 
         # Background Music
         pygame.mixer.music.load("background_music.mp3")
@@ -172,7 +172,7 @@ class Game (object):
         self.trees.draw()
         self.antTrail.draw()
         self.UI.draw()
-        #self.enemy.draw()
+        self.enemy.draw()
         if self.isTrailSelected:
             pygame.mouse.set_cursor((8,8),(0,0),(0,0,0,0,0,0,0,0),(0,0,0,0,0,0,0,0))
             self.screen.blit(self.mouseCursor, pygame.mouse.get_pos())
