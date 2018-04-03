@@ -3,15 +3,19 @@ from random import *
 import Constants as const
 import GroundTiles as ground
 
+''' CLASS Enemy
+Contains all information, variables and functions for an instance of a Bad Bug
+'''
 class Enemy(object):
     def __init__(self, screen):
         self.screen = screen
         self.rect = pygame.Rect(200, 200, const.BADBUG1, const.BADBUG1)
         self.animationState = randint(0,4)
         self.isAlive = True
+        self.strength = randint(1,6)
 
         #self.image = pygame.image.load(const.BBDOWN).convert_alpha()
-
+        #right now there is only one type of bad bug.
     def setStateImage(self):
         if self.animationState == 0:
             self.image = pygame.image.load(const.BBDOWN).convert_alpha()
