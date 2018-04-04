@@ -57,6 +57,7 @@
     <Content Include="basic_ui_test.png" />
     <Content Include="enemy1.png" />
     <Content Include="grass.jpg" />
+    <Content Include="icon.JPG" />
     <Content Include="sand.JPG" />
     <Content Include="tree.png" />
     <Content Include="tree_black_s1.png" />

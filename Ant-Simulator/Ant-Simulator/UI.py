@@ -16,11 +16,11 @@ class UI (object):
         self.hiveRect = pygame.Rect(700,700,100,100)
 
         # Variables used for state of game
-        self.antWorkerCount = 10000
-        self.antGatherCount = 10
-        self.antSoldierCount = 0
-        self.hiveLeafCount = 100000
-        self.hiveFungusCount = 100
+        self.antWorkerCount = 123456
+        self.antGatherCount = 100
+        self.antSoldierCount = 1000
+        self.hiveLeafCount = 123456
+        self.hiveFungusCount = 123456
         self.hiveLevel = 1
         self.spawnCount = 10
         self.hiveUpgradeTime = 10
@@ -280,7 +280,7 @@ class UI (object):
             elif percentCompletePrincess >= .75 and percentCompletePrincess < .99:
                 self.spawnPrincessBarImg = pygame.image.load(const.SPAWNPRINCESSBAR3Q).convert_alpha()
             else:
-                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNPRINCESSBARFULL).convert_alpha()
+                self.spawnPrincessBarImg = pygame.image.load(const.SPAWNPRINCESSBARFULL).convert_alpha()
         # If timer complete and this is not a button call complete action and reset timer
         elif self.spawnPrincessStatus == 0 and not princessButton:
             self.gameOver(True)
@@ -291,7 +291,7 @@ class UI (object):
         if upgradeHiveButton and self.upgradeHiveStatus == -1 and self.hiveLeafCount > self.hiveUpgradeCost and self.hiveLevel != 10:
             self.upgradeHiveStatus = self.hiveUpgradeTime - self.antWorkerCount
             if self.upgradeHiveStatus < 10:
-                self.upgradeHiveStatus = 10
+                self.upgradeHiveStatus = 5
             self.hiveLeafCount -= self.hiveUpgradeCost
             self.hiveSideImg = pygame.image.load(const.HIVESIDECONSTRUCTION).convert_alpha()
             self.hiveUpgrading = True

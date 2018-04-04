@@ -226,7 +226,6 @@ def main():
             totalSeconds = 0
         # Throttle frame rate
         clock.tick(frameRate)
-        print(clock.get_fps())
         # Flip to user
         pygame.display.flip()
 
