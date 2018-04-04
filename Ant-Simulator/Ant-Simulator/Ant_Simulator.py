@@ -23,17 +23,13 @@ class Game (object):
         self.trees = tree.TreeNodesList(screen)
         self.antTrail = trail.AntTrail(screen, self.trees.list)
         self.popoutLoader = popout.PopoutBox(screen)
-        #TODO change this to enemy list   V
-        self.enemy = enemy.Enemy(screen, self.antTrail.grid, 200, 200)
-
+        self.enemy = enemy.EnemyList(screen, self.antTrail.grid)
         # Background Music
         pygame.mixer.music.load("background_music.mp3")
-
         # Variables set up for use in the AntTrail and Leaf Collection Logic
         self.isTrailSelected = False
         self.trailTree = None
         self.mouseCursor = pygame.image.load("mouse_cursor.png").convert_alpha()
-
         # Calls Start Screen loop after all assests are loaded
         self.UI.startScreen()
         pygame.mixer.music.set_volume(.3)

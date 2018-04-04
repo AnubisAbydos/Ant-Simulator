@@ -9,7 +9,7 @@ class Enemy(object):
     def __init__(self, screen, grid, x, y):
         self.screen = screen
         self.grid = grid
-        self.rect = pygame.Rect(400, 400, const.BADBUG1, const.BADBUG1)
+        self.rect = pygame.Rect(x, y, const.BADBUG1, const.BADBUG1)
         self.faceDirection = randint(0,3)
         self.isAlive = True
         self.strength = randint(1,6)
@@ -92,48 +92,46 @@ class Enemy(object):
 Used to build the list of enemies for use by Game.
 '''
 class EnemyList (object):
-    def __init__ (self, screen):
+    def __init__ (self, screen, grid):
         self.screen = screen
-        self.newBaddie = None
+        self.grid = grid
+        self.newEnemy = None
         self.list = []        
         # Add X number of bad bugs to list ensuring that overlapping does not occur
         for i in xrange(const.NUMBEROFENEMYS):
             # A bug was present previous to the while loop that was adding NoneType objects to the list.
             # The while loop removes this bug.
-            while self.newBaddie == None:
-                self.newBaddie = self.createNewBaddie()
+            while self.newEnemy == None:
+                self.newEnemy = self.createNewEnemy()
             # Once valid Baddie is created add to list
-            self.list.append(self.newBaddie)
+            self.list.append(self.newEnemy)
             # reset newBaddie for next find
-            self.newBaddie = None
+            self.newEnemy = None
 
     ### RECURSIVE FUNCTION calls until a valid Bad Bug (not overlapping any others) is returned
         #TODO set random location spawning (x 0 - 800) (y 60 - 800)
-    def createNewBaddie(self):
+    def createNewEnemy(self):
         isCollide = False
         # Calls Enemy __init__ to automatically create a bad bug
-        self.newBaddie = Enemy()
+        self.newEnemy = Enemy(self.screen, self.grid, x, y)
         # Checks newBaddie location to each already created bad bug and remakes the bad bug if isCollide
-        for badBug in self.list:
-            isCollide = badBug.collide(self.newBaddie.rect)
+        for enemy in self.list:
+            isCollide = enemy.checkCollide(x, y)
             if isCollide == True:
-                self.createNewBaddie()
-        if (isCollide == False):
-            return self.newBaddie
-    
-    def checkForCollision(self, pos):
-        for badBug in self.list:
-            if badBug.rect.collidepoint(pos):
-                return badBug
-        return None
+                self.createNewEnemy()
+        if isCollide == False:
+            return self.newEnemy
 
     ### Calls each bbug's draw function
     def draw(self):
-        for baddie in self.list:
-            baddie.draw(self.screen)
+        for enemy in self.list:
+            if enemy.isAlive:
+                enemy.draw()
 
     ### Calls each bad bug's update function
     def update(self):
-        for baddie in self.list:
-            baddie.update()
-            #TODO if baddie is not alive then del object
+        for enemy in self.list:
+            if not enemy.isAlive:
+                del enemy
+            else:
+                enemy.update()
