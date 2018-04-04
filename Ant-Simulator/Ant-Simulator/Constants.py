@@ -28,16 +28,15 @@ SAND = "dirt.png"
 # GROUNDTILES CONSTS END
 
 # Enemies CONSTS START
-BADBUG1 = 20
-BBDOWN = "badBug1.png"
-BBRIGHT = "badBugR.png"
-BBUP = "badBugU.png"
-BBLEFT = "badBugL.png"
+BADBUGSIZE = 20
+BADBUG1 = "enemy1.png"
+BADBUG2 = "enemy2.png"
+BADBUG3 = "enemy3.png"
+BADBUG4 = "enemy4.png"
+BADBUG5 = "enemy5.png"
 NUMBEROFENEMYS = 5
 MOVEPERCENT = 50
-# Ant eater placeholder image
-ENEMY1 = "enemy1.png"
-# AntEater CONSTS end
+# Enemies CONSTS end
 
 # TREENODE CONSTS START
 TREEBASESIZE = 40

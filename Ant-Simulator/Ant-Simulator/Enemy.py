@@ -9,11 +9,11 @@ class Enemy(object):
     def __init__(self, screen, grid, x, y):
         self.screen = screen
         self.grid = grid
-        self.rect = pygame.Rect(400, 400, const.BADBUG1, const.BADBUG1)
+        self.rect = pygame.Rect(400, 400, const.BADBUGSIZE, const.BADBUGSIZE)
         self.faceDirection = randint(0,3)
         self.isAlive = True
         self.strength = randint(1,6)
-        self.image = pygame.image.load(const.BBUP).convert_alpha()
+        self.image = pygame.image.load(const.BADBUG1).convert_alpha()
         self.directionTimer = randint(4,8) 
         self.enemyType = randint(0, 4)
         self.moveTimer = 0
@@ -21,12 +21,20 @@ class Enemy(object):
 
         #timmer to direction move
 
-    #TODO add random skin selector if statement
 
+    #Random skin selector if statement
     def resetImage(self):
-        self.image = pygame.image.load(const.BBUP).convert_alpha()
-        #if self.enemyType == 0:
-
+        if self.enemyType == 0:
+            self.image = pygame.image.load(const.BADBUG1).convert_alpha()
+        if self.enemyType == 1:
+            self.image = pygame.image.load(const.BADBUG2).convert_alpha()
+        if self.enemyType == 2:
+            self.image = pygame.image.load(const.BADBUG3).convert_alpha()
+        if self.enemyType == 3:
+            self.image = pygame.image.load(const.BADBUG4).convert_alpha()
+        if self.enemyType == 4:
+            self.image = pygame.image.load(const.BADBUG5).convert_alpha()
+        
         #right now there is only one type of bad bug.
     def setStateImage(self):
         self.resetImage()
@@ -44,13 +52,13 @@ class Enemy(object):
         self.moveTimer += 1
 
         if self.moveTimer == self.directionTimer:
-            if randint(0,100) < 50:
+            if randint(1,100) < 50:
                 self.faceDirection += 1
             else: 
                 self.faceDirection -= 1
                 if self.faceDirection == -1:
                     self.faceDirection = 3
-            self.faceDirection = self.faceDirection % 3
+            self.faceDirection = self.faceDirection % 4
             self.setStateImage()
         
             self.moveTimer = 0
@@ -61,28 +69,26 @@ class Enemy(object):
                 if self.checkCollide(self.rect.x, self.rect.y -20):
                     self.rect.move_ip(0, -20)
             elif self.faceDirection == 1:
-                if self.checkCollide(self.rect.x + 20, self.rect.y):
-                    self.rect.move_ip(20, 0)
+                if self.checkCollide(self.rect.x - 20, self.rect.y):
+                    self.rect.move_ip(-20, 0)
             elif self.faceDirection == 2:
                 if self.checkCollide(self.rect.x, self.rect.y +20):
                     self.rect.move_ip(0, 20)
             elif self.faceDirection == 3:
-                if self.checkCollide(self.rect.x -20, self.rect.y):
-                    self.rect.move_ip(-20, 0)
+                if self.checkCollide(self.rect.x + 20, self.rect.y):
+                    self.rect.move_ip(20, 0)
     
-    #TODO check for offscreen     
+    #### Checks for collision given another Rect (in this case another bug)     
     def checkCollide(self, x, y):
-        return not self.grid[x/20][y/20].isBlocked
+    #TODO check for offscreen (x 0 - 800) (y 60 - 800)
+        if x > 798 or x < 2 or y > 798 or y < 57:
+            return False
+        else:
+            return not self.grid[x/20][y/20].isBlocked
 
     ### Blits bug to Game Window
     def draw(self):
         self.screen.blit(self.image, self.rect)
-
-    ### Checks for collision given another Rect (in this case another bug)
-    def collide(self, givenRect):
-        if(self.rect.colliderect(givenRect)):
-            return True
-        return False
 
     def isAlive(self):
         return self.isAlive
