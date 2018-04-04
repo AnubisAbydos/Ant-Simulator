@@ -183,6 +183,14 @@ class Game (object):
 ### Main calls game sets screen and runs game loop
 def main():
     pygame.init()
+    # Build and set window Icon and Title
+    icon = pygame.image.load("icon.jpg")
+    iconSurface = pygame.Surface((32,32))
+    iconRect = pygame.Rect(0,0, 32,32)
+    iconSurface.fill(const.GREY)
+    iconSurface.blit(icon, iconRect)
+    pygame.display.set_icon(iconSurface)
+    pygame.display.set_caption('Ant-Simulator')
     # Build the screen
     screen = pygame.display.set_mode((const.WIDTH, const.HEIGHT))
     # Build the game and pass it the screen

@@ -4,6 +4,7 @@ import pygame
 # COLORS
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+GREY = (50,50,50)
 # COLORS
 
 # SCREENS AND MAP SIZES START
