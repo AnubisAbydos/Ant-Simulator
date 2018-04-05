@@ -16,12 +16,12 @@ class UI (object):
         self.hiveRect = pygame.Rect(700,700,100,100)
 
         # Variables used for state of game
-        self.antWorkerCount = 123456
-        self.antGatherCount = 100
-        self.antSoldierCount = 1000
+        self.antWorkerCount = 12345
+        self.antGatherCount = 235
+        self.antSoldierCount = 1235
         self.hiveLeafCount = 123456
-        self.hiveFungusCount = 123456
-        self.hiveLevel = 1
+        self.hiveFungusCount = 678954
+        self.hiveLevel = 5
         self.spawnCount = 10
         self.hiveUpgradeTime = 10
         self.hiveUpgradeCost = 1000
@@ -66,6 +66,8 @@ class UI (object):
         self.upgradeHiveButtonBlitting = False
         self.pauseButtonHigh = pygame.image.load(const.PAUSEHIGH).convert_alpha()
         self.pauseButtonHighBlitting = False
+
+        self.setHiveImgs()
 
     ### Takes in all state variables from Game to determine updates
     def update(self, treeReached, treeFull, treeQuality):
@@ -168,7 +170,7 @@ class UI (object):
         self.screen.blit(self.costTextFont.render(str(const.SPAWNSOLDIERCOST), True, const.BLACK), const.SOLDIERFUNGUSCOSTBOX)
         self.screen.blit(self.costTextFont.render(str(const.SPANWPRINCESSCOST), True, const.BLACK), const.PRINCESSFUNGUSCOSTBOX)
         if self.hiveLevel !=  10:
-            self.screen.blit(self.costTextFont.render("Upgrade Cost --- " + str(self.hiveUpgradeCost), True, const.BLACK), const.UPGRADEHIVELEAFCOSTBOX)
+            self.screen.blit(self.costTextFont.render("Leaf Cost --- " + str(self.hiveUpgradeCost), True, const.BLACK), const.UPGRADEHIVELEAFCOSTBOX)
         # If the hive is being upgraded display the timer til completion
         if self.hiveUpgrading:
             time = self.upgradeHiveStatus
@@ -283,6 +285,7 @@ class UI (object):
                 self.spawnPrincessBarImg = pygame.image.load(const.SPAWNPRINCESSBARFULL).convert_alpha()
         # If timer complete and this is not a button call complete action and reset timer
         elif self.spawnPrincessStatus == 0 and not princessButton:
+            self.spawnPrincessStatus = -1
             self.gameOver(True)
 
     ### Handles logic and timer for Upgrade Hive takes Bool whether the call came from a button click
@@ -380,8 +383,8 @@ class UI (object):
                     if const.STARTBUTTONRECT.collidepoint(pos):
                         done = True
                     elif const.TUTORIALBUTTONRECT.collidepoint(pos):
-                        done = True
                         self.startTutorial()
+                        pygame.mixer.music.set_volume(1)
                     elif const.EXITBUTTONRECT.collidepoint(pos):
                         done = True
                         pygame.quit()
@@ -419,17 +422,242 @@ class UI (object):
                     if const.RESUMEPAUSEBUTTONRECT.collidepoint(pos):
                         done = True
                     elif const.TUTORIALPAUSEBUTTONRECT.collidepoint(pos):
-                        done = True
+                        pygame.mixer.music.unpause()
                         self.startTutorial()
+                        done = True
                     elif const.EXITPAUSEBUTTONRECT.collidepoint(pos):
                         done = True
                         pygame.quit()
                         sys.exit()
     
-    # TODO Build tutorial loop with pictures
     def startTutorial(self):
-        pass
+        pygame.mixer.music.set_volume(.3)
+        tutorialScreenOne = pygame.image.load(const.TUTORIALONE).convert()
+        tutorialScreenTwo = pygame.image.load(const.TUTORIALTWO).convert()
+        tutorialScreenThree = pygame.image.load(const.TUTORIALTHREE).convert()
+        tutorialScreenFour = pygame.image.load(const.TUTORIALFOUR).convert()
+        tutorialScreenFive = pygame.image.load(const.TUTORIALFIVE).convert()
+        tutorialScreenSix = pygame.image.load(const.TUTORIALSIX).convert()
+        tutorialScreenSeven = pygame.image.load(const.TUTORIALSEVEN).convert()
+        done = False
+        stage = 1
+        while not done:
+            if stage == 7:
+                self.screen.blit(tutorialScreenSeven, self.rect)
+            elif stage == 6:
+                self.screen.blit(tutorialScreenSix, self.rect)
+            elif stage == 5:
+                self.screen.blit(tutorialScreenFive, self.rect)
+            elif stage == 4:
+                self.screen.blit(tutorialScreenFour, self.rect)
+            elif stage == 3:
+                self.screen.blit(tutorialScreenThree, self.rect)
+            elif stage == 2:
+                self.screen.blit(tutorialScreenTwo, self.rect)
+            else:
+                self.screen.blit(tutorialScreenOne, self.rect)
+            # Flip Display
+            pygame.display.flip()
+            # Get event from pygame
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    done = True
+                    pygame.quit()
+                    sys.exit()
+                # If the mouse is clicked continue game
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if stage != 7:
+                        stage += 1
+                    else:
+                        done = True
 
     # TODO Build gameover conditions
     def gameOver(self, isWon):
-        pass
+        done = False
+
+        if isWon:
+            wonBackground = pygame.image.load("win_background.png").convert()
+            wonStageZero = pygame.image.load("win_zero.png").convert_alpha()
+            wonStageOne = pygame.image.load("win_one.png").convert_alpha()
+            wonStageTwo = pygame.image.load("win_two.png").convert_alpha()
+            wonStageThree = pygame.image.load("win_three.png").convert_alpha()
+            wonStageFour = pygame.image.load("win_four.png").convert_alpha()
+            wonStageFive = pygame.image.load("win_five.png").convert_alpha()
+            wonStageSix = pygame.image.load("win_six.png").convert_alpha()
+            wonStageSeven = pygame.image.load("win_seven.png").convert_alpha()
+            wonStageEight = pygame.image.load("win_eight.png").convert_alpha()
+            wonStageNine = pygame.image.load("win_nine.png").convert_alpha()
+            wonStageTen = pygame.image.load("win_ten.png").convert_alpha()
+            wonStageEleven = pygame.image.load("win_eleven.png").convert_alpha()
+            stage = 0
+            clock = pygame.time.Clock()
+            frameRate = 30
+            frameCount = 0
+            nextTickUpdate = 5
+            musicTick = 120
+            pygame.mixer.music.pause()
+            winSound = pygame.mixer.Sound("game_over_win_sound.ogg")
+            winSound.play()
+            while not done:
+                # Get event from pygame
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        done = True
+                        pygame.quit()
+                        sys.exit()
+                    # If the mouse is clicked continue game
+                    elif event.type == pygame.MOUSEBUTTONDOWN:
+                        done = True
+                
+                # Update
+                if (frameCount == nextTickUpdate):
+                    stage += 1
+                    stage = stage % 12
+                    nextTickUpdate += 5
+
+                if (frameCount == musicTick):
+                    winSound.play()
+                
+                # Draw
+                if stage == 11:
+                    self.screen.blit(wonBackground, self.rect)
+                    self.screen.blit(wonStageEleven, self.rect)
+                elif stage == 10:
+                    self.screen.blit(wonBackground, self.rect)
+                    self.screen.blit(wonStageTen, self.rect)
+                elif stage == 9:
+                    self.screen.blit(wonBackground, self.rect)
+                    self.screen.blit(wonStageNine, self.rect)
+                elif stage == 8:
+                    self.screen.blit(wonBackground, self.rect)
+                    self.screen.blit(wonStageEight, self.rect)
+                elif stage == 7:
+                    self.screen.blit(wonBackground, self.rect)
+                    self.screen.blit(wonStageSeven, self.rect)
+                elif stage == 6:
+                    self.screen.blit(wonBackground, self.rect)
+                    self.screen.blit(wonStageSix, self.rect)
+                elif stage == 5:
+                    self.screen.blit(wonBackground, self.rect)
+                    self.screen.blit(wonStageFive, self.rect)
+                elif stage == 4:
+                    self.screen.blit(wonBackground, self.rect)
+                    self.screen.blit(wonStageFour, self.rect)
+                elif stage == 3:
+                    self.screen.blit(wonBackground, self.rect)
+                    self.screen.blit(wonStageThree, self.rect)
+                elif stage == 2:
+                    self.screen.blit(wonBackground, self.rect)
+                    self.screen.blit(wonStageTwo, self.rect)
+                elif stage == 1:
+                    self.screen.blit(wonBackground, self.rect)
+                    self.screen.blit(wonStageOne, self.rect)
+                else:
+                    self.screen.blit(wonBackground, self.rect)
+                    self.screen.blit(wonStageZero, self.rect)
+
+                # Increment Frames/Ticks
+                frameCount += 1
+                # Reset frames and seconds every 30 frames to avoid numbers becoming too large
+                if (frameCount == 121):
+                    frameCount = 1
+                    nextTickUpdate = 5
+                # Throttle frame rate
+                clock.tick(frameRate)
+                # Flip Display
+                pygame.display.flip()
+
+        else:
+            loseBackground = pygame.image.load("lose_background.png").convert()
+            loseStageZero = pygame.image.load("lose_zero.png").convert_alpha()
+            loseStageOne = pygame.image.load("lose_one.png").convert_alpha()
+            loseStageTwo = pygame.image.load("lose_two.png").convert_alpha()
+            loseStageThree = pygame.image.load("lose_three.png").convert_alpha()
+            loseStageFour = pygame.image.load("lose_four.png").convert_alpha()
+            stage = 0
+            clock = pygame.time.Clock()
+            frameRate = 30
+            frameCount = 0
+            nextTickUpdate = 10
+            musicTick = 120
+            pygame.mixer.music.pause()
+            loseSound = pygame.mixer.Sound("lose_sound.wav")
+            loseSound.play()
+            while not done:
+                # Get event from pygame
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        done = True
+                        pygame.quit()
+                        sys.exit()
+                    # If the mouse is clicked continue game
+                    elif event.type == pygame.MOUSEBUTTONDOWN:
+                        done = True
+                
+                # Update
+                if (frameCount == nextTickUpdate):
+                    stage += 1
+                    stage = stage % 6
+                    nextTickUpdate += 10
+
+                if (frameCount == musicTick):
+                    loseSound.play()
+                
+                # Draw
+                if stage == 5:
+                    self.screen.blit(loseBackground, self.rect)
+                elif stage == 4:
+                    self.screen.blit(loseBackground, self.rect)
+                    self.screen.blit(loseStageFour, self.rect)
+                elif stage == 3:
+                    self.screen.blit(loseBackground, self.rect)
+                    self.screen.blit(loseStageThree, self.rect)
+                elif stage == 2:
+                    self.screen.blit(loseBackground, self.rect)
+                    self.screen.blit(loseStageTwo, self.rect)
+                elif stage == 1:
+                    self.screen.blit(loseBackground, self.rect)
+                    self.screen.blit(loseStageOne, self.rect)
+                else:
+                    self.screen.blit(loseBackground, self.rect)
+                    self.screen.blit(loseStageZero, self.rect)
+
+                # Increment Frames/Ticks
+                frameCount += 1
+                # Reset frames and seconds every 30 frames to avoid numbers becoming too large
+                if (frameCount == 121):
+                    frameCount = 1
+                    nextTickUpdate = 10
+                # Throttle frame rate
+                clock.tick(frameRate)
+                # Flip Display
+                pygame.display.flip()
+
+        pygame.mixer.music.unpause()
+        pygame.mixer.music.set_volume(.3)
+        creditScreenOne = pygame.image.load("credit_one.png").convert()
+        creditScreenTwo = pygame.image.load("credit_two.png").convert()
+        creditScreenThree = pygame.image.load("credit_three.png").convert()
+        done = False
+        stage = 1
+        while not done:
+            if stage == 3:
+                self.screen.blit(creditScreenThree, self.rect)
+            elif stage == 2:
+                self.screen.blit(creditScreenTwo, self.rect)
+            else:
+                self.screen.blit(creditScreenOne, self.rect)
+            # Flip Display
+            pygame.display.flip()
+            # Get event from pygame
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    done = True
+                    pygame.quit()
+                    sys.exit()
+                # If the mouse is clicked continue game
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if stage != 3:
+                        stage += 1
+                    else:
+                        done = True

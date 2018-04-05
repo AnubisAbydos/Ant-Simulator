@@ -133,6 +133,10 @@ class Game (object):
             pygame.mixer.music.pause()
             self.popoutLoader.runGivenPopout(const.LEAFFUNGUSPOPOUT)
             pygame.mixer.music.unpause()
+        elif const.DEBUGLOSEGAME.collidepoint(pos):
+            pygame.mixer.music.pause()
+            self.UI.gameOver(False)
+            pygame.mixer.music.unpause()
         else:
             self.isTrailSelected = False
 
@@ -156,13 +160,11 @@ class Game (object):
         self.princessButtonPressed = False
         self.upgradeHiveButtonPressed = False
 
-
     ### Twenty frame/tick Update Calls
     def update10Tick(self):
         self.antTrail.update()
         self.enemy.update()
         
-
     ### Draw Calls
     def draw(self):
         self.groundTiles.draw()
@@ -219,7 +221,7 @@ def main():
         game.draw()
         # Increment Frames/Ticks
         frameCount += 1
-        #Reset frames and seconds every 60 frames to avoid numbers becoming too large
+        # Reset frames and seconds every 30 frames to avoid numbers becoming too large
         if (frameCount == 31):
             frameCount = 1
             nextTickUpdate = 10

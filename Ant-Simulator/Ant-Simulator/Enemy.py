@@ -21,10 +21,7 @@ class Enemy(object):
         self.moveTimer = 0
         self.setStateImage()
 
-        #timmer to direction move
-
-
-    #Random skin selector if statement
+    ### Random skin selector if statement
     def resetImage(self):
         if self.enemyType == 0:
             self.image = pygame.image.load(const.BADBUG1).convert_alpha()
@@ -37,7 +34,7 @@ class Enemy(object):
         if self.enemyType == 4:
             self.image = pygame.image.load(const.BADBUG5).convert_alpha()
         
-        #right now there is only one type of bad bug.
+    ### Sets enemy image rotation based on faceDirection
     def setStateImage(self):
         self.resetImage()
         if self.faceDirection == 0:
@@ -51,9 +48,10 @@ class Enemy(object):
 
     ### Updates movement (on Random percent) and Animation state 
     def update(self):
+        # Increment timer til next direction rotate
         self.moveTimer += 1
-
         if self.moveTimer == self.directionTimer:
+            # 50/50 chance to turn left or right
             if randint(1,100) < 50:
                 self.faceDirection += 1
             else: 
@@ -62,11 +60,12 @@ class Enemy(object):
                     self.faceDirection = 3
             self.faceDirection = self.faceDirection % 4
             self.setStateImage()
-        
+            # Reset Timer
             self.moveTimer = 0
             self.directionTimer = randint(4,8)
-        #chance to move
+        # Chance to move each update
         elif (randint(1,100) < const.MOVEPERCENT):
+            # Check next space if valid move rect to next square (based on direction facing)
             if self.faceDirection == 0:
                 if self.checkCollide(self.rect.x, self.rect.y -20):
                     self.rect.move_ip(0, -20)
@@ -80,9 +79,8 @@ class Enemy(object):
                 if self.checkCollide(self.rect.x + 20, self.rect.y):
                     self.rect.move_ip(20, 0)
     
-    #### Checks for collision given another Rect (in this case another bug)     
+    ### Checks for collision on grid     
     def checkCollide(self, x, y):
-    #TODO check for offscreen (x 0 - 800) (y 60 - 800)
         if x > 798 or x < 2 or y > 798 or y < 57:
             return False
         else:
@@ -91,10 +89,6 @@ class Enemy(object):
     ### Blits bug to Game Window
     def draw(self):
         self.screen.blit(self.image, self.rect)
-
-    def isAlive(self):
-        return self.isAlive
-
 
 ''' CLASS BUGNODESLIST 
 Used to build the list of enemies for use by Game.
@@ -107,22 +101,19 @@ class EnemyList (object):
         self.list = []        
         # Add X number of bad bugs to list ensuring that overlapping does not occur
         for i in xrange(const.NUMBEROFENEMYS):
-            # A bug was present previous to the while loop that was adding NoneType objects to the list.
-            # The while loop removes this bug.
             while self.newEnemy == None:
                 self.newEnemy = self.createNewEnemy()
-            # Once valid Baddie is created add to list
+            # Once valid Enemy is created add to list
             self.list.append(self.newEnemy)
-            # reset newBaddie for next find
+            # reset newEnemy for next find
             self.newEnemy = None
 
-    ### RECURSIVE FUNCTION calls until a valid Bad Bug (not overlapping any others) is returned
-        #TODO set random location spawning (x 0 - 800) (y 60 - 800)
+    ### RECURSIVE FUNCTION calls until a valid enemy (not overlapping any trees) is returned
     def createNewEnemy(self):
         isCollide = False
         # Calls Enemy __init__ to automatically create a bad bug
         self.newEnemy = Enemy(self.screen, self.grid)
-        # Checks newBaddie location to each already created bad bug and remakes the bad bug if isCollide
+        # Checks Enemy location to each checkCollide location Remakes if there is a collision
         for enemy in self.list:
             isCollide = not enemy.checkCollide(self.newEnemy.x, self.newEnemy.y)
             if isCollide == True:
