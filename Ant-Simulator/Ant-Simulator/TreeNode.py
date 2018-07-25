@@ -15,6 +15,19 @@ class TreeNode (object):
         self.isBeingHarvested = False
         # Used to track and progress animation cycle called in update (Randomized to have even start states)
         self.animationState = randint(0,3)
+        # Set Tree images
+        self.blackStateOne = pygame.image.load(const.BLACK_S1).convert_alpha()
+        self.blackStateTwo = pygame.image.load(const.BLACK_S2).convert_alpha()
+        self.blackStateThree = pygame.image.load(const.BLACK_S3).convert_alpha()
+        self.orangeStateOne = pygame.image.load(const.ORANGE_S1).convert_alpha()
+        self.orangeStateTwo = pygame.image.load(const.ORANGE_S2).convert_alpha()
+        self.orangeStateThree = pygame.image.load(const.ORANGE_S3).convert_alpha()
+        self.yellowStateOne = pygame.image.load(const.YELLOW_S1).convert_alpha()
+        self.yellowStateTwo = pygame.image.load(const.YELLOW_S2).convert_alpha()
+        self.yellowStateThree = pygame.image.load(const.YELLOW_S3).convert_alpha()
+        self.greenStateOne = pygame.image.load(const.GREEN_S1).convert_alpha()
+        self.greenStateTwo = pygame.image.load(const.GREEN_S2).convert_alpha()
+        self.greenStateThree = pygame.image.load(const.GREEN_S3).convert_alpha()
         # Image is loaded by setStateImage() but declared here
         self.image = None
         self.setStateImage()
@@ -23,32 +36,32 @@ class TreeNode (object):
     def setStateImage(self):
         if self.treeQuality == 0:
             if self.animationState == 0:
-                self.image = pygame.image.load(const.BLACK_S1).convert_alpha()
+                self.image = self.blackStateOne
             elif self.animationState == 1 or self.animationState == 3:
-                self.image = pygame.image.load(const.BLACK_S2).convert_alpha()
+                self.image = self.blackStateTwo
             elif self.animationState == 2:
-                self.image = pygame.image.load(const.BLACK_S3).convert_alpha()
+                self.image = self.blackStateThree
         elif self.treeQuality == 1:
             if self.animationState == 0:
-                self.image = pygame.image.load(const.ORANGE_S1).convert_alpha()
+                self.image = self.orangeStateOne
             elif self.animationState == 1 or self.animationState == 3:
-                self.image = pygame.image.load(const.ORANGE_S2).convert_alpha()
+                self.image = self.orangeStateTwo
             elif self.animationState == 2:
-                self.image = pygame.image.load(const.ORANGE_S3).convert_alpha()
+                self.image = self.orangeStateThree
         elif self.treeQuality == 2:
             if self.animationState == 0:
-                self.image = pygame.image.load(const.YELLOW_S1).convert_alpha()
+                self.image = self.yellowStateOne
             elif self.animationState == 1 or self.animationState == 3:
-                self.image = pygame.image.load(const.YELLOW_S2).convert_alpha()
+                self.image = self.yellowStateTwo
             elif self.animationState == 2:
-                self.image = pygame.image.load(const.YELLOW_S3).convert_alpha()
+                self.image = self.yellowStateThree
         elif self.treeQuality == 3:
             if self.animationState == 0:
-                self.image = pygame.image.load(const.GREEN_S1).convert_alpha()
+                self.image = self.greenStateOne
             elif self.animationState == 1 or self.animationState == 3:
-                self.image = pygame.image.load(const.GREEN_S2).convert_alpha()
+                self.image = self.greenStateTwo
             elif self.animationState == 2:
-                self.image = pygame.image.load(const.GREEN_S3).convert_alpha()
+                self.image = self.greenStateThree
 
     ### Updates Quality (on Random percent), Animation state and leaf count
     def update(self, harvesterNumber):

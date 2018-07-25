@@ -32,6 +32,9 @@ class DrawnTile(object):
     def __init__(self, x, y, state):
         self.rect = pygame.Rect(x, y, const.PIXELSIZE, const.PIXELSIZE)
         self.image = pygame.image.load(const.ANIMATIONPICONE).convert_alpha()
+        self.animationOne = pygame.image.load(const.ANIMATIONPICONE).convert_alpha()
+        self.animationTwo = pygame.image.load(const.ANIMATIONPICTWO).convert_alpha()
+        self.animationThree = pygame.image.load(const.ANIMATIONPICTHREE).convert_alpha()
         self.animationState = state
 
     ### Cycles animation to add dynamic quality
@@ -49,11 +52,11 @@ class DrawnTile(object):
     ### Updates image based on animation state number called once per update
     def updateAnimation(self):
         if self.animationState == 0:
-            self.image = pygame.image.load(const.ANIMATIONPICONE).convert_alpha()
+            self.image = self.animationOne
         elif self.animationState == 1:
-            self.image = pygame.image.load(const.ANIMATIONPICTWO).convert_alpha()
+            self.image = self.animationTwo
         elif self.animationState == 2:
-            self.image = pygame.image.load(const.ANIMATIONPICTHREE).convert_alpha()
+            self.image = self.animationThree
 
 ''' CLASS TILE
 Used as the object in creating the grid in A* pathfinding algrothim.
@@ -66,6 +69,8 @@ class Tile(object):
         self.g = 0
         self.h = 0
         self.f = 0
+        # Used by Enemy.py to determine trail collision
+        self.isTrail = False
 
 ''' CLASS ANTTRAIL
 This class contains all the A* pathfinding logic
@@ -207,24 +212,26 @@ class AntTrail(object):
                 if not self.soundPlayed:
                     self.treeReachedSound.play()
                     self.soundPlayed = True
-            # Call update on both lists to maintain animation cycles
-            for tile in self.noDrawList:
-                tile.update(self.treeReached)
-            for tile in self.drawingList:
-                tile.update(self.treeReached)
+            # Call update on both lists to maintain animation cycles and update blocked statues
+            for drawnTile in self.noDrawList:
+                drawnTile.update(self.treeReached)
+                self.grid[drawnTile.rect.x / 20][drawnTile.rect.y / 20].isTrail = False
+            for drawnTile in self.drawingList:
+                drawnTile.update(self.treeReached)
+                self.grid[drawnTile.rect.x / 20][drawnTile.rect.y / 20].isTrail = True
         # If trail is Cancelled set not treeReached and remove everything from drawingList to clear screen
         else:
             self.treeReached = False
             self.soundPlayed = False
             if self.drawingList:
                 self.drawingList.pop()
-            for tile in self.drawingList:
-                tile.update(True)
+            for drawnTile in self.drawingList:
+                drawnTile.update(True)
             if not self.drawingList:
                 self.trailActive = False
 
     def draw(self):
         # Draw everything in drawingList
-        for tile in self.drawingList:
-            tile.draw(self.screen)
+        for drawnTile in self.drawingList:
+            drawnTile.draw(self.screen)
 

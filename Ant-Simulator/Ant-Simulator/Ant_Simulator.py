@@ -23,7 +23,7 @@ class Game (object):
         self.trees = tree.TreeNodesList(screen)
         self.antTrail = trail.AntTrail(screen, self.trees.list)
         self.popoutLoader = popout.PopoutBox(screen)
-        self.enemy = enemy.EnemyList(screen, self.antTrail.grid)
+        self.enemy = enemy.EnemyList(screen, self.antTrail.grid, self.UI)
         # Background Music
         pygame.mixer.music.load("background_music.mp3")
         # Variables set up for use in the AntTrail and Leaf Collection Logic

@@ -26,7 +26,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Ant_Simulator.py" />
-    <Compile Include="Battle.py">
+    <Compile Include="Combat.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Constants.py">

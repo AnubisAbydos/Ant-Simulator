@@ -19,20 +19,25 @@ class Enemy(object):
         self.directionTimer = randint(4,8) 
         self.enemyType = randint(0, 4)
         self.moveTimer = 0
+        self.badBug1 = pygame.image.load(const.BADBUG1).convert_alpha()
+        self.badBug2 = pygame.image.load(const.BADBUG2).convert_alpha()
+        self.badBug3 = pygame.image.load(const.BADBUG3).convert_alpha()
+        self.badBug4 = pygame.image.load(const.BADBUG4).convert_alpha()
+        self.badBug5 = pygame.image.load(const.BADBUG5).convert_alpha()
         self.setStateImage()
 
     ### Random skin selector if statement
     def resetImage(self):
         if self.enemyType == 0:
-            self.image = pygame.image.load(const.BADBUG1).convert_alpha()
+            self.image = self.badBug1
         if self.enemyType == 1:
-            self.image = pygame.image.load(const.BADBUG2).convert_alpha()
+            self.image = self.badBug2
         if self.enemyType == 2:
-            self.image = pygame.image.load(const.BADBUG3).convert_alpha()
+            self.image = self.badBug3
         if self.enemyType == 3:
-            self.image = pygame.image.load(const.BADBUG4).convert_alpha()
+            self.image = self.badBug4
         if self.enemyType == 4:
-            self.image = pygame.image.load(const.BADBUG5).convert_alpha()
+            self.image = self.badBug5
         
     ### Sets enemy image rotation based on faceDirection
     def setStateImage(self):
@@ -47,37 +52,42 @@ class Enemy(object):
             self.image = pygame.transform.rotate(self.image, 270)
 
     ### Updates movement (on Random percent) and Animation state 
-    def update(self):
-        # Increment timer til next direction rotate
-        self.moveTimer += 1
-        if self.moveTimer == self.directionTimer:
-            # 50/50 chance to turn left or right
-            if randint(1,100) < 50:
-                self.faceDirection += 1
-            else: 
-                self.faceDirection -= 1
-                if self.faceDirection == -1:
-                    self.faceDirection = 3
-            self.faceDirection = self.faceDirection % 4
-            self.setStateImage()
-            # Reset Timer
-            self.moveTimer = 0
-            self.directionTimer = randint(4,8)
-        # Chance to move each update
-        elif (randint(1,100) < const.MOVEPERCENT):
-            # Check next space if valid move rect to next square (based on direction facing)
-            if self.faceDirection == 0:
-                if self.checkCollide(self.rect.x, self.rect.y -20):
-                    self.rect.move_ip(0, -20)
-            elif self.faceDirection == 1:
-                if self.checkCollide(self.rect.x - 20, self.rect.y):
-                    self.rect.move_ip(-20, 0)
-            elif self.faceDirection == 2:
-                if self.checkCollide(self.rect.x, self.rect.y +20):
-                    self.rect.move_ip(0, 20)
-            elif self.faceDirection == 3:
-                if self.checkCollide(self.rect.x + 20, self.rect.y):
-                    self.rect.move_ip(20, 0)
+    def update(self, UI):
+        # Check if combat needs to be intiated 
+        if self.checkCombatCollision(self.rect.x, self.rect.y):
+            print("Combat!")
+        # If not Combat continue update
+        else:
+            # Increment timer til next direction rotate
+            self.moveTimer += 1
+            if self.moveTimer == self.directionTimer:
+                # 50/50 chance to turn left or right
+                if randint(1,100) < 50:
+                    self.faceDirection += 1
+                else: 
+                    self.faceDirection -= 1
+                    if self.faceDirection == -1:
+                        self.faceDirection = 3
+                self.faceDirection = self.faceDirection % 4
+                self.setStateImage()
+                # Reset Timer
+                self.moveTimer = 0
+                self.directionTimer = randint(4,8)
+            # Chance to move each update
+            elif (randint(1,100) < const.MOVEPERCENT):
+                # Check next space if valid move rect to next square (based on direction facing)
+                if self.faceDirection == 0:
+                    if self.checkCollide(self.rect.x, self.rect.y -20):
+                        self.rect.move_ip(0, -20)
+                elif self.faceDirection == 1:
+                    if self.checkCollide(self.rect.x - 20, self.rect.y):
+                        self.rect.move_ip(-20, 0)
+                elif self.faceDirection == 2:
+                    if self.checkCollide(self.rect.x, self.rect.y +20):
+                        self.rect.move_ip(0, 20)
+                elif self.faceDirection == 3:
+                    if self.checkCollide(self.rect.x + 20, self.rect.y):
+                        self.rect.move_ip(20, 0)
     
     ### Checks for collision on grid     
     def checkCollide(self, x, y):
@@ -85,6 +95,12 @@ class Enemy(object):
             return False
         else:
             return not self.grid[x/20][y/20].isBlocked
+
+    def checkCombatCollision(self, x, y):
+        if self.grid[x/20][y/20].isTrail or (x == 740 and y == 740):
+            return True
+        else:
+            return False
 
     ### Blits bug to Game Window
     def draw(self):
@@ -94,9 +110,10 @@ class Enemy(object):
 Used to build the list of enemies for use by Game.
 '''
 class EnemyList (object):
-    def __init__ (self, screen, grid):
+    def __init__ (self, screen, grid, UI):
         self.screen = screen
         self.grid = grid
+        self.UI = UI
         self.newEnemy = None
         self.list = []        
         # Add X number of bad bugs to list ensuring that overlapping does not occur
@@ -121,16 +138,16 @@ class EnemyList (object):
         if isCollide == False:
             return self.newEnemy
 
-    ### Calls each bbug's draw function
+    ### Calls each Enemy's draw function
     def draw(self):
         for enemy in self.list:
             if enemy.isAlive:
                 enemy.draw()
 
-    ### Calls each bad bug's update function
+    ### Calls each Enemy's update function
     def update(self):
         for enemy in self.list:
             if not enemy.isAlive:
                 del enemy
             else:
-                enemy.update()
+                enemy.update(self.UI)
