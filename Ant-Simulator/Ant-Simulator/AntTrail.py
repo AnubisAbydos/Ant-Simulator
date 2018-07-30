@@ -28,6 +28,7 @@ class PriorityQueue(object):
     def get(self):
         return heapq.heappop(self.elements)[1]
 
+    ### Returns True if Queue is empty
     def empty(self):
         return len(self.elements) == 0
 
@@ -51,13 +52,15 @@ class DrawnTile(object):
         if treeReached:
             self.animationState += 1
             self.animationState = self.animationState % 3
+
             # Update new image state
             self.updateAnimation()
 
+    ### Draw Tile with current image and rect
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
-    ### Updates image based on animation state number called once per update
+    ### Updates image based on animation state number; called once per update
     def updateAnimation(self):
         if self.animationState == 0:
             self.image = self.animationOne
@@ -77,7 +80,8 @@ class Tile(object):
         self.g = 0
         self.h = 0
         self.f = 0
-        # Used by Enemy.py to determine trail collision
+
+        # Used by Enemy.py to determine enemy/trail collision
         self.isTrail = False
 
 ''' CLASS ANTTRAIL
@@ -90,9 +94,13 @@ class AntTrail(object):
         self.screen = screen
         self.treeList = treeList
         self.target = None
+
+        # Creates grid marking location of trees
         self.grid = [[0 for x in range(const.GRIDROWS)] for y in range(const.GRIDCOLUMNS)]
-        self.finalPathList = []
         self.createGrid()
+
+        # Variable declaration used to find path
+        self.finalPathList = []
         self.treeReached = False
         self.drawingList = []
         self.noDrawList = []
@@ -101,7 +109,7 @@ class AntTrail(object):
         self.soundPlayed = False
         self.treeReachedSound = pygame.mixer.Sound("tree_reach_sound.wav")
 
-    ### Creates grid for use in A* algorithm Created on program start
+    ### Creates grid for use in A* algorithm; Created on program start
     def createGrid(self):
         for col in xrange(const.GRIDROWS):
             for row in xrange(const.GRIDCOLUMNS):
@@ -109,7 +117,7 @@ class AntTrail(object):
                 y = row * const.PIXELSIZE
                 isBlocked = False
                 for tree in self.treeList:
-                    # '+ 10' added to point to place collide check in center of grid cell
+                    # '+ 10' added to point to place collide check in center of grid cell ensuring proper grid
                     if tree.rect.collidepoint(x + 10, y + 10):
                         isBlocked = True
                 self.grid[col][row] = Tile(x, y, isBlocked)
@@ -122,6 +130,7 @@ class AntTrail(object):
         else:
             self.target = target
             openList = PriorityQueue()
+
             # Start tile is always center of anthill
             start = Tile(740, 740, False)
             openList.put(start, 0)
@@ -131,8 +140,10 @@ class AntTrail(object):
             while not done:
                 # Get highest priority from open List
                 lowestFTile = openList.get()
+
                 # Add to closed
                 closedList.add(lowestFTile)
+
                 # Call and examine each neighbor
                 neighbors = self.getNeighbors(lowestFTile)
                 for neighbor in neighbors:
@@ -143,12 +154,15 @@ class AntTrail(object):
                         del openList
                         del closedList
                         break
+
                     # If it isnt a tree and hasnt been looked at ie:closed list, add it to open
                     if not neighbor.isBlocked and neighbor not in closedList:
                             added += 1
                             self.updateCell(neighbor, lowestFTile)
                             openList.put(neighbor, neighbor.f)
+
                 # If path isnt found within 1000 tile checks re-run with new target on same tree
+                # After Each tree corner is Attempted and fails tree is determined un-reachable and trail cancelled
                 if added > 1000:
                     done = True
                     if attempt == 1:
@@ -159,6 +173,10 @@ class AntTrail(object):
                         x = target[0]
                         y = target[1] - 20
                         self.findPath((x, y), 3)
+                    if attempt == 3:
+                        x = target[0] + 20
+                        y = target[1]
+                        self.findPath((x, y), 4)
 
     ### Returns a list of a given cells neighbors taken from the grid
     def getNeighbors(self, currentCell):
@@ -180,6 +198,7 @@ class AntTrail(object):
         # 20 is the arbitrary cost per move between tiles
         neighbor.g = currentCell.g + 20
         neighbor.h = self.setHeuristic(neighbor)
+
         # Set the parent so that the path can be created later
         neighbor.parent = currentCell
         neighbor.f = neighbor.h + neighbor.g
@@ -200,6 +219,7 @@ class AntTrail(object):
         state = 0
         for cell in self.finalPathList:
             self.noDrawList.append(DrawnTile(cell.coords[0], cell.coords[1], state))
+
             # State is rotated for each cell to provide a moving trail effect
             state += 1
             state = state % 3
@@ -211,15 +231,18 @@ class AntTrail(object):
         # Update only if currently building path
         if self.buildingTrail:
             self.trailActive = True
+
             # If cells still left in noDrawList add them to drawingList
             if self.noDrawList:
                 self.drawingList.append(self.noDrawList.pop(0))
+
             # If all cells are in drawingList tree has been reached
             else:
                 self.treeReached = True
                 if not self.soundPlayed:
                     self.treeReachedSound.play()
                     self.soundPlayed = True
+
             # Call update on both lists to maintain animation cycles and update blocked statues
             for drawnTile in self.noDrawList:
                 drawnTile.update(self.treeReached)
@@ -227,6 +250,7 @@ class AntTrail(object):
             for drawnTile in self.drawingList:
                 drawnTile.update(self.treeReached)
                 self.grid[drawnTile.rect.x / 20][drawnTile.rect.y / 20].isTrail = True
+
         # If trail is Cancelled set not treeReached and remove everything from drawingList to clear screen
         else:
             self.treeReached = False
@@ -238,7 +262,7 @@ class AntTrail(object):
             if not self.drawingList:
                 self.trailActive = False
 
+    ### Draw all tiles located in drawingList
     def draw(self):
-        # Draw everything in drawingList
         for drawnTile in self.drawingList:
             drawnTile.draw(self.screen)

@@ -18,12 +18,15 @@ class TreeNode (object):
     def __init__(self):
         # Randomize start location
         self.rect = pygame.Rect(randrange(60,700,20), randrange(60,700,20), const.TREEBASESIZE, const.TREEBASESIZE)
+
         # Tree Quality determines the multiplier for leaf gathering/color of tree
         self.treeQuality = randint(0,3)
         self.leafQuantity = randint(const.MINLEAVES, const.MAXLEAVES)
         self.isBeingHarvested = False
+
         # Used to track and progress animation cycle called in update (Randomized to have even start states)
         self.animationState = randint(0,3)
+
         # Set Tree images
         self.blackStateOne = pygame.image.load(const.BLACK_S1).convert_alpha()
         self.blackStateTwo = pygame.image.load(const.BLACK_S2).convert_alpha()
@@ -37,6 +40,7 @@ class TreeNode (object):
         self.greenStateOne = pygame.image.load(const.GREEN_S1).convert_alpha()
         self.greenStateTwo = pygame.image.load(const.GREEN_S2).convert_alpha()
         self.greenStateThree = pygame.image.load(const.GREEN_S3).convert_alpha()
+
         # Image is loaded by setStateImage() but declared here
         self.image = None
         self.setStateImage()
@@ -96,9 +100,11 @@ class TreeNode (object):
             return True
         return False
 
+    ### Return Tree Quality
     def getTreeQuality(self):
         return self.treeQuality
 
+    ### Return Leaf Quality
     def getLeafQuantity(self):
         return self.leafQuantity
 
@@ -116,16 +122,20 @@ class TreeNodesList (object):
             # The while loop removes this bug.
             while self.newTree == None:
                 self.newTree = self.createNewTree()
+
             # Once valid tree is created add to list
             self.list.append(self.newTree)
+
             # reset newTree for next find
             self.newTree = None
 
     ### RECURSIVE FUNCTION calls until a valid tree (not overlapping any others) is returned
     def createNewTree(self):
         isCollide = False
+
         # Calls TreeNode __init__ to automatically create a tree
         self.newTree = TreeNode()
+
         # Checks newTrees location to each already created tree and remakes the tree if isCollide
         for tree in self.list:
             isCollide = tree.collide(self.newTree.rect)

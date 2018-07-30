@@ -9,8 +9,6 @@ Pygame Version: 1.9.1.win32-py2.7
 
 import pygame
 import Constants as const
-
-# Sys is used to exit python when exit button is clicked
 import sys
 
 ''' CLASS UI
@@ -34,6 +32,7 @@ class UI (object):
         self.spawnCount = 10
         self.hiveUpgradeTime = 10
         self.hiveUpgradeCost = 1000
+
         # Variables used for spawn buttons
         self.spawnWorkerStatus = -1
         self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBARFULL).convert_alpha()
@@ -51,12 +50,15 @@ class UI (object):
         self.spawnGatherTile = pygame.image.load(const.SPAWNGATHERTILE).convert_alpha()
         self.spawnSoldierTile = pygame.image.load(const.SPAWNSOLDIERTILE).convert_alpha()
         self.spawnPrincessTile = pygame.image.load(const.SPAWNPRINCESSTILE).convert_alpha()
+
         # Font
         self.textFont = pygame.font.Font("pixelplay.ttf", 23)
         self.costTextFont = pygame.font.Font("pixelplay.ttf", 10)
+
         # Sounds
         self.spawnSound = pygame.mixer.Sound("spawn_sound.wav")
         self.hiveUpgradeSound = pygame.mixer.Sound("hive_upgrade_sound.wav")
+
         # Highlighted button variables
         self.blittingButtonHigh = False
         self.setDestButtonHigh = pygame.image.load(const.SETDESTBUTTONHIGH).convert_alpha()
@@ -75,6 +77,7 @@ class UI (object):
         self.upgradeHiveButtonBlitting = False
         self.pauseButtonHigh = pygame.image.load(const.PAUSEHIGH).convert_alpha()
         self.pauseButtonHighBlitting = False
+
         # Image Preloading
         self.spawnWorkerBarEmpty = pygame.image.load(const.SPAWNWORKERBAREMPTY).convert_alpha()
         self.spawnWorkerBar1Q = pygame.image.load(const.SPAWNWORKERBAR1Q).convert_alpha()
@@ -116,7 +119,7 @@ class UI (object):
         self.hiveSide9 = pygame.image.load(const.HIVESIDE9)
         self.hiveSide10 = pygame.image.load(const.HIVESIDE10)
         
-
+        # Set to Init state
         self.setHiveImgs()
 
     ### Takes in all state variables from Game to determine updates
@@ -124,6 +127,7 @@ class UI (object):
         self.hiveFungusCount += (self.hiveLevel * 10)
         if treeReached and treeFull:
             self.hiveLeafCount += self.antGatherCount * treeQuality
+
         # Call spawn functions passing false for not button call
         self.spawnWorker(False)
         self.spawnGather(False)
@@ -173,10 +177,13 @@ class UI (object):
 
     ### Handles all drawing required by the UI
     def draw(self):
+        # Draw UI Overlay
         self.screen.blit(self.uiOverlay, self.rect)
+
         # Hive image drawing
         self.screen.blit(self.hiveImage, self.hiveRect)
         self.screen.blit(self.hiveSideImg, self.rect)
+
         # Load white ant tile if they meet spawn cost requirement
         if(self.hiveFungusCount > const.SPAWNWORKERCOST):
             self.screen.blit(self.spawnWorkerTile, self.rect)
@@ -191,6 +198,7 @@ class UI (object):
         self.screen.blit(self.spawnSoldierBarImg, self.rect)
         self.screen.blit(self.spawnPrincessBarImg, self.rect)
         self.screen.blit(self.questionMarkOverlay, self.rect)
+
         # Highlighted button blitting 
         if self.blittingButtonHigh:
             if self.setDestButtonHighBlitting:
@@ -209,6 +217,7 @@ class UI (object):
                 self.screen.blit(self.upgradeHiveButton, self.rect)
             elif self.pauseButtonHighBlitting:
                 self.screen.blit(self.pauseButtonHigh, self.rect)
+
         # Number Text Rendering
         self.screen.blit(self.textFont.render(str(self.antWorkerCount), True, const.WHITE), const.WORKERTEXTBOX)
         self.screen.blit(self.textFont.render(str(self.antGatherCount), True, const.WHITE), const.GATHERTEXTBOX)
@@ -221,7 +230,8 @@ class UI (object):
         self.screen.blit(self.costTextFont.render(str(const.SPANWPRINCESSCOST), True, const.BLACK), const.PRINCESSFUNGUSCOSTBOX)
         if self.hiveLevel !=  10:
             self.screen.blit(self.costTextFont.render("Leaf Cost --- " + str(self.hiveUpgradeCost), True, const.BLACK), const.UPGRADEHIVELEAFCOSTBOX)
-        # If the hive is being upgraded display the timer til completion
+        
+        # If the hive is being upgraded display the timer until completion
         if self.hiveUpgrading:
             time = self.upgradeHiveStatus
             sec = time % 60
@@ -235,6 +245,7 @@ class UI (object):
             self.spawnWorkerStatus = const.SPAWNWORKERTIME
             self.hiveFungusCount -= const.SPAWNWORKERCOST
             self.spawnWorkerBarImg = self.spawnWorkerBarEmpty
+
         # If timer is started and is not finished and this is not a button call decrement timer and update status bar
         elif self.spawnWorkerStatus != -1 and self.spawnWorkerStatus != 0 and not workerButton:
             self.spawnWorkerStatus -= 1
@@ -249,6 +260,7 @@ class UI (object):
                 self.spawnWorkerBarImg = self.spawnWorkerBar3Q
             else:
                 self.spawnWorkerBarImg = self.spawnWorkerBarFull
+
         # If timer complete and this is not a button call complete action and reset timer
         elif self.spawnWorkerStatus == 0 and not workerButton:
             self.spawnSound.play()
@@ -263,6 +275,7 @@ class UI (object):
             self.spawnGatherStatus = const.SPAWNGATHERTIME
             self.hiveFungusCount -= const.SPAWNGATHERCOST
             self.spawnGatherBarImg = self.spawnGatherBarEmpty
+
         # If timer is started and is not finished and this is not a button call decrement timer and update status bar
         elif self.spawnGatherStatus != -1 and self.spawnGatherStatus != 0 and not gatherButton:
             self.spawnGatherStatus -= 1
@@ -277,6 +290,7 @@ class UI (object):
                 self.spawnGatherBarImg = self.spawnGatherBar3Q
             else:
                 self.spawnGatherBarImg = self.spawnGatherBarFull
+
         # If timer complete and this is not a button call complete action and reset timer
         elif self.spawnGatherStatus == 0 and not gatherButton:
             self.spawnSound.play()
@@ -291,6 +305,7 @@ class UI (object):
             self.spawnSoldierStatus = const.SPAWNSOLDIERTIME
             self.hiveFungusCount -= const.SPAWNSOLDIERCOST
             self.spawnSoldierBarImg = self.spawnSoldierBarEmpty
+
         # If timer is started and is not finished and this is not a button call decrement timer and update status bar
         elif self.spawnSoldierStatus != -1 and self.spawnSoldierStatus != 0 and not soldierButton:
             self.spawnSoldierStatus -= 1
@@ -305,6 +320,7 @@ class UI (object):
                 self.spawnSoldierBarImg = self.spawnSoldierBar3Q
             else:
                 self.spawnSoldierBarImg = self.spawnSoldierBarFull
+
         # If timer complete and this is not a button call complete action and reset timer
         elif self.spawnSoldierStatus == 0 and not soldierButton:
             self.spawnSound.play()
@@ -319,6 +335,7 @@ class UI (object):
             self.spawnPrincessStatus = const.SPAWNPRINCESSTIME
             self.hiveFungusCount -= const.SPANWPRINCESSCOST
             self.spawnPrincessBarImg = self.spawnPrincessBarEmpty
+
         # If timer is started and is not finished and this is not a button call decrement timer and update status bar
         elif self.spawnPrincessStatus != -1 and self.spawnPrincessStatus != 0 and not princessButton:
             self.spawnPrincessStatus -= 1
@@ -333,6 +350,7 @@ class UI (object):
                 self.spawnPrincessBarImg = self.spawnPrincessBar3Q
             else:
                 self.spawnPrincessBarImg = self.spawnPrincessBarFull
+
         # If timer complete and this is not a button call complete action and reset timer
         elif self.spawnPrincessStatus == 0 and not princessButton:
             self.spawnPrincessStatus = -1
@@ -348,9 +366,11 @@ class UI (object):
             self.hiveLeafCount -= self.hiveUpgradeCost
             self.hiveSideImg = self.hiveSideConstruction
             self.hiveUpgrading = True
+
         # If timer is started and is not finished and this is not a button call decrement timer
         elif self.upgradeHiveStatus != -1 and self.upgradeHiveStatus != 0 and not upgradeHiveButton:
             self.upgradeHiveStatus -= 1
+
         # If timer complete and this is not a button call complete action and reset timer
         elif self.upgradeHiveStatus == 0 and not upgradeHiveButton:
             self.hiveUpgradeSound.play()
@@ -426,10 +446,12 @@ class UI (object):
         startImageExitHigh = pygame.image.load(const.STARTSCREENEXITHIGH).convert()
         done = False
         pygame.mixer.music.play(-1)
+
         # Main Menu Loop takes in mouse clicks for the buttons
         while not done:            
             # Get Cursor Pos every frame
             pos = pygame.mouse.get_pos()
+
             # If cursor overlaps a button load correct Highlighted Image
             if const.STARTBUTTONRECT.collidepoint(pos):
                 self.screen.blit(startImageStartHigh, self.rect)
@@ -439,14 +461,17 @@ class UI (object):
                 self.screen.blit(startImageExitHigh, self.rect)
             else:
                 self.screen.blit(startImage, self.rect)
+
             # Flip Display
             pygame.display.flip()
+
             # Get event from pygame
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     done = True
                     pygame.quit()
                     sys.exit()
+
                 # If the mouse is clicked check if it was on a button and execute commands if true
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if const.STARTBUTTONRECT.collidepoint(pos):
@@ -469,6 +494,7 @@ class UI (object):
         while not done:            
             # Get Cursor Pos every frame
             pos = pygame.mouse.get_pos()
+
             # If cursor overlaps a button load correct Highlighted Image
             if const.RESUMEPAUSEBUTTONRECT.collidepoint(pos):
                 self.screen.blit(pauseImageResumeHigh, self.rect)
@@ -478,14 +504,17 @@ class UI (object):
                 self.screen.blit(pauseImageExitHigh, self.rect)
             else:
                 self.screen.blit(pauseImage, self.rect)
+
             # Flip Display
             pygame.display.flip()
+
             # Get event from pygame
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     done = True
                     pygame.quit()
                     sys.exit()
+
                 # If the mouse is clicked check if it was on a button and execute commands if true
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if const.RESUMEPAUSEBUTTONRECT.collidepoint(pos):
@@ -526,14 +555,17 @@ class UI (object):
                 self.screen.blit(tutorialScreenTwo, self.rect)
             else:
                 self.screen.blit(tutorialScreenOne, self.rect)
+
             # Flip Display
             pygame.display.flip()
+
             # Get event from pygame
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     done = True
                     pygame.quit()
                     sys.exit()
+
                 # If the mouse is clicked continue game
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if stage != 7:
@@ -574,6 +606,7 @@ class UI (object):
                         done = True
                         pygame.quit()
                         sys.exit()
+
                     # If the mouse is clicked continue game
                     elif event.type == pygame.MOUSEBUTTONDOWN:
                         done = True
@@ -627,12 +660,15 @@ class UI (object):
 
                 # Increment Frames/Ticks
                 frameCount += 1
+
                 # Reset frames and seconds every 30 frames to avoid numbers becoming too large
                 if (frameCount == 121):
                     frameCount = 1
                     nextTickUpdate = 5
+
                 # Throttle frame rate
                 clock.tick(frameRate)
+
                 # Flip Display
                 pygame.display.flip()
 
@@ -659,6 +695,7 @@ class UI (object):
                         done = True
                         pygame.quit()
                         sys.exit()
+
                     # If the mouse is clicked continue game
                     elif event.type == pygame.MOUSEBUTTONDOWN:
                         done = True
@@ -693,13 +730,16 @@ class UI (object):
 
                 # Increment Frames/Ticks
                 frameCount += 1
+
                 # Reset frames and seconds every 30 frames to avoid numbers becoming too large
                 if (frameCount == 121):
                     frameCount = 1
                     nextTickUpdate = 10
+
                 # Throttle frame rate
                 clock.tick(frameRate)
                 # Flip Display
+
                 pygame.display.flip()
 
         # Load Credits
@@ -717,14 +757,17 @@ class UI (object):
                 self.screen.blit(creditScreenTwo, self.rect)
             else:
                 self.screen.blit(creditScreenOne, self.rect)
+
             # Flip Display
             pygame.display.flip()
+
             # Get event from pygame
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     done = True
                     pygame.quit()
                     sys.exit()
+
                 # If the mouse is clicked continue game
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if stage != 3:

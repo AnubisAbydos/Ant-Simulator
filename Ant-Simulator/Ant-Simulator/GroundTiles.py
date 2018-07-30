@@ -43,10 +43,13 @@ class groundTiles(object):
     def __init__(self, screen):
         # This is the game window stored for use by draw function
         self.screen = screen
+
         # Surface created to hold background tiles
         self.background = pygame.Surface((800, 800))
+
         # 2D array for use by Celluar Automata
         self.cells = [[0 for x in range(const.GRIDROWS)] for y in range(const.GRIDCOLUMNS)]
+
         # Construct cell array Giving random starting state
         for column in xrange(const.GRIDROWS):
             for row in xrange(const.GRIDCOLUMNS):
@@ -65,6 +68,7 @@ class groundTiles(object):
     ### Function to count and return number of a cell's living neighbors (Used by doSimulationStep)
     def countAliveNeighbors(self, x, y):
         count = 0
+
         # Loop to each neighbor including corners
         for i in range(-1, 2):
             for j in range(-1, 2):
@@ -94,12 +98,13 @@ class groundTiles(object):
                         self.cells[x][y].changeState(True)
                     else:
                         self.cells[x][y].changeState(False)
+
         # Resets old state after all new states have been set (to prepare for next simulation)
         for x in xrange(const.GRIDROWS):
             for y in xrange(const.GRIDCOLUMNS):
                 self.cells[x][y].oldIsAlive = self.cells[x][y].newIsAlive
     
-    ### Blit all cells to the Background surface (last call of groundTiles __init__)
+    ### Blit all cells to the Background surface
     def drawToSurface(self):
         for x in xrange(const.GRIDROWS):
             for y in xrange(const.GRIDCOLUMNS):
