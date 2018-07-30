@@ -66,6 +66,47 @@ class UI (object):
         self.upgradeHiveButtonBlitting = False
         self.pauseButtonHigh = pygame.image.load(const.PAUSEHIGH).convert_alpha()
         self.pauseButtonHighBlitting = False
+        # Image Preloading
+        self.spawnWorkerBarEmpty = pygame.image.load(const.SPAWNWORKERBAREMPTY).convert_alpha()
+        self.spawnWorkerBar1Q = pygame.image.load(const.SPAWNWORKERBAR1Q).convert_alpha()
+        self.spawnWorkerBarHalf = pygame.image.load(const.SPAWNWORKERBARHALF).convert_alpha()
+        self.spawnWorkerBar3Q = pygame.image.load(const.SPAWNWORKERBAR3Q).convert_alpha()
+        self.spawnWorkerBarFull = pygame.image.load(const.SPAWNWORKERBARFULL).convert_alpha()
+        self.spawnGatherBarEmpty = pygame.image.load(const.SPAWNGATHERBAREMPTY).convert_alpha()
+        self.spawnGatherBar1Q = pygame.image.load(const.SPAWNGATHERBAR1Q).convert_alpha()
+        self.spawnGatherBarHalf = pygame.image.load(const.SPAWNGATHERBARHALF).convert_alpha()
+        self.spawnGatherBar3Q = pygame.image.load(const.SPAWNGATHERBAR3Q).convert_alpha()
+        self.spawnGatherBarFull = pygame.image.load(const.SPAWNGATHERBARFULL).convert_alpha()
+        self.spawnSoldierBarEmpty = pygame.image.load(const.SPAWNSOLDIERBAREMPTY).convert_alpha()
+        self.spawnSoldierBar1Q = pygame.image.load(const.SPAWNSOLDIERBAR1Q).convert_alpha()
+        self.spawnSoldierBarHalf = pygame.image.load(const.SPAWNSOLDIERBARHALF).convert_alpha()
+        self.spawnSoldierBar3Q = pygame.image.load(const.SPAWNSOLDIERBAR3Q).convert_alpha()
+        self.spawnSoldierBarFull = pygame.image.load(const.SPAWNSOLDIERBARFULL).convert_alpha()
+        self.spawnPrincessBarEmpty = pygame.image.load(const.SPAWNPRINCESSBAREMPTY).convert_alpha()
+        self.spawnPrincessBar1Q = pygame.image.load(const.SPAWNPRINCESSBAR1Q).convert_alpha()
+        self.spawnPrincessBarHalf = pygame.image.load(const.SPAWNPRINCESSBARHALF).convert_alpha()
+        self.spawnPrincessBar3Q = pygame.image.load(const.SPAWNPRINCESSBAR3Q).convert_alpha()
+        self.spawnPrincessBarFull = pygame.image.load(const.SPAWNPRINCESSBARFULL).convert_alpha()
+        self.hiveSideConstruction = pygame.image.load(const.HIVESIDECONSTRUCTION).convert_alpha()
+        self.hiveL2 = pygame.image.load(const.HIVEL2)
+        self.hiveL3 = pygame.image.load(const.HIVEL3)
+        self.hiveL4 = pygame.image.load(const.HIVEL4)
+        self.hiveL5 = pygame.image.load(const.HIVEL5)
+        self.hiveL6 = pygame.image.load(const.HIVEL6)
+        self.hiveL7 = pygame.image.load(const.HIVEL7)
+        self.hiveL8 = pygame.image.load(const.HIVEL8)
+        self.hiveL9 = pygame.image.load(const.HIVEL9)
+        self.hiveL10 = pygame.image.load(const.HIVEL10)
+        self.hiveSide2 = pygame.image.load(const.HIVESIDE2)
+        self.hiveSide3 = pygame.image.load(const.HIVESIDE3)
+        self.hiveSide4 = pygame.image.load(const.HIVESIDE4)
+        self.hiveSide5 = pygame.image.load(const.HIVESIDE5)
+        self.hiveSide6 = pygame.image.load(const.HIVESIDE6)
+        self.hiveSide7 = pygame.image.load(const.HIVESIDE7)
+        self.hiveSide8 = pygame.image.load(const.HIVESIDE8)
+        self.hiveSide9 = pygame.image.load(const.HIVESIDE9)
+        self.hiveSide10 = pygame.image.load(const.HIVESIDE10)
+        
 
         self.setHiveImgs()
 
@@ -184,7 +225,7 @@ class UI (object):
         if workerButton and self.spawnWorkerStatus == -1 and self.hiveFungusCount > const.SPAWNWORKERCOST:
             self.spawnWorkerStatus = const.SPAWNWORKERTIME
             self.hiveFungusCount -= const.SPAWNWORKERCOST
-            self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBAREMPTY).convert_alpha()
+            self.spawnWorkerBarImg = self.spawnWorkerBarEmpty
         # If timer is started and is not finished and this is not a button call decrement timer and update status bar
         elif self.spawnWorkerStatus != -1 and self.spawnWorkerStatus != 0 and not workerButton:
             self.spawnWorkerStatus -= 1
@@ -192,18 +233,18 @@ class UI (object):
             if percentCompleteWorker < .25:
                 pass
             elif percentCompleteWorker >= .25 and percentCompleteWorker < .50:
-                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBAR1Q).convert_alpha()
+                self.spawnWorkerBarImg = self.spawnWorkerBar1Q
             elif percentCompleteWorker >= .50 and percentCompleteWorker < .75:
-                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBARHALF).convert_alpha()
+                self.spawnWorkerBarImg = self.spawnWorkerBarHalf
             elif percentCompleteWorker >= .75 and percentCompleteWorker < .99:
-                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBAR3Q).convert_alpha()
+                self.spawnWorkerBarImg = self.spawnWorkerBar3Q
             else:
-                self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBARFULL).convert_alpha()
+                self.spawnWorkerBarImg = self.spawnWorkerBarFull
         # If timer complete and this is not a button call complete action and reset timer
         elif self.spawnWorkerStatus == 0 and not workerButton:
             self.spawnSound.play()
             self.spawnWorkerStatus = -1
-            self.spawnWorkerBarImg = pygame.image.load(const.SPAWNWORKERBARFULL).convert_alpha()
+            self.spawnWorkerBarImg = self.spawnWorkerBarFull
             self.antWorkerCount += self.spawnCount
 
     ### Handles logic and timer for Gather Spawn takes Bool whether the call came from a button click
@@ -212,7 +253,7 @@ class UI (object):
         if gatherButton and self.spawnGatherStatus == -1 and self.hiveFungusCount > const.SPAWNGATHERCOST:
             self.spawnGatherStatus = const.SPAWNGATHERTIME
             self.hiveFungusCount -= const.SPAWNGATHERCOST
-            self.spawnGatherBarImg = pygame.image.load(const.SPAWNGATHERBAREMPTY).convert_alpha()
+            self.spawnGatherBarImg = self.spawnGatherBarEmpty
         # If timer is started and is not finished and this is not a button call decrement timer and update status bar
         elif self.spawnGatherStatus != -1 and self.spawnGatherStatus != 0 and not gatherButton:
             self.spawnGatherStatus -= 1
@@ -220,18 +261,18 @@ class UI (object):
             if percentCompleteGather < .25:
                 pass
             elif percentCompleteGather >= .25 and percentCompleteGather < .50:
-                self.spawnGatherBarImg = pygame.image.load(const.SPAWNGATHERBAR1Q).convert_alpha()
+                self.spawnGatherBarImg = self.spawnGatherBar1Q
             elif percentCompleteGather >= .50 and percentCompleteGather < .75:
-                self.spawnGatherBarImg = pygame.image.load(const.SPAWNGATHERBARHALF).convert_alpha()
+                self.spawnGatherBarImg = self.spawnGatherBarHalf
             elif percentCompleteGather >= .75 and percentCompleteGather < .99:
-                self.spawnGatherBarImg = pygame.image.load(const.SPAWNGATHERBAR3Q).convert_alpha()
+                self.spawnGatherBarImg = self.spawnGatherBar3Q
             else:
-                self.spawnGatherBarImg = pygame.image.load(const.SPAWNGATHERBARFULL).convert_alpha()
+                self.spawnGatherBarImg = self.spawnGatherBarFull
         # If timer complete and this is not a button call complete action and reset timer
         elif self.spawnGatherStatus == 0 and not gatherButton:
             self.spawnSound.play()
             self.spawnGatherStatus = -1
-            self.spawnGatherBarImg = pygame.image.load(const.SPAWNGATHERBARFULL).convert_alpha()
+            self.spawnGatherBarImg = self.spawnGatherBarFull
             self.antGatherCount += self.spawnCount
 
     ### Handles logic and timer for Soldier Spawn takes Bool whether the call came from a button click
@@ -240,7 +281,7 @@ class UI (object):
         if soldierButton and self.spawnSoldierStatus == -1 and self.hiveFungusCount > const.SPAWNSOLDIERCOST:
             self.spawnSoldierStatus = const.SPAWNSOLDIERTIME
             self.hiveFungusCount -= const.SPAWNSOLDIERCOST
-            self.spawnSoldierBarImg = pygame.image.load(const.SPAWNSOLDIERBAREMPTY).convert_alpha()
+            self.spawnSoldierBarImg = self.spawnSoldierBarEmpty
         # If timer is started and is not finished and this is not a button call decrement timer and update status bar
         elif self.spawnSoldierStatus != -1 and self.spawnSoldierStatus != 0 and not soldierButton:
             self.spawnSoldierStatus -= 1
@@ -248,18 +289,18 @@ class UI (object):
             if percentCompleteSoldier < .25:
                 pass
             elif percentCompleteSoldier >= .25 and percentCompleteSoldier < .50:
-                self.spawnSoldierBarImg = pygame.image.load(const.SPAWNSOLDIERBAR1Q).convert_alpha()
+                self.spawnSoldierBarImg = self.spawnSoldierBar1Q
             elif percentCompleteSoldier >= .50 and percentCompleteSoldier < .75:
-                self.spawnSoldierBarImg = pygame.image.load(const.SPAWNSOLDIERBARHALF).convert_alpha()
+                self.spawnSoldierBarImg = self.spawnSoldierBarHalf
             elif percentCompleteSoldier >= .75 and percentCompleteSoldier < .99:
-                self.spawnSoldierBarImg = pygame.image.load(const.SPAWNSOLDIERBAR3Q).convert_alpha()
+                self.spawnSoldierBarImg = self.spawnSoldierBar3Q
             else:
-                self.spawnSoldierBarImg = pygame.image.load(const.SPAWNSOLDIERBARFULL).convert_alpha()
+                self.spawnSoldierBarImg = self.spawnSoldierBarFull
         # If timer complete and this is not a button call complete action and reset timer
         elif self.spawnSoldierStatus == 0 and not soldierButton:
             self.spawnSound.play()
             self.spawnSoldierStatus = -1
-            self.spawnSoldierBarImg = pygame.image.load(const.SPAWNSOLDIERBARFULL).convert_alpha()
+            self.spawnSoldierBarImg = self.spawnSoldierBarFull
             self.antSoldierCount += self.spawnCount
 
     ### Handles logic and timer for Princess Spawn takes Bool whether the call came from a button click
@@ -268,7 +309,7 @@ class UI (object):
         if princessButton and self.spawnPrincessStatus == -1 and self.hiveFungusCount > const.SPANWPRINCESSCOST:
             self.spawnPrincessStatus = const.SPAWNPRINCESSTIME
             self.hiveFungusCount -= const.SPANWPRINCESSCOST
-            self.spawnPrincessBarImg = pygame.image.load(const.SPAWNPRINCESSBAREMPTY).convert_alpha()
+            self.spawnPrincessBarImg = self.spawnPrincessBarEmpty
         # If timer is started and is not finished and this is not a button call decrement timer and update status bar
         elif self.spawnPrincessStatus != -1 and self.spawnPrincessStatus != 0 and not princessButton:
             self.spawnPrincessStatus -= 1
@@ -276,13 +317,13 @@ class UI (object):
             if percentCompletePrincess < .25:
                 pass
             elif percentCompletePrincess >= .25 and percentCompletePrincess < .50:
-                self.spawnPrincessBarImg = pygame.image.load(const.SPAWNPRINCESSBAR1Q).convert_alpha()
+                self.spawnPrincessBarImg = self.spawnPrincessBar1Q
             elif percentCompletePrincess >= .50 and percentCompletePrincess < .75:
-                self.spawnPrincessBarImg = pygame.image.load(const.SPAWNPRINCESSBARHALF).convert_alpha()
+                self.spawnPrincessBarImg = self.spawnPrincessBarHalf
             elif percentCompletePrincess >= .75 and percentCompletePrincess < .99:
-                self.spawnPrincessBarImg = pygame.image.load(const.SPAWNPRINCESSBAR3Q).convert_alpha()
+                self.spawnPrincessBarImg = self.spawnPrincessBar3Q
             else:
-                self.spawnPrincessBarImg = pygame.image.load(const.SPAWNPRINCESSBARFULL).convert_alpha()
+                self.spawnPrincessBarImg = self.spawnPrincessBarFull
         # If timer complete and this is not a button call complete action and reset timer
         elif self.spawnPrincessStatus == 0 and not princessButton:
             self.spawnPrincessStatus = -1
@@ -296,7 +337,7 @@ class UI (object):
             if self.upgradeHiveStatus < 10:
                 self.upgradeHiveStatus = 5
             self.hiveLeafCount -= self.hiveUpgradeCost
-            self.hiveSideImg = pygame.image.load(const.HIVESIDECONSTRUCTION).convert_alpha()
+            self.hiveSideImg = self.hiveSideConstruction
             self.hiveUpgrading = True
         # If timer is started and is not finished and this is not a button call decrement timer
         elif self.upgradeHiveStatus != -1 and self.upgradeHiveStatus != 0 and not upgradeHiveButton:
@@ -315,33 +356,52 @@ class UI (object):
     ### Sets side view and top down view of hive images based on current hive level
     def setHiveImgs(self):
         if self.hiveLevel == 2:
-            self.hiveImage = pygame.image.load(const.HIVEL2)
-            self.hiveSideImg = pygame.image.load(const.HIVESIDE2)
+            self.hiveImage = self.hiveL2
+            self.hiveSideImg = self.hiveSide2
         elif self.hiveLevel == 3:
-            self.hiveImage = pygame.image.load(const.HIVEL3)
-            self.hiveSideImg = pygame.image.load(const.HIVESIDE3)
+            self.hiveImage = self.hiveL3
+            self.hiveSideImg = self.hiveSide3
         elif self.hiveLevel == 4:
-            self.hiveImage = pygame.image.load(const.HIVEL4)
-            self.hiveSideImg = pygame.image.load(const.HIVESIDE4)
+            self.hiveImage = self.hiveL4
+            self.hiveSideImg = self.hiveSide4
         elif self.hiveLevel == 5:
-            self.hiveImage = pygame.image.load(const.HIVEL5)
-            self.hiveSideImg = pygame.image.load(const.HIVESIDE5)
+            self.hiveImage = self.hiveL5
+            self.hiveSideImg = self.hiveSide5
         elif self.hiveLevel == 6:
-            self.hiveImage = pygame.image.load(const.HIVEL6)
-            self.hiveSideImg = pygame.image.load(const.HIVESIDE6)
+            self.hiveImage = self.hiveL6
+            self.hiveSideImg = self.hiveSide6
         elif self.hiveLevel == 7:
-            self.hiveImage = pygame.image.load(const.HIVEL7)
-            self.hiveSideImg = pygame.image.load(const.HIVESIDE7)
+            self.hiveImage = self.hiveL7
+            self.hiveSideImg = self.hiveSide7
         elif self.hiveLevel == 8:
-            self.hiveImage = pygame.image.load(const.HIVEL8)
-            self.hiveSideImg = pygame.image.load(const.HIVESIDE8)
+            self.hiveImage = self.hiveL8
+            self.hiveSideImg = self.hiveSide8
         elif self.hiveLevel == 9:
-            self.hiveImage = pygame.image.load(const.HIVEL9)
-            self.hiveSideImg = pygame.image.load(const.HIVESIDE9)
+            self.hiveImage = self.hiveL9
+            self.hiveSideImg = self.hiveSide9
         elif self.hiveLevel == 10:
-            self.hiveImage = pygame.image.load(const.HIVEL10)
-            self.hiveSideImg = pygame.image.load(const.HIVESIDE10)
+            self.hiveImage = self.hiveL10
+            self.hiveSideImg = self.hiveSide10
 
+    ### Controls and resolves combat between enemies and ants
+    def combatScreen(self, enemyStrength):
+        done = False
+        while not done:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    done = True
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    done = True
+            # TODO Remove and replace
+            loadImage = pygame.image.load(const.LOADINGSCREEN).convert()
+            self.screen.blit(loadImage, self.rect)
+            pygame.display.flip()
+                    
+        return False
+
+        
     
     ### Loading Screen is blit and flipped to display while game assests load
     def loadingScreen(self):
@@ -430,6 +490,7 @@ class UI (object):
                         pygame.quit()
                         sys.exit()
     
+    ### Runs the tutorial screens progressing through them on click
     def startTutorial(self):
         pygame.mixer.music.set_volume(.3)
         tutorialScreenOne = pygame.image.load(const.TUTORIALONE).convert()
@@ -470,11 +531,10 @@ class UI (object):
                         stage += 1
                     else:
                         done = True
-
-    # TODO Build gameover conditions
+    
+    ### Loads and controls Gameover windows Both Win and Lose
     def gameOver(self, isWon):
         done = False
-
         if isWon:
             wonBackground = pygame.image.load("win_background.png").convert()
             wonStageZero = pygame.image.load("win_zero.png").convert_alpha()
@@ -633,6 +693,7 @@ class UI (object):
                 # Flip Display
                 pygame.display.flip()
 
+        # Load Credits
         pygame.mixer.music.unpause()
         pygame.mixer.music.set_volume(.3)
         creditScreenOne = pygame.image.load("credit_one.png").convert()

@@ -52,10 +52,11 @@ class Enemy(object):
             self.image = pygame.transform.rotate(self.image, 270)
 
     ### Updates movement (on Random percent) and Animation state 
-    def update(self, UI):
+    def update(self):
         # Check if combat needs to be intiated 
         if self.checkCombatCollision(self.rect.x, self.rect.y):
-            print("Combat!")
+            return True
+
         # If not Combat continue update
         else:
             # Increment timer til next direction rotate
@@ -73,21 +74,27 @@ class Enemy(object):
                 # Reset Timer
                 self.moveTimer = 0
                 self.directionTimer = randint(4,8)
+                return False
+
             # Chance to move each update
             elif (randint(1,100) < const.MOVEPERCENT):
                 # Check next space if valid move rect to next square (based on direction facing)
                 if self.faceDirection == 0:
                     if self.checkCollide(self.rect.x, self.rect.y -20):
                         self.rect.move_ip(0, -20)
+                        return False
                 elif self.faceDirection == 1:
                     if self.checkCollide(self.rect.x - 20, self.rect.y):
                         self.rect.move_ip(-20, 0)
+                        return False
                 elif self.faceDirection == 2:
                     if self.checkCollide(self.rect.x, self.rect.y +20):
                         self.rect.move_ip(0, 20)
+                        return False
                 elif self.faceDirection == 3:
                     if self.checkCollide(self.rect.x + 20, self.rect.y):
                         self.rect.move_ip(20, 0)
+                        return False
     
     ### Checks for collision on grid     
     def checkCollide(self, x, y):
@@ -96,8 +103,9 @@ class Enemy(object):
         else:
             return not self.grid[x/20][y/20].isBlocked
 
+    ### Checks for Combat collosion by checking where ant trail or hive is compared to bug location
     def checkCombatCollision(self, x, y):
-        if self.grid[x/20][y/20].isTrail or (x == 740 and y == 740):
+        if self.grid[x/20][y/20].isTrail or (x > 680 and y > 680):
             return True
         else:
             return False
@@ -146,8 +154,15 @@ class EnemyList (object):
 
     ### Calls each Enemy's update function
     def update(self):
+        # 1% chance each update to create a new enemy
+        if (randint(1,100) < 2):
+            self.list.append(self.createNewEnemy())
+
+        # Update all alive Enemy
         for enemy in self.list:
             if not enemy.isAlive:
                 del enemy
             else:
-                enemy.update(self.UI)
+                # If this enemy is in combat call combat from UI
+                if enemy.update():
+                    enemy.isAlive = self.UI.combatScreen(enemy.strength)

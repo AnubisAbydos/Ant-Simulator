@@ -8,8 +8,6 @@ import PopoutBox as popout
 import Enemy as enemy
 import sys
 
-
-
 ''' CLASS GAME
 Contains all information, variables and functions for an instance of a game
 '''
@@ -161,7 +159,7 @@ class Game (object):
         self.upgradeHiveButtonPressed = False
 
     ### Twenty frame/tick Update Calls
-    def update10Tick(self):
+    def update15Tick(self):
         self.antTrail.update()
         self.enemy.update()
         
@@ -196,10 +194,10 @@ def main():
     done = False
     # Start the clock
     clock = pygame.time.Clock()
-    frameRate = 30
+    frameRate = 60
     frameCount = 0
     nextSecondUpdate = 1
-    nextTickUpdate = 10
+    nextTickUpdate = 15
     # Loop Start
     while not done:
         # Used in One Second Update Interval
@@ -212,22 +210,23 @@ def main():
         if (totalSeconds == nextSecondUpdate):
             game.update1Second()
 
-        # Update every 10 frames/ticks
+        # Update every 15 frames/ticks
         if (frameCount == nextTickUpdate):
-            game.update10Tick()
-            nextTickUpdate += 10
+            game.update15Tick()
+            nextTickUpdate += 15
 
         # Draw the screen
         game.draw()
         # Increment Frames/Ticks
         frameCount += 1
-        # Reset frames and seconds every 30 frames to avoid numbers becoming too large
-        if (frameCount == 31):
+        # Reset frames and seconds every 60 frames to avoid numbers becoming too large
+        if (frameCount == 61):
             frameCount = 1
-            nextTickUpdate = 10
+            nextTickUpdate = 15
             totalSeconds = 0
         # Throttle frame rate
         clock.tick(frameRate)
+        print(clock.get_fps())
         # Flip to user
         pygame.display.flip()
 

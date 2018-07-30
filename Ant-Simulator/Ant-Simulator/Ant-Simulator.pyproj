@@ -26,9 +26,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Ant_Simulator.py" />
-    <Compile Include="Combat.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Constants.py">
       <SubType>Code</SubType>
     </Compile>
@@ -47,31 +44,6 @@
     <Compile Include="UI.py">
       <SubType>Code</SubType>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="armadillo.png" />
-    <Content Include="badBug1.png" />
-    <Content Include="badBugL.png" />
-    <Content Include="badBugR.png" />
-    <Content Include="badBugU.png" />
-    <Content Include="basic_ui_test.png" />
-    <Content Include="enemy1.png" />
-    <Content Include="grass.jpg" />
-    <Content Include="icon.JPG" />
-    <Content Include="sand.JPG" />
-    <Content Include="tree.png" />
-    <Content Include="tree_black_s1.png" />
-    <Content Include="tree_black_s2.png" />
-    <Content Include="tree_black_s3.png" />
-    <Content Include="tree_green_s1.png" />
-    <Content Include="tree_green_s2.png" />
-    <Content Include="tree_green_s3.png" />
-    <Content Include="tree_orange_s1.png" />
-    <Content Include="tree_orange_s2.png" />
-    <Content Include="tree_orange_s3.png" />
-    <Content Include="tree_yellow_s1.png" />
-    <Content Include="tree_yellow_s2.png" />
-    <Content Include="tree_yellow_s3.png" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

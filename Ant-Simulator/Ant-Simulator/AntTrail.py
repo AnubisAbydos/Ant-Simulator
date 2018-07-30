@@ -4,7 +4,6 @@ import Constants as const
 # Used by priority queue class for heappush and heappop
 import heapq
 
-
 ''' CLASS PRIORITYQUEUE
 Used by the pathfinding for A* implementation of f(n) priority
 '''
