@@ -1,3 +1,12 @@
+"""
+Project Name: Ant Simulator
+File Name: AntTrail.py
+Author: Lex Hall
+Last Updated: July 30th, 2018
+Python Version: 2.7
+Pygame Version: 1.9.1.win32-py2.7
+"""
+
 import pygame
 import Constants as const
 
@@ -233,4 +242,3 @@ class AntTrail(object):
         # Draw everything in drawingList
         for drawnTile in self.drawingList:
             drawnTile.draw(self.screen)
-

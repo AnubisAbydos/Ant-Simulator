@@ -1,3 +1,12 @@
+"""
+Project Name: Ant Simulator
+File Name: TreeNode.py
+Author: Lex Hall
+Last Updated: July 30th, 2018
+Python Version: 2.7
+Pygame Version: 1.9.1.win32-py2.7
+"""
+
 import pygame
 from random import *
 import Constants as const

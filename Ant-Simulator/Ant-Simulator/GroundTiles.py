@@ -1,3 +1,12 @@
+"""
+Project Name: Ant Simulator
+File Name: GroundTiles.py
+Author: Lex Hall
+Last Updated: July 30th, 2018
+Python Version: 2.7
+Pygame Version: 1.9.1.win32-py2.7
+"""
+
 import pygame
 import Constants as const
 from random import *
@@ -100,5 +109,3 @@ class groundTiles(object):
     ### Blits Background surface to game window
     def draw(self):
         self.screen.blit(self.background, pygame.Rect((0,0),(800,800)))
-
-
