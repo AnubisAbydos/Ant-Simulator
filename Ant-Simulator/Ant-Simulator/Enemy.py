@@ -174,4 +174,4 @@ class EnemyList (object):
             else:
                 # If this enemy is in combat call combat from UI
                 if enemy.update():
-                    enemy.isAlive = self.UI.combatScreen(enemy.strength)
+                    enemy.isAlive = self.UI.intiateCombat(enemy.strength)

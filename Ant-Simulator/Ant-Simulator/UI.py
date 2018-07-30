@@ -9,6 +9,7 @@ Pygame Version: 1.9.1.win32-py2.7
 
 import pygame
 import Constants as const
+import Combat as combat
 import sys
 
 ''' CLASS UI
@@ -21,11 +22,12 @@ class UI (object):
         self.uiOverlay = pygame.image.load(const.UITEMPLATE).convert_alpha()
         self.questionMarkOverlay = pygame.image.load(const.QUESTIONMARKOVERLAY).convert_alpha()
         self.hiveRect = pygame.Rect(700,700,100,100)
+        self.combatController = combat.CombatController(screen)
 
         # Variables used for state of game
-        self.antWorkerCount = 12345
-        self.antGatherCount = 235
-        self.antSoldierCount = 1235
+        self.antWorkerCount = 1000
+        self.antGatherCount = 0
+        self.antSoldierCount = 0
         self.hiveLeafCount = 123456
         self.hiveFungusCount = 678954
         self.hiveLevel = 5
@@ -412,25 +414,27 @@ class UI (object):
             self.hiveImage = self.hiveL10
             self.hiveSideImg = self.hiveSide10
 
-    ### Controls and resolves combat between enemies and ants
-    def combatScreen(self, enemyStrength):
-        done = False
-        while not done:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    done = True
-                    pygame.quit()
-                    sys.exit()
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    done = True
-            # TODO Remove and replace
-            loadImage = pygame.image.load(const.LOADINGSCREEN).convert()
-            self.screen.blit(loadImage, self.rect)
-            pygame.display.flip()
-                    
-        return False
+    ### Calls combat between enemies and ants; Returns False to kill Enemy
+    def intiateCombat(self, enemyStrength):
+        if self.antSoldierCount == 0 and self.antGatherCount == 0:
+            self.combatController.runCombatLoop(enemyStrength, self.antWorkerCount, "Worker")
+            self.antWorkerCount = self.combatController.getAntCountAfterCombat()
 
+        elif self.antSoldierCount == 0:
+            self.combatController.runCombatLoop(enemyStrength, self.antGatherCount, "Gather")
+            self.antGatherCount = self.combatController.getAntCountAfterCombat()
         
+        else:
+            isEnemyAlive = self.combatController.runCombatLoop(enemyStrength, self.antSoldierCount, "Soldier")
+            self.antSoldierCount = self.combatController.getAntCountAfterCombat()
+
+        if self.antSoldierCount < 0:
+            self.antSoldierCount = 0
+        if self.antGatherCount < 0:
+            self.antGatherCount = 0
+        if self.antWorkerCount <= 0:
+            self.gameOver(False)
+        return False
     
     ### Loading Screen is blit and flipped to display while game assests load
     def loadingScreen(self):
@@ -661,7 +665,7 @@ class UI (object):
                 # Increment Frames/Ticks
                 frameCount += 1
 
-                # Reset frames and seconds every 30 frames to avoid numbers becoming too large
+                # Reset frames and seconds every 120 frames to avoid numbers becoming too large
                 if (frameCount == 121):
                     frameCount = 1
                     nextTickUpdate = 5
@@ -731,15 +735,15 @@ class UI (object):
                 # Increment Frames/Ticks
                 frameCount += 1
 
-                # Reset frames and seconds every 30 frames to avoid numbers becoming too large
+                # Reset frames and seconds every 120 frames to avoid numbers becoming too large
                 if (frameCount == 121):
                     frameCount = 1
                     nextTickUpdate = 10
 
                 # Throttle frame rate
                 clock.tick(frameRate)
-                # Flip Display
 
+                # Flip Display
                 pygame.display.flip()
 
         # Load Credits
@@ -774,3 +778,5 @@ class UI (object):
                         stage += 1
                     else:
                         done = True
+                        pygame.quit()
+                        sys.exit()
