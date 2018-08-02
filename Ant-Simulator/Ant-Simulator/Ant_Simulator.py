@@ -2,7 +2,7 @@
 Project Name: Ant Simulator
 File Name: Ant_Simulator.py
 Author: Lex Hall
-Last Updated: August 1st, 2018
+Last Updated: August 2nd, 2018
 Python Version: 2.7
 Pygame Version: 1.9.1.win32-py2.7
 """
@@ -224,7 +224,7 @@ def main():
     # Build the game and pass it the screen
     game = Game(screen)
     done = False
-    restart = True
+    restart = False
 
     # Start the clock
     clock = pygame.time.Clock()
@@ -266,7 +266,7 @@ def main():
         clock.tick(frameRate)
         
         # UnComment below line to display FPS in console
-        #print(clock.get_fps())
+        print(clock.get_fps())
 
         # Flip to user
         pygame.display.flip()

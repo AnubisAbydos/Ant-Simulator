@@ -2,7 +2,7 @@
 Project Name: Ant Simulator
 File Name: Constants.py
 Author: Lex Hall, Adam Gehring
-Last Updated: July 30th, 2018
+Last Updated: August 2nd, 2018
 Python Version: 2.7
 Pygame Version: 1.9.1.win32-py2.7
 """
@@ -44,10 +44,10 @@ BADBUG2 = "enemy2.png"
 BADBUG3 = "enemy3.png"
 BADBUG4 = "enemy4.png"
 BADBUG5 = "enemy5.png"
-NUMBEROFENEMYS = 10
+NUMBEROFENEMYS = 2
 MOVEPERCENT = 50
 # Percent chance for a new enemy to spawn each update
-NEWSPAWNCHANCE = 2
+NEWSPAWNCHANCE = 1
 # Enemies CONSTS end
 
 # TREENODE CONSTS START

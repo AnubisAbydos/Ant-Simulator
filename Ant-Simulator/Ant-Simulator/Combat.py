@@ -2,7 +2,7 @@
 Project Name: Ant Simulator
 File Name: Combat.py
 Author: Lex Hall
-Last Updated: August 1st, 2018
+Last Updated: August 2nd, 2018
 Python Version: 2.7
 Pygame Version: 1.9.1.win32-py2.7
 """

@@ -1,3 +1,13 @@
+"""
+Project Name: Ant Simulator
+File Name: setup.py
+Author: Lex Hall
+Last Updated: August 2nd, 2018
+Python Version: 2.7
+Pygame Version: 1.9.1.win32-py2.7
+cx_Freeze Version: 5.0.2
+"""
+
 import cx_Freeze
 
 executables = [cx_Freeze.Executable("Ant_Simulator.py")]

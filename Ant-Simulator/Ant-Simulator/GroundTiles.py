@@ -2,7 +2,7 @@
 Project Name: Ant Simulator
 File Name: GroundTiles.py
 Author: Lex Hall
-Last Updated: July 30th, 2018
+Last Updated: August 2nd, 2018
 Python Version: 2.7
 Pygame Version: 1.9.1.win32-py2.7
 """
@@ -19,10 +19,12 @@ class cell(object):
         self.rect = pygame.Rect(row * const.PIXELSIZE, column * const.PIXELSIZE, const.PIXELSIZE, const.PIXELSIZE)
         self.oldIsAlive = isAlive
         self.newIsAlive = isAlive
+        self.grassImg = pygame.image.load(const.GRASS).convert()
+        self.sandImg = pygame.image.load(const.SAND).convert()
         if isAlive == True:
-            self.image = pygame.image.load(const.GRASS).convert()
+            self.image = self.grassImg
         else:
-            self.image = pygame.image.load(const.SAND).convert()
+            self.image = self.sandImg
 
     ### Blits the cell to the given surface called screen
     def draw(self, screen):
@@ -32,9 +34,9 @@ class cell(object):
     def changeState(self, newState):
         self.newIsAlive = newState
         if newState == True:
-            self.image = pygame.image.load(const.GRASS).convert()
+            self.image = self.grassImg
         else:
-            self.image = pygame.image.load(const.SAND).convert()
+            self.image = self.sandImg
 
 ''' CLASS GROUNDTILES
 Builds a background tile surface from the Celluar Automata Algorithm to blit to the screen

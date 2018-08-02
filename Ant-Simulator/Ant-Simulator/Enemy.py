@@ -2,7 +2,7 @@
 Project Name: Ant Simulator
 File Name: Enemy.py
 Author: Lex Hall, Adam Gehring
-Last Updated: August 1st, 2018
+Last Updated: August 2nd, 2018
 Python Version: 2.7
 Pygame Version: 1.9.1.win32-py2.7
 """
@@ -24,7 +24,7 @@ class Enemy(object):
         self.faceDirection = randint(0,3)
         self.isAlive = True
         self.strength = randint(1,6)
-        self.image = pygame.image.load(const.BADBUG1).convert_alpha()
+        self.image = None
         self.directionTimer = randint(4,8) 
         self.enemyType = randint(0, 4)
         self.moveTimer = 0
@@ -114,7 +114,7 @@ class Enemy(object):
 
     ### Checks for Combat collosion by checking where ant trail or hive is compared to bug location
     def checkCombatCollision(self, x, y):
-        if self.grid[x/20][y/20].isTrail or (x > 680 and y > 680):
+        if self.grid[x/20][y/20].isTrail or (x > 700 and y > 700):
             return True
         else:
             return False

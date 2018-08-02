@@ -40,10 +40,10 @@ Stores image and rect as well as the logic to draw and update animation sequence
 class DrawnTile(object):
     def __init__(self, x, y, state):
         self.rect = pygame.Rect(x, y, const.PIXELSIZE, const.PIXELSIZE)
-        self.image = pygame.image.load(const.ANIMATIONPICONE).convert_alpha()
         self.animationOne = pygame.image.load(const.ANIMATIONPICONE).convert_alpha()
         self.animationTwo = pygame.image.load(const.ANIMATIONPICTWO).convert_alpha()
         self.animationThree = pygame.image.load(const.ANIMATIONPICTHREE).convert_alpha()
+        self.image = self.animationOne
         self.animationState = state
 
     ### Cycles animation to add dynamic quality
@@ -246,7 +246,6 @@ class AntTrail(object):
             # Call update on both lists to maintain animation cycles and update blocked statues
             for drawnTile in self.noDrawList:
                 drawnTile.update(self.treeReached)
-                self.grid[drawnTile.rect.x / 20][drawnTile.rect.y / 20].isTrail = False
             for drawnTile in self.drawingList:
                 drawnTile.update(self.treeReached)
                 self.grid[drawnTile.rect.x / 20][drawnTile.rect.y / 20].isTrail = True
@@ -255,10 +254,11 @@ class AntTrail(object):
         else:
             self.treeReached = False
             self.soundPlayed = False
-            if self.drawingList:
-                self.drawingList.pop()
             for drawnTile in self.drawingList:
                 drawnTile.update(True)
+                self.grid[drawnTile.rect.x / 20][drawnTile.rect.y / 20].isTrail = False
+            if self.drawingList:
+                self.drawingList.pop()
             if not self.drawingList:
                 self.trailActive = False
 
