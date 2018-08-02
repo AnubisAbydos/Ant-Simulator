@@ -2,7 +2,7 @@
 Project Name: Ant Simulator
 File Name: UI.py
 Author: Lex Hall
-Last Updated: July 30th, 2018
+Last Updated: August 1st, 2018
 Python Version: 2.7
 Pygame Version: 1.9.1.win32-py2.7
 """
@@ -25,15 +25,15 @@ class UI (object):
         self.combatController = combat.CombatController(screen)
 
         # Variables used for state of game
-        self.antWorkerCount = 1000
-        self.antGatherCount = 0
-        self.antSoldierCount = 0
-        self.hiveLeafCount = 123456
-        self.hiveFungusCount = 678954
-        self.hiveLevel = 5
-        self.spawnCount = 10
-        self.hiveUpgradeTime = 10
-        self.hiveUpgradeCost = 1000
+        self.antWorkerCount = const.STARTWORKERCOUNT
+        self.antGatherCount = const.STARTGATHERCOUNT
+        self.antSoldierCount = const.STARTSOLDIERCOUNT
+        self.hiveLeafCount = const.STARTLEAFCOUNT
+        self.hiveFungusCount = const.STARTFUNGUSCOUNT
+        self.hiveLevel = 1
+        self.spawnCount = const.STARTSPAWNCOUNT
+        self.hiveUpgradeTime = const.STARTHIVEUPGRADETIME
+        self.hiveUpgradeCost = const.STARTHIVEUPGRADECOST
 
         # Variables used for spawn buttons
         self.spawnWorkerStatus = -1
@@ -414,7 +414,7 @@ class UI (object):
             self.hiveImage = self.hiveL10
             self.hiveSideImg = self.hiveSide10
 
-    ### Calls combat between enemies and ants; Returns False to kill Enemy
+    ### Calls combat between enemies and ants; Returns False to kill Enemy after combat
     def intiateCombat(self, enemyStrength):
         if self.antSoldierCount == 0 and self.antGatherCount == 0:
             self.combatController.runCombatLoop(enemyStrength, self.antWorkerCount, "Worker")
@@ -434,6 +434,8 @@ class UI (object):
             self.antGatherCount = 0
         if self.antWorkerCount <= 0:
             self.gameOver(False)
+
+        # To kill enemy bug after combat resolved
         return False
     
     ### Loading Screen is blit and flipped to display while game assests load
@@ -450,24 +452,12 @@ class UI (object):
         startImageExitHigh = pygame.image.load(const.STARTSCREENEXITHIGH).convert()
         done = False
         pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(.5)
 
         # Main Menu Loop takes in mouse clicks for the buttons
         while not done:            
             # Get Cursor Pos every frame
             pos = pygame.mouse.get_pos()
-
-            # If cursor overlaps a button load correct Highlighted Image
-            if const.STARTBUTTONRECT.collidepoint(pos):
-                self.screen.blit(startImageStartHigh, self.rect)
-            elif const.TUTORIALBUTTONRECT.collidepoint(pos):
-                self.screen.blit(startImageTutorialHigh, self.rect)
-            elif const.EXITBUTTONRECT.collidepoint(pos):
-                self.screen.blit(startImageExitHigh, self.rect)
-            else:
-                self.screen.blit(startImage, self.rect)
-
-            # Flip Display
-            pygame.display.flip()
 
             # Get event from pygame
             for event in pygame.event.get():
@@ -488,6 +478,21 @@ class UI (object):
                         pygame.quit()
                         sys.exit()
 
+            # If cursor overlaps a button load correct Highlighted Image
+            if const.STARTBUTTONRECT.collidepoint(pos):
+                self.screen.blit(startImageStartHigh, self.rect)
+            elif const.TUTORIALBUTTONRECT.collidepoint(pos):
+                self.screen.blit(startImageTutorialHigh, self.rect)
+            elif const.EXITBUTTONRECT.collidepoint(pos):
+                self.screen.blit(startImageExitHigh, self.rect)
+            else:
+                self.screen.blit(startImage, self.rect)
+
+            # Flip Display
+            pygame.display.flip()
+
+
+
     ### Called when user clicks pause in main game 
     def pauseGame(self):
         pauseImage = pygame.image.load(const.PAUSESCREEN).convert_alpha()
@@ -498,19 +503,6 @@ class UI (object):
         while not done:            
             # Get Cursor Pos every frame
             pos = pygame.mouse.get_pos()
-
-            # If cursor overlaps a button load correct Highlighted Image
-            if const.RESUMEPAUSEBUTTONRECT.collidepoint(pos):
-                self.screen.blit(pauseImageResumeHigh, self.rect)
-            elif const.TUTORIALPAUSEBUTTONRECT.collidepoint(pos):
-                self.screen.blit(pauseImageTutorialHigh, self.rect)
-            elif const.EXITPAUSEBUTTONRECT.collidepoint(pos):
-                self.screen.blit(pauseImageExitHigh, self.rect)
-            else:
-                self.screen.blit(pauseImage, self.rect)
-
-            # Flip Display
-            pygame.display.flip()
 
             # Get event from pygame
             for event in pygame.event.get():
@@ -531,6 +523,21 @@ class UI (object):
                         done = True
                         pygame.quit()
                         sys.exit()
+
+            # If cursor overlaps a button load correct Highlighted Image
+            if const.RESUMEPAUSEBUTTONRECT.collidepoint(pos):
+                self.screen.blit(pauseImageResumeHigh, self.rect)
+            elif const.TUTORIALPAUSEBUTTONRECT.collidepoint(pos):
+                self.screen.blit(pauseImageTutorialHigh, self.rect)
+            elif const.EXITPAUSEBUTTONRECT.collidepoint(pos):
+                self.screen.blit(pauseImageExitHigh, self.rect)
+            else:
+                self.screen.blit(pauseImage, self.rect)
+
+            # Flip Display
+            pygame.display.flip()
+
+
     
     ### Runs the tutorial screens progressing through them on click
     def startTutorial(self):
@@ -778,5 +785,3 @@ class UI (object):
                         stage += 1
                     else:
                         done = True
-                        pygame.quit()
-                        sys.exit()

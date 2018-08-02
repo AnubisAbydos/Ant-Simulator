@@ -41,6 +41,9 @@
     <Compile Include="PopoutBox.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="setup.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TreeNode.py">
       <SubType>Code</SubType>
     </Compile>

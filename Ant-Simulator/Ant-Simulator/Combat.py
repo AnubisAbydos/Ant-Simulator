@@ -2,7 +2,7 @@
 Project Name: Ant Simulator
 File Name: Combat.py
 Author: Lex Hall
-Last Updated: July 30th, 2018
+Last Updated: August 1st, 2018
 Python Version: 2.7
 Pygame Version: 1.9.1.win32-py2.7
 """
@@ -13,7 +13,7 @@ from random import *
 import sys
 
 '''
-Used to run Informational Popout boxes; Contains a loop to pause the game and wait for click
+Used to run a Combat situation includes information for UI display as well as logic to conclude the combat phase
 '''
 class CombatController (object):
     def __init__(self, screen):

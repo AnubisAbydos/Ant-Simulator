@@ -2,7 +2,7 @@
 Project Name: Ant Simulator
 File Name: Enemy.py
 Author: Lex Hall, Adam Gehring
-Last Updated: July 30th, 2018
+Last Updated: August 1st, 2018
 Python Version: 2.7
 Pygame Version: 1.9.1.win32-py2.7
 """
@@ -60,7 +60,7 @@ class Enemy(object):
         elif self.faceDirection == 3:
             self.image = pygame.transform.rotate(self.image, 270)
 
-    ### Updates movement (on Random percent) and Animation state 
+    ### Updates movement (on Random percent) and Animation state Returns Bool to signify if combat should begin
     def update(self):
         # Check if combat needs to be intiated 
         if self.checkCombatCollision(self.rect.x, self.rect.y):
@@ -163,8 +163,8 @@ class EnemyList (object):
 
     ### Calls each Enemy's update function
     def update(self):
-        # 1% chance each update to create a new enemy
-        if (randint(1,100) < 2):
+        # 2% chance each update to create a new enemy
+        if (randint(1,100) < const.NEWSPAWNCHANCE + 1):
             self.list.append(self.createNewEnemy())
 
         # Update all alive Enemy
@@ -172,6 +172,6 @@ class EnemyList (object):
             if not enemy.isAlive:
                 del enemy
             else:
-                # If this enemy is in combat call combat from UI
+                # Calls update on enemy; bool returned: True = enemy is colliding with trail or anthill
                 if enemy.update():
                     enemy.isAlive = self.UI.intiateCombat(enemy.strength)

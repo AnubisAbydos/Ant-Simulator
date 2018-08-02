@@ -2,7 +2,7 @@
 Project Name: Ant Simulator
 File Name: Ant_Simulator.py
 Author: Lex Hall
-Last Updated: July 30th, 2018
+Last Updated: August 1st, 2018
 Python Version: 2.7
 Pygame Version: 1.9.1.win32-py2.7
 """
@@ -164,10 +164,7 @@ class Game (object):
             pygame.mixer.music.pause()
             self.popoutLoader.runGivenPopout(const.LEAFFUNGUSPOPOUT)
             pygame.mixer.music.unpause()
-        elif const.DEBUGLOSEGAME.collidepoint(pos):
-            pygame.mixer.music.pause()
-            self.UI.gameOver(False)
-            pygame.mixer.music.unpause()
+
         else:
             self.isTrailSelected = False
 
@@ -227,6 +224,7 @@ def main():
     # Build the game and pass it the screen
     game = Game(screen)
     done = False
+    restart = True
 
     # Start the clock
     clock = pygame.time.Clock()
@@ -272,10 +270,18 @@ def main():
 
         # Flip to user
         pygame.display.flip()
-
     #Loop End
-    pygame.quit()
-    sys.exit()
+
+    # If restart is false by end of game loop shutdown pygame and exit console
+    if not restart:
+        pygame.quit()
+        sys.exit()
+
+    # If restart is True delete old game and restart a new instance
+    else:
+        pygame.quit()
+        del game
+        main()
 
 # Call main to start game
 if __name__ == "__main__":
