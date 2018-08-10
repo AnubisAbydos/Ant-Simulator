@@ -12,6 +12,8 @@ import Constants as const
 import Combat as combat
 import sys
 
+
+
 ''' CLASS UI
 Contains the User Interface elements and updates status bars
 '''
@@ -124,6 +126,7 @@ class UI (object):
         # Set to Init state
         self.setHiveImgs()
 
+
     ### Takes in all state variables from Game to determine updates
     def update(self, treeReached, treeFull, treeQuality):
         self.hiveFungusCount += (self.hiveLevel * 10)
@@ -136,6 +139,7 @@ class UI (object):
         self.spawnSoldier(False)
         self.spawnPrincess(False)
         self.upgradeHive(False)
+
 
     ### Process mouse pos passed from Game set blitting correct highlighted button image based on pos
     def processMousePos(self, pos):
@@ -176,6 +180,7 @@ class UI (object):
             self.princessButtonHighBlitting = False
             self.upgradeHiveButtonBlitting = False
             self.pauseButtonHighBlitting = False
+
 
     ### Handles all drawing required by the UI
     def draw(self):
@@ -240,6 +245,7 @@ class UI (object):
             min = time / 60
             self.screen.blit(self.textFont.render(str('%02d:%02d' % (min, sec)), True, const.WHITE), const.HIVEUPGRADETIMEBOX)
 
+
     ### Handles logic and timer for Worker Spawn takes Bool whether the call came from a button click
     def spawnWorker(self, workerButton):
         # If the call comes from button and is not running timer and fungus count is above cost start timer
@@ -269,6 +275,7 @@ class UI (object):
             self.spawnWorkerStatus = -1
             self.spawnWorkerBarImg = self.spawnWorkerBarFull
             self.antWorkerCount += self.spawnCount
+
 
     ### Handles logic and timer for Gather Spawn takes Bool whether the call came from a button click
     def spawnGather(self, gatherButton):
@@ -300,6 +307,7 @@ class UI (object):
             self.spawnGatherBarImg = self.spawnGatherBarFull
             self.antGatherCount += self.spawnCount
 
+
     ### Handles logic and timer for Soldier Spawn takes Bool whether the call came from a button click
     def spawnSoldier(self, soldierButton):
         # If the call comes from button and is not running timer and fungus count is above cost start timer
@@ -330,6 +338,7 @@ class UI (object):
             self.spawnSoldierBarImg = self.spawnSoldierBarFull
             self.antSoldierCount += self.spawnCount
 
+
     ### Handles logic and timer for Princess Spawn takes Bool whether the call came from a button click
     def spawnPrincess(self, princessButton):
         # If the call comes from button and is not running timer and fungus count is above cost start timer
@@ -358,6 +367,7 @@ class UI (object):
             self.spawnPrincessStatus = -1
             self.gameOver(True)
 
+
     ### Handles logic and timer for Upgrade Hive takes Bool whether the call came from a button click
     def upgradeHive(self, upgradeHiveButton):
         # If the call comes from button and is not running timer and leaf count is above cost and if not at max hive level start timer
@@ -383,6 +393,7 @@ class UI (object):
             self.spawnCount += 10
             self.hiveUpgrading = False
             self.setHiveImgs()
+
 
     ### Sets side view and top down view of hive images based on current hive level
     def setHiveImgs(self):
@@ -414,8 +425,9 @@ class UI (object):
             self.hiveImage = self.hiveL10
             self.hiveSideImg = self.hiveSide10
 
+
     ### Calls combat between enemies and ants; Returns False to kill Enemy after combat
-    def intiateCombat(self, enemyStrength):
+    def intiateCombat(self, enemyStrength, enemyX, enemyY):
         if self.antSoldierCount == 0 and self.antGatherCount == 0:
             self.combatController.runCombatLoop(enemyStrength, self.antWorkerCount, "Worker")
             self.antWorkerCount = self.combatController.getAntCountAfterCombat()
@@ -438,11 +450,13 @@ class UI (object):
         # To kill enemy bug after combat resolved
         return False
     
+
     ### Loading Screen is blit and flipped to display while game assests load
     def loadingScreen(self):
         loadImage = pygame.image.load(const.LOADINGSCREEN).convert()
         self.screen.blit(loadImage, self.rect)
         pygame.display.flip()
+
 
     ### StartScreen controls the while loop for the entire Start Screen
     def startScreen(self):
@@ -492,7 +506,6 @@ class UI (object):
             pygame.display.flip()
 
 
-
     ### Called when user clicks pause in main game 
     def pauseGame(self):
         pauseImage = pygame.image.load(const.PAUSESCREEN).convert_alpha()
@@ -536,7 +549,6 @@ class UI (object):
 
             # Flip Display
             pygame.display.flip()
-
 
     
     ### Runs the tutorial screens progressing through them on click
@@ -584,6 +596,7 @@ class UI (object):
                     else:
                         done = True
     
+
     ### Loads and controls Gameover windows Both Win and Lose
     def gameOver(self, isWon):
         done = False

@@ -11,6 +11,8 @@ import pygame, sys
 from random import *
 import Constants as const
 
+
+
 ''' CLASS Enemy
 Contains all information, variables and functions for an instance of a Bad Bug
 '''
@@ -35,6 +37,7 @@ class Enemy(object):
         self.badBug5 = pygame.image.load(const.BADBUG5).convert_alpha()
         self.setStateImage()
 
+
     ### Random skin selector if statement
     def resetImage(self):
         if self.enemyType == 0:
@@ -48,6 +51,7 @@ class Enemy(object):
         if self.enemyType == 4:
             self.image = self.badBug5
         
+
     ### Sets enemy image rotation based on faceDirection
     def setStateImage(self):
         self.resetImage()
@@ -59,6 +63,7 @@ class Enemy(object):
             self.image = pygame.transform.rotate(self.image, 180)
         elif self.faceDirection == 3:
             self.image = pygame.transform.rotate(self.image, 270)
+
 
     ### Updates movement (on Random percent) and Animation state Returns Bool to signify if combat should begin
     def update(self):
@@ -105,12 +110,14 @@ class Enemy(object):
                         self.rect.move_ip(20, 0)
                         return False
     
+
     ### Checks for collision on grid     
     def checkCollide(self, x, y):
         if x > 798 or x < 2 or y > 798 or y < 57:
             return False
         else:
             return not self.grid[x/20][y/20].isBlocked
+
 
     ### Checks for Combat collosion by checking where ant trail or hive is compared to bug location
     def checkCombatCollision(self, x, y):
@@ -119,9 +126,12 @@ class Enemy(object):
         else:
             return False
 
+
     ### Blits bug to Game Window
     def draw(self):
         self.screen.blit(self.image, self.rect)
+
+
 
 ''' CLASS BUGNODESLIST 
 Used to build the list of enemies for use by Game.
@@ -142,6 +152,7 @@ class EnemyList (object):
             # reset newEnemy for next find
             self.newEnemy = None
 
+
     ### RECURSIVE FUNCTION calls until a valid enemy (not overlapping any trees) is returned
     def createNewEnemy(self):
         isCollide = False
@@ -155,11 +166,13 @@ class EnemyList (object):
         if isCollide == False:
             return self.newEnemy
 
+
     ### Calls each Enemy's draw function
     def draw(self):
         for enemy in self.list:
             if enemy.isAlive:
                 enemy.draw()
+
 
     ### Calls each Enemy's update function
     def update(self):
@@ -174,4 +187,4 @@ class EnemyList (object):
             else:
                 # Calls update on enemy; bool returned: True = enemy is colliding with trail or anthill
                 if enemy.update():
-                    enemy.isAlive = self.UI.intiateCombat(enemy.strength)
+                    enemy.isAlive = self.UI.intiateCombat(enemy.strength, enemy.rect.x, enemy.rect.y)

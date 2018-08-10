@@ -17,6 +17,8 @@ import PopoutBox as popout
 import Enemy as enemy
 import sys
 
+
+
 ''' CLASS GAME
 Contains all information, variables and functions for an instance of a game
 '''
@@ -51,6 +53,7 @@ class Game (object):
         self.UI.startScreen()
         pygame.mixer.music.set_volume(.3)
        
+
     ### Processes User Events
     def processEvents(self):
         pos = pygame.mouse.get_pos()
@@ -61,6 +64,7 @@ class Game (object):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 self.handleMouseClicks(pos)
             return False
+
 
     ### Handle locations for mouseclicks
     def handleMouseClicks(self, pos):
@@ -168,6 +172,7 @@ class Game (object):
         else:
             self.isTrailSelected = False
 
+
     ### One Second Update Calls
     def update1Second(self):
         # If there is a tree get its quality and leaf count
@@ -183,11 +188,13 @@ class Game (object):
         # Pass Game State variables to UI for updating
         self.UI.update(self.antTrail.treeReached, leafQuantity > 0, treeQuality)
 
+
     ### Fifteen frame/tick Update Calls
     def update15Tick(self):
         self.antTrail.update()
         self.enemy.update()
         
+
     ### Draw Calls
     def draw(self):
         self.groundTiles.draw()
@@ -204,6 +211,8 @@ class Game (object):
         # Return Cursor to orginal Design
         else:
             pygame.mouse.set_cursor((16, 19), (0, 0), (128, 0, 192, 0, 160, 0, 144, 0, 136, 0, 132, 0, 130, 0, 129, 0, 128, 128, 128, 64, 128, 32, 128, 16, 129, 240, 137, 0, 148, 128, 164, 128, 194, 64, 2, 64, 1, 128), (128, 0, 192, 0, 224, 0, 240, 0, 248, 0, 252, 0, 254, 0, 255, 0, 255, 128, 255, 192, 255, 224, 255, 240, 255, 240, 255, 0, 247, 128, 231, 128, 195, 192, 3, 192, 1, 128))
+
+
 
 ### Main calls game sets screen and runs game loop
 def main():
@@ -282,6 +291,8 @@ def main():
         pygame.quit()
         del game
         main()
+
+
 
 # Call main to start game
 if __name__ == "__main__":

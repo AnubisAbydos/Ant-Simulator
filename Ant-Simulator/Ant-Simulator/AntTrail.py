@@ -9,9 +9,10 @@ Pygame Version: 1.9.1.win32-py2.7
 
 import pygame
 import Constants as const
-
 # Used by priority queue class for heappush and heappop
 import heapq
+
+
 
 ''' CLASS PRIORITYQUEUE
 Used by the pathfinding for A* implementation of f(n) priority
@@ -33,6 +34,7 @@ class PriorityQueue(object):
         return len(self.elements) == 0
 
 
+
 ''' CLASS DRAWNTILE
 Designed for drawing the ant trail after the path has been found.
 Stores image and rect as well as the logic to draw and update animation sequence.
@@ -46,6 +48,7 @@ class DrawnTile(object):
         self.image = self.animationOne
         self.animationState = state
 
+
     ### Cycles animation to add dynamic quality
     def update(self, treeReached):
         # Don't update animation while trail moving towards tree (only while at tree and returning)
@@ -56,9 +59,11 @@ class DrawnTile(object):
             # Update new image state
             self.updateAnimation()
 
+
     ### Draw Tile with current image and rect
     def draw(self, screen):
         screen.blit(self.image, self.rect)
+
 
     ### Updates image based on animation state number; called once per update
     def updateAnimation(self):
@@ -68,6 +73,8 @@ class DrawnTile(object):
             self.image = self.animationTwo
         elif self.animationState == 2:
             self.image = self.animationThree
+
+
 
 ''' CLASS TILE
 Used as the object in creating the grid in A* pathfinding algrothim.
@@ -83,6 +90,8 @@ class Tile(object):
 
         # Used by Enemy.py to determine enemy/trail collision
         self.isTrail = False
+
+
 
 ''' CLASS ANTTRAIL
 This class contains all the A* pathfinding logic
@@ -109,6 +118,7 @@ class AntTrail(object):
         self.soundPlayed = False
         self.treeReachedSound = pygame.mixer.Sound("tree_reach_sound.wav")
 
+
     ### Creates grid for use in A* algorithm; Created on program start
     def createGrid(self):
         for col in xrange(const.GRIDROWS):
@@ -121,6 +131,7 @@ class AntTrail(object):
                     if tree.rect.collidepoint(x + 10, y + 10):
                         isBlocked = True
                 self.grid[col][row] = Tile(x, y, isBlocked)
+
 
     ### A* pathfinding algorthim takes in the target from game as designated by selected tree
     def findPath(self, target, attempt):
@@ -178,6 +189,7 @@ class AntTrail(object):
                         y = target[1]
                         self.findPath((x, y), 4)
 
+
     ### Returns a list of a given cells neighbors taken from the grid
     def getNeighbors(self, currentCell):
         cells = []
@@ -193,6 +205,7 @@ class AntTrail(object):
             cells.append(self.grid[currentX][currentY - 1])
         return cells 
     
+
     ### Updates cell state with given cell's state
     def updateCell(self, neighbor, currentCell):
         # 20 is the arbitrary cost per move between tiles
@@ -203,9 +216,11 @@ class AntTrail(object):
         neighbor.parent = currentCell
         neighbor.f = neighbor.h + neighbor.g
 
+
     ### Sets Hueristic value based on manhattan methodology
     def setHeuristic(self, cell):
         return (abs(cell.coords[0] - self.target[0]) + abs(cell.coords[1] - self.target[1]))
+
 
     ### Called after path has been found and is passed the final cell in the path
     ### Works backwards using parents to create the noDrawList
@@ -225,6 +240,7 @@ class AntTrail(object):
             state = state % 3
         self.buildingTrail = True
         self.finalPathList = []
+
 
     ### Updates Ant Trail Path
     def update(self):
@@ -261,6 +277,7 @@ class AntTrail(object):
                 self.drawingList.pop()
             if not self.drawingList:
                 self.trailActive = False
+
 
     ### Draw all tiles located in drawingList
     def draw(self):

@@ -17,6 +17,8 @@ GREY = (50,50,50)
 RED = (255,0,0)
 # COLORS
 
+
+
 # SCREENS AND MAP SIZES START
 WIDTH = 1100
 HEIGHT = 800
@@ -24,6 +26,8 @@ PIXELSIZE = 20
 GRIDROWS = (WIDTH - 300) / PIXELSIZE
 GRIDCOLUMNS = HEIGHT / PIXELSIZE
 # SCREENS AND MAP SIZES END
+
+
 
 # GROUNDTILES CONSTS START
 # Used during array construction to determine cells starting state
@@ -37,6 +41,8 @@ GRASS = "grass.png"
 SAND = "dirt.png"
 # GROUNDTILES CONSTS END
 
+
+
 # Enemies CONSTS START
 BADBUGSIZE = 20
 BADBUG1 = "enemy1.png"
@@ -49,6 +55,8 @@ MOVEPERCENT = 50
 # Percent chance for a new enemy to spawn each update
 NEWSPAWNCHANCE = 1
 # Enemies CONSTS end
+
+
 
 # TREENODE CONSTS START
 TREEBASESIZE = 40
@@ -71,6 +79,8 @@ GREEN_S2 = "tree_green_s2.png"
 GREEN_S3 = "tree_green_s3.png"
 # TREENODE CONSTS END
 
+
+
 # INFORMATION POPOUTBOX CONSTS START
 WORKERPOPOUT = "worker_popout.png"
 GATHERPOPOUT = "gather_popout.png"
@@ -82,6 +92,8 @@ POPOUTEXITBUTTONHIGH = "popout_exit_high.png"
 # EXIT BUTTON RECT
 POPOUTEXITBUTTONRECT = pygame.Rect(640,535, 180,55)
 # INFORMATION POPOUTBOX CONSTS END
+
+
 
 # UI CONSTS START
 # START MENU BUTTON RECTS
@@ -231,6 +243,8 @@ PRINCESSFUNGUSCOSTBOX = pygame.Rect(985,410, 40,15)
 UPGRADEHIVELEAFCOSTBOX = pygame.Rect(913,635, 100,15)
 # UI CONSTS END
 
+
+
 # COMBAT CONSTS START
 COMBATWIREFRAME = "combat_wireframe.png"
 ANTDICEBOX = pygame.Rect(150,640, 100,100)
@@ -238,6 +252,8 @@ ENEMYDICEBOX = pygame.Rect(750,640, 100,100)
 ANTCOUNTBOX = pygame.Rect(95,500, 300,50)
 ENEMYHEALTHBOX = pygame.Rect(670,500, 300,50)
 # COMBAT CONSTS END
+
+
 
 # ANTTRAIL CONSTS START
 ANIMATIONPICONE = "trail_one.png"

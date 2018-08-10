@@ -12,6 +12,8 @@ import Constants as const
 from random import *
 import sys
 
+
+
 '''
 Used to run a Combat situation includes information for UI display as well as logic to conclude the combat phase
 '''
@@ -25,6 +27,7 @@ class CombatController (object):
         self.enemyStrength = -1
         self.enemyHealth = -1
         self.antCount = -1
+
 
     ### takes an image file name and runs it til the user clicks
     def runCombatLoop(self, enemyStrength, antCount, antType):

@@ -11,6 +11,8 @@ import pygame
 from random import *
 import Constants as const
 
+
+
 ''' CLASS TREENODE
 Contains sprite build data for Trees.
 '''
@@ -45,6 +47,7 @@ class TreeNode (object):
         self.image = None
         self.setStateImage()
 
+
     ### Sets Tree image based on Quality and Animation State
     def setStateImage(self):
         if self.treeQuality == 0:
@@ -76,6 +79,7 @@ class TreeNode (object):
             elif self.animationState == 2:
                 self.image = self.greenStateThree
 
+
     ### Updates Quality (on Random percent), Animation state and leaf count
     def update(self, harvesterNumber):
         if (randint(1,100) < const.PERCENTTOCHANGESTATE):
@@ -89,10 +93,12 @@ class TreeNode (object):
         if self.isBeingHarvested:
             self.leafQuantity -= harvesterNumber
 
+
     ### Blits tree to Game Window
     def draw(self, screen):
         if self.leafQuantity > 0:
             screen.blit(self.image, self.rect)
+
 
     ### Checks for collision given another Rect (in this case another tree)
     def collide(self, givenRect):
@@ -100,13 +106,17 @@ class TreeNode (object):
             return True
         return False
 
+
     ### Return Tree Quality
     def getTreeQuality(self):
         return self.treeQuality
 
+
     ### Return Leaf Quality
     def getLeafQuantity(self):
         return self.leafQuantity
+
+
 
 ''' CLASS TREENODESLIST 
 Used to build the list of Trees for use by Game.
@@ -129,6 +139,7 @@ class TreeNodesList (object):
             # reset newTree for next find
             self.newTree = None
 
+
     ### RECURSIVE FUNCTION calls until a valid tree (not overlapping any others) is returned
     def createNewTree(self):
         isCollide = False
@@ -144,16 +155,19 @@ class TreeNodesList (object):
         if (isCollide == False):
             return self.newTree
     
+
     def checkForCollision(self, pos):
         for tree in self.list:
             if tree.rect.collidepoint(pos):
                 return tree
         return None
 
+
     ### Calls each tree's draw function
     def draw(self):
         for tree in self.list:
             tree.draw(self.screen)
+
 
     ### Calls each tree's update function
     def update(self, harvesterNumber):

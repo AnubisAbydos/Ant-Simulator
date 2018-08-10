@@ -11,6 +11,8 @@ import pygame
 import Constants as const
 from random import *
 
+
+
 ''' CLASS CELL
 Holds the cell's rect, image and state information for Celluar Automata generation
 '''
@@ -26,10 +28,12 @@ class cell(object):
         else:
             self.image = self.sandImg
 
+
     ### Blits the cell to the given surface called screen
     def draw(self, screen):
         screen.blit(self.image, self.rect)
     
+
     ### Assigns new image and state to cell (For use by simulation step)
     def changeState(self, newState):
         self.newIsAlive = newState
@@ -37,6 +41,8 @@ class cell(object):
             self.image = self.grassImg
         else:
             self.image = self.sandImg
+
+
 
 ''' CLASS GROUNDTILES
 Builds a background tile surface from the Celluar Automata Algorithm to blit to the screen
@@ -67,6 +73,7 @@ class groundTiles(object):
         # After Simulation is complete blit all Background tile cells to the background surface
         self.drawToSurface()
 
+
     ### Function to count and return number of a cell's living neighbors (Used by doSimulationStep)
     def countAliveNeighbors(self, x, y):
         count = 0
@@ -84,6 +91,7 @@ class groundTiles(object):
                     count = count + 1
 
         return count
+
 
     ### Loops through every cell in grid calls countAliveNeighbors and then updates state
     def doSimulationStep(self):
@@ -106,12 +114,14 @@ class groundTiles(object):
             for y in xrange(const.GRIDCOLUMNS):
                 self.cells[x][y].oldIsAlive = self.cells[x][y].newIsAlive
     
+
     ### Blit all cells to the Background surface
     def drawToSurface(self):
         for x in xrange(const.GRIDROWS):
             for y in xrange(const.GRIDCOLUMNS):
                 self.cells[x][y].draw(self.background)
         del self.cells
+
 
     ### Blits Background surface to game window
     def draw(self):
