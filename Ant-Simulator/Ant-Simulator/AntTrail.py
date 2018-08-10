@@ -7,10 +7,9 @@ Python Version: 2.7
 Pygame Version: 1.9.1.win32-py2.7
 """
 
+import heapq
 import pygame
 import Constants as const
-# Used by priority queue class for heappush and heappop
-import heapq
 
 
 

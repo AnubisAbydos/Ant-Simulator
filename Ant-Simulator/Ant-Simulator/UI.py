@@ -7,10 +7,10 @@ Python Version: 2.7
 Pygame Version: 1.9.1.win32-py2.7
 """
 
+import sys
 import pygame
 import Constants as const
 import Combat as combat
-import sys
 
 
 

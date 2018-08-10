@@ -7,6 +7,7 @@ Python Version: 2.7
 Pygame Version: 1.9.1.win32-py2.7
 """
 
+import sys
 import pygame
 import Constants as const
 import GroundTiles as ground
@@ -15,7 +16,6 @@ import UI as ui
 import AntTrail as trail
 import PopoutBox as popout
 import Enemy as enemy
-import sys
 
 
 

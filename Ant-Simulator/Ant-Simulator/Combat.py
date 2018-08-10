@@ -7,10 +7,10 @@ Python Version: 2.7
 Pygame Version: 1.9.1.win32-py2.7
 """
 
-import pygame
-import Constants as const
-from random import *
 import sys
+import pygame
+from random import *
+import Constants as const
 
 
 
