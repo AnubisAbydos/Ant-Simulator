@@ -1,2 +1,12 @@
-# Ant-Simulator
-Fun Game
+# Ant-Simulator (WIP)
+Ant Simulator was a game programmed by Lex Hall and Adam Gehring (art by Bethany Hall).
+
+The Project was assigned as part of Video Game Design Class taken from Brother Williams at Brigham Young University - Idaho.
+The assignment was to gamify education. For this reason I decided to build a game that would help teach children 8 years and up about the life of a leaf cutter ant colony.
+The project was primarily designed and implemented by myself (Lex Hall) with assistance from my partner Adam Gehring. All art work and audio assets were either created or obtained from royalty free sites by my beautiful wife Bethany Hall.
+Some changes have been made in my spare time and the project can be considered ongoing for the time being. Implementation is in place to create a functional .exe (which file may be added at a later time).
+
+Install Instructions are as follows
+1. Install python 2.7 (Later versions of python should work)
+2. Install pygame for python 2.7 (Or matching python version)
+3. Run main in file Ant_Simulator.py
