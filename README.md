@@ -7,7 +7,9 @@ The assignment was to gamify education.  For this reason I decided to build a ga
 Some changes have been made in my spare time and the project can be considered ongoing for the time being.  Implementation is in place to create a functional .exe. The .exe Package is included within this Repo.
 
 
-Install Instructions (.exe Version)
+
+
+Install Instructions (.exe Version WINDOWS ONLY)
 1. Download "Ant Simulator.zip"
 2. Unzip project somewhere on your computer
 3. Play by running the Ant Simulator Shortcut found in the first Folder
@@ -19,5 +21,7 @@ Install Instructions (Base Files)
 3. Run main in file Ant_Simulator.py
 
 
-Planned Features
+
+
+Planned/Desired Future Features
 Implement Combat system with random enemy insects
