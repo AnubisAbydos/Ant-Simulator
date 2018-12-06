@@ -12,12 +12,12 @@ Some changes have been made in my spare time and the project can be considered o
 Install Instructions (.exe Version WINDOWS ONLY)
 1. Download "Ant Simulator.zip"
 2. Unzip project somewhere on your computer
-3. Play by running the Ant Simulator Shortcut found in the first Folder
+3. Open "build" - "exe.win32-2.7" - "Ant_Simulator.exe"
 
 
 Install Instructions (Base Files)
-1. Install python 2.7 (Later versions of python should work)
-2. Install pygame for python 2.7 (Or matching python version)
+1. Install python 2.7
+2. Install pygame for python 2.7
 3. Run main in file Ant_Simulator.py
 
 
